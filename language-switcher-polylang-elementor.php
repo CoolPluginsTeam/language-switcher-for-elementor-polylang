@@ -54,8 +54,10 @@ if(! class_exists('LanguageSwitcher')){
             if (!is_plugin_active('elementor/elementor.php')){
                 add_action( 'admin_notices', array( $this, 'lsp_elementor_required_admin_notice' ) );
             }
+
+            require_once LSP_PLUGIN_DIR . 'includes/lsp-register-widget.php';
         }
-        
+
         public function lsp_localize_polyglang_data( $data ) {
 			global $polylang;
 			$lsp_polylang = $polylang;
