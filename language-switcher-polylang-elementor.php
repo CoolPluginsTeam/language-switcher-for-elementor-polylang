@@ -84,7 +84,6 @@ if(! class_exists('LanguageSwitcher')){
                 $plugin_info = get_plugin_data( __FILE__, true, true );
                 echo '<div class="error"><p>' .
                 sprintf(
-                    // translators: 1: Plugin Name, 2: Plugin URL
                     esc_html__(
                         'In order to use %1$s plugin, please install and activate the latest version  of %2$s',
                         'language-switcher-translation-polylang-for-elementor'
