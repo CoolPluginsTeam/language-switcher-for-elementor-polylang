@@ -25,7 +25,7 @@ You should have received a copy of the GNU General Public License
 along with Language Switcher & Translation – Polylang for Elementor. If not, see https://www.gnu.org/licenses/gpl-2.0.html.
 */
 
-namespace Coolplugins\LSP;
+namespace LanguageSwitcherPolylangElementor\LSP;
 
 define('LSP_VERSION', '1.0.0');
 define('LSP_PLUGIN_NAME', 'language-switcher-translation-polylang-for-elementor');
@@ -39,7 +39,7 @@ if(! class_exists('LanguageSwitcher')){
         public function __construct() {
             add_action( 'plugins_loaded', [ $this, 'lsp_init' ] );
             add_action('init', [ $this, 'lsp_load_textdomain']);
-            add_action('elementor/init', [ $this, 'lsp_localize_polyglang_data' ]);
+            add_filter( 'pll_get_post_types', array( $this, 'lsp_add_custom_post_types' ), 10, 2 );
         }
 
         public function lsp_load_textdomain() {
@@ -58,49 +58,24 @@ if(! class_exists('LanguageSwitcher')){
             require_once LSP_PLUGIN_DIR . 'includes/lsp-register-widget.php';
         }
 
-        public function lsp_localize_polyglang_data( $data ) {
-			global $polylang;
-			$lsp_polylang = $polylang;
-			$data = [];
-			if ( isset( $lsp_polylang ) ) {
-				// if ( function_exists( 'et_fb_enabled' ) && et_fb_enabled() ) {
-					try {
-						require_once LSP_PLUGIN_DIR . 'helpers/class-lsp-helpers.php';
-						if ( function_exists( 'pll_the_languages' ) && function_exists( 'pll_current_language' ) ) {
-							$languages = pll_the_languages( array( 'raw' => 1 ) );
-							if ( empty( $languages ) ) {
-								return $data; // If no languages, exit early
-							}
-							$lang_curr = strtolower( pll_current_language() );
-							$languages = array_map(
-								function( $language ) {
-									return $language['name'] = array(
-										'flagCode'       => esc_html( \LSP_HELPERS::get_flag_code( $language['flag'] ) ),
-										'slug'           => esc_html( $language['slug'] ),
-										'name'           => esc_html( $language['name'] ),
-										'no_translation' => esc_html( $language['no_translation'] ),
-										'url'            => esc_url( $language['url'] ),
-									);
-								},
-								$languages
-							);
-
-							$custom_data = array(
-								'lspLanguageData' => $languages,
-								'lspCurrentLang'   => esc_html( $lang_curr ),
-								'lspPluginUrl'     => esc_url( LSP_PLUGIN_URL ),
-							);
-							$custom_data_json = $custom_data;
-
-							$data['lspGlobalObj'] = $custom_data_json;
-						}
-					} catch ( Exception $e ) {
-						// Handle exception if needed
-					}
-				// }
-			}
-			return $data;
-		}
+        /**
+         * Add custom post types for elementor to Polylang Automatically
+         *
+         * @param array $types
+         * @param bool $is_settings
+         * @return array
+         */
+        public function lsp_add_custom_post_types( $types, $is_settings ) {
+            $custom_post_types = apply_filters(
+                'lsp/filter/polylang/post_types',
+                array(
+                    'elementor_library'
+                )
+            );
+    
+            return array_merge( $types, array_combine( $custom_post_types, $custom_post_types ) );
+    
+        }
 
         public function lsp_required_plugins_admin_notice() {
             if ( current_user_can( 'activate_plugins' ) ) {
@@ -131,7 +106,6 @@ if(! class_exists('LanguageSwitcher')){
                 $plugin_info = get_plugin_data( __FILE__, true, true );
                 echo '<div class="error"><p>' .
                 sprintf(
-                    // translators: 1: Plugin Name, 2: Plugin URL
                     esc_html__(
                         'In order to use %1$s plugin, please install and activate the latest version  of %2$s',
                         'language-switcher-translation-polylang-for-elementor'

@@ -132,6 +132,9 @@ class LSP_Widget extends Widget_Base {
                     ],
 				],
 				'default' => 'left',
+                'selectors' => [
+                    '{{WRAPPER}} .lsp-wrapper' => 'text-align: {{VALUE}};',
+                ],
             ]
         );
 
@@ -145,6 +148,9 @@ class LSP_Widget extends Widget_Base {
                     '4:3' => __('4:3', 'language-switcher-translation-polylang-for-elementor'),
                 ],
                 'default' => '4:3',
+                'selectors' => [
+                    '{{WRAPPER}} .lsp-lang-image img' => 'width: {{VALUE}};',
+                ],
             ]
         );
 
@@ -170,6 +176,9 @@ class LSP_Widget extends Widget_Base {
                     'unit' => '%',
                     'size' => 0,
                 ],
+                'selectors' => [
+                    '{{WRAPPER}} .lsp-lang-image img' => 'border-radius: {{SIZE}}{{UNIT}};',
+                ],
             ]
         );
 
@@ -183,7 +192,9 @@ class LSP_Widget extends Widget_Base {
                     'dark' => __('Dark', 'language-switcher-translation-polylang-for-elementor'),
                 ],
                 'default' => 'light',
-
+                'selectors' => [
+                    '{{WRAPPER}} .lsp-wrapper' => 'background-color: {{VALUE}};',
+                ],
             ]
         );
 
@@ -197,9 +208,95 @@ class LSP_Widget extends Widget_Base {
                     'down' => __('Down', 'language-switcher-translation-polylang-for-elementor'),
                 ],
                 'default' => 'down',
+                'condition' => [
+                    'lsp_language_switcher_type' => 'dropdown',
+                ],
+                'selectors' => [
+                    '{{WRAPPER}} .lsp-wrapper' => 'direction: {{VALUE}};',
+                ],
             ]
         );
 
+        $this->add_control(
+            'lsp_language_switcher_icon',
+            [
+                'label' => __('Switcher Icon', 'language-switcher-translation-polylang-for-elementor'),
+                'type' => Controls_Manager::ICONS,
+                'default'                => array(
+					'value'   => 'fas fa-caret-down',
+					'library' => 'fa-solid',
+				),
+                'label_block'            => false,
+                'skin'                   => 'inline',
+                'condition' => [
+                    'lsp_language_switcher_type' => 'dropdown',
+                ],
+            ]
+        );
+
+        $this->add_control(
+            'lsp_language_switcher_icon_size',
+            [
+                'label' => __('Icon Size', 'language-switcher-translation-polylang-for-elementor'),
+                'type' => Controls_Manager::SLIDER,
+                'size_units' => ['px', '%'],
+                'range' => [
+                    'px' => [
+                        'min' => 0,
+                        'max' => 100,
+                        'step' => 1,
+                    ],
+                ],
+                'default' => [
+                    'unit' => 'px',
+                    'size' => 16,
+                ],
+                'condition' => [
+                    'lsp_language_switcher_type' => 'dropdown',
+                ],
+            ]
+        );
+
+        $this->add_control(
+            'lsp_language_switcher_icon_color',
+            [
+                'label' => __('Icon Color', 'language-switcher-translation-polylang-for-elementor'),
+                'type' => Controls_Manager::COLOR,
+                'condition' => [
+                    'lsp_language_switcher_type' => 'dropdown',
+                ],
+                'selectors' => [
+                    '{{WRAPPER}} .lsp-wrapper .lsp-icon' => 'color: {{VALUE}};',
+                ],
+            ]
+        );
+
+        $this->add_control(
+            'lsp_language_switcher_icon_spacing',
+            [
+                'label' => __('Icon Spacing', 'language-switcher-translation-polylang-for-elementor'),
+                'type' => Controls_Manager::SLIDER,
+                'size_units' => ['px', '%'],
+                'range' => [
+                    'px' => [
+                        'min' => 0,
+                        'max' => 100,
+                        'step' => 1,
+                    ],
+                ],
+                'default' => [
+                    'unit' => 'px',
+                    'size' => 10,
+                ],
+                'condition' => [
+                    'lsp_language_switcher_type' => 'dropdown',
+                ],
+                'selectors' => [
+                    '{{WRAPPER}} .lsp-wrapper .lsp-icon' => 'margin-left: {{SIZE}}{{UNIT}};',
+                ],
+            ]
+        );
+        
         $this->add_control(
 			'lsp_language_switcher_margin',
 			[
@@ -212,6 +309,9 @@ class LSP_Widget extends Widget_Base {
 					'bottom' => 0,
 					'left' => 0,
 				],
+                'selectors' => [
+                    '{{WRAPPER}} .lsp-wrapper' => 'margin: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+                ],
 			]
 		);
 
@@ -226,6 +326,9 @@ class LSP_Widget extends Widget_Base {
                     'right' => 0,
                     'bottom' => 0,
                     'left' => 0,
+                ],
+                'selectors' => [
+                    '{{WRAPPER}} .lsp-wrapper' => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
                 ],
             ]
         );
@@ -242,6 +345,9 @@ class LSP_Widget extends Widget_Base {
             [
                 'name' => 'lsp_language_switcher_typography',
                 'label' => __('Typography', 'language-switcher-translation-polylang-for-elementor'),
+                'selectors' => [
+                    '{{WRAPPER}} .lsp-wrapper .lsp-lang-name, {{WRAPPER}} .lsp-wrapper .lsp-lang-code' => 'font-family: {{FONT_FAMILY}};',
+                ],
             ]
         );
         $this->add_control(
@@ -249,6 +355,9 @@ class LSP_Widget extends Widget_Base {
             [
                 'label' => __('Switcher Background Color', 'language-switcher-translation-polylang-for-elementor'),
                 'type' => Controls_Manager::COLOR,
+                'selectors' => [
+                    '{{WRAPPER}} .lsp-wrapper' => 'background-color: {{VALUE}};',
+                ],
             ]
         );
 
@@ -257,6 +366,9 @@ class LSP_Widget extends Widget_Base {
             [
                 'label' => __('Switcher Text Color', 'language-switcher-translation-polylang-for-elementor'),
                 'type' => Controls_Manager::COLOR,
+                'selectors' => [
+                    '{{WRAPPER}} .lsp-wrapper .lsp-lang-name, {{WRAPPER}} .lsp-wrapper .lsp-lang-code' => 'color: {{VALUE}};',
+                ],
             ]
         );
         $this->end_controls_tab();
@@ -272,6 +384,9 @@ class LSP_Widget extends Widget_Base {
             [
                 'name' => 'lsp_language_switcher_typography_hover',
                 'label' => __('Typography', 'language-switcher-translation-polylang-for-elementor'),
+                'selectors' => [
+                    '{{WRAPPER}} .lsp-wrapper .lsp-lang-name, {{WRAPPER}} .lsp-wrapper .lsp-lang-code' => 'font-family: {{FONT_FAMILY}};',
+                ],
             ]
         );
         $this->add_control(
@@ -279,6 +394,9 @@ class LSP_Widget extends Widget_Base {
             [
                 'label' => __('Switcher Background Color', 'language-switcher-translation-polylang-for-elementor'),
                 'type' => Controls_Manager::COLOR,
+                'selectors' => [
+                    '{{WRAPPER}} .lsp-wrapper' => 'background-color: {{VALUE}};',
+                ],
             ]
         );
 
@@ -287,6 +405,9 @@ class LSP_Widget extends Widget_Base {
             [
                 'label' => __('Switcher Text Color', 'language-switcher-translation-polylang-for-elementor'),
                 'type' => Controls_Manager::COLOR,
+                'selectors' => [
+                    '{{WRAPPER}} .lsp-wrapper .lsp-lang-name, {{WRAPPER}} .lsp-wrapper .lsp-lang-code' => 'color: {{VALUE}};',
+                ],
             ]
         );
         $this->end_controls_tab();
@@ -297,8 +418,147 @@ class LSP_Widget extends Widget_Base {
 
     }
     
+    public function lsp_localize_polyglang_data( $data ) {
+        global $polylang;
+        $lsp_polylang = $polylang;
+        $data = [];
+        if ( isset( $lsp_polylang ) ) {
+                try {
+                    require_once LSP_PLUGIN_DIR . 'helpers/class-lsp-helpers.php';
+                    if ( function_exists( 'pll_the_languages' ) && function_exists( 'pll_current_language' ) ) {
+                        $languages = pll_the_languages( array( 'raw' => 1 ) );
+                        if ( empty( $languages ) ) {
+                            return $data; // If no languages, exit early
+                        }
+                        $lang_curr = strtolower( pll_current_language() );
+                        $languages = array_map(
+                            function( $language ) {
+                                return $language['name'] = array(
+                                    'flagCode'       => esc_html( \LSP_HELPERS::get_flag_code( $language['flag'] ) ),
+                                    'slug'           => esc_html( $language['slug'] ),
+                                    'name'           => esc_html( $language['name'] ),
+                                    'no_translation' => esc_html( $language['no_translation'] ),
+                                    'url'            => esc_url( $language['url'] ),
+                                    'flag'           => esc_html( $language['flag'] ),
+                                );
+                            },
+                            $languages
+                        );
+
+                        $custom_data = array(
+                            'lspLanguageData' => $languages,
+                            'lspCurrentLang'   => esc_html( $lang_curr ),
+                            'lspPluginUrl'     => esc_url( LSP_PLUGIN_URL ),
+                        );
+                        $custom_data_json = $custom_data;
+
+                        $data['lspGlobalObj'] = $custom_data_json;
+                    }
+                } catch ( Exception $e ) {
+                    // Handle exception if needed
+                }
+        }
+        return $data;
+    }
+
     protected function render() {
-        echo 'Hello World';
+        $settings = $this->get_active_settings();
+        
+        // Get the localized data
+        $data = $this->lsp_localize_polyglang_data(array());
+        $lsp_data = isset($data['lspGlobalObj']) ? $data['lspGlobalObj'] : array();
+        if(empty($lsp_data)){
+            return;
+        }
+        $switcher_html = '';
+        $switcher_html .= '<div class="lsp-main-wrapper">';
+        if($settings['lsp_language_switcher_type'] == 'dropdown'){
+            $switcher_html .= '<div class="lsp-wrapper dropdown">';
+            $switcher_html .= $this->lsp_render_dropdown_switcher($settings, $lsp_data);
+            $switcher_html .= '</div>';
+        }else{
+            $switcher_html .= '<div class="lsp-wrapper ' . $settings['lsp_language_switcher_type'] . '">';
+            $switcher_html .= $this->lsp_render_switcher($settings, $lsp_data);
+            $switcher_html .= '</div>';
+        }
+        $switcher_html .= '</div>';
+        echo $switcher_html;
+    }
+
+    public function lsp_render_dropdown_switcher($settings, $lsp_data){
+        $languages = $lsp_data['lspLanguageData'];
+        $current_lang = $lsp_data['lspCurrentLang'];
+        $active_html = self::get_active_language_html($languages[$current_lang], $settings);
+        $languages_html = '';
+        foreach ($languages as $lang) {
+            if ($current_lang === $lang['slug'] || ($lang['no_translation'] && $settings['lsp_language_hide_untranslated_languages'] === 'yes')) {
+                continue;
+            }
+
+            $flag_icon = \LSP_HELPERS::get_country_flag($lang['flag'], $lang['name']);
+
+            $languages_html .= '<li class="lsp-lang-item">';
+            $languages_html .= '<a href="' . esc_url($lang['url']) . '">';
+            if (!empty($settings['lsp_language_switcher_show_flags']) && $settings['lsp_language_switcher_show_flags'] === 'yes') {
+                $languages_html .= '<div class="lsp-lang-image">' . $flag_icon . '</div>';
+            }
+            if (!empty($settings['lsp_language_switcher_show_names']) && $settings['lsp_language_switcher_show_names'] === 'yes') {
+                $languages_html .= '<div class="lsp-lang-name">' . esc_html($lang['name']) . '</div>';
+            }
+            if (!empty($settings['lsp_languages_switcher_show_code']) && $settings['lsp_languages_switcher_show_code'] === 'yes') {
+                $languages_html .= '<div class="lsp-lang-code">' . esc_html($lang['slug']) . '</div>';
+            }
+            $languages_html .= '</a></li>';
+        }
+
+        return $active_html . '<ul class="lsp-language-list">' . $languages_html . '</ul>';
+    }
+
+    public static function get_active_language_html($language, $settings){
+        $html = '<span class="lsp-active-language">';
+        $html .= '<a href="' . esc_url($language['url']) . '">';
+        if (!empty($settings['lsp_language_switcher_show_flags']) && $settings['lsp_language_switcher_show_flags'] === 'yes') {
+            $html .= '<div class="lsp-lang-image">' . \LSP_HELPERS::get_country_flag($language['flag'], $language['name']) . '</div>';
+        }
+        if (!empty($settings['lsp_language_switcher_show_names']) && $settings['lsp_language_switcher_show_names'] === 'yes') {
+            $html .= '<div class="lsp-lang-name">' . esc_html($language['name']) . '</div>';
+        }
+        if (!empty($settings['lsp_languages_switcher_show_code']) && $settings['lsp_languages_switcher_show_code'] === 'yes') {
+            $html .= '<div class="lsp-lang-code">' . esc_html($language['slug']) . '</div>';
+        }
+        $html .= '</a></span>';
+        return $html;
+    }
+
+    public static function lsp_render_switcher($settings, $lsp_data){
+        $html = '';
+        $languages = $lsp_data['lspLanguageData'];
+        $current_lang = $lsp_data['lspCurrentLang'];
+        foreach ($languages as $lang) {
+            if (($current_lang === $lang['slug'] && $settings['lsp_language_switcher_hide_current_language'] === 'yes') ||
+                ($lang['no_translation'] && $settings['lsp_language_hide_untranslated_languages'] === 'yes')) {
+                continue;
+            }
+
+            $flag_icon = \LSP_HELPERS::get_country_flag($lang['flag'], $lang['name']);
+            $anchor_open = '<a href="' . esc_url($lang['url']) . '">';
+            $anchor_close = '</a>';
+
+            $html .= '<li class="lsp-lang-item">';
+            $html .= $anchor_open;
+            if (!empty($settings['lsp_language_switcher_show_flags']) && $settings['lsp_language_switcher_show_flags'] === 'yes') {
+                $html .= '<div class="lsp-lang-image">' .$flag_icon .'</div>';
+            }
+            if (!empty($settings['lsp_language_switcher_show_names']) && $settings['lsp_language_switcher_show_names'] === 'yes') {
+                $html .= '<div class="lsp-lang-name">' . wp_kses_post(esc_html($lang['name'])) . '</div>';
+            }
+            if (!empty($settings['lsp_languages_switcher_show_code']) && $settings['lsp_languages_switcher_show_code'] === 'yes') {
+                $html .= '<div class="lsp-lang-code">' . wp_kses_post(esc_html($lang['slug'])) . '</div>';
+            }
+            $html .= $anchor_close;
+            $html .= '</li>';
+        }
+        return $html;
     }
 }
 
