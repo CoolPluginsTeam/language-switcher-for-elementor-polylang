@@ -1,4 +1,6 @@
 <?php
+
+namespace LanguageSwitcherPolylangElementorWidget\LSP;
 use Elementor\Controls_Manager;
 use Elementor\Group_Control_Typography;
 use Elementor\Scheme_Typography;
@@ -125,13 +127,15 @@ class LSP_Widget extends Widget_Base {
 					'right' => [
 						'title' => esc_html__( 'Right', 'language-switcher-translation-polylang-for-elementor' ),
 						'icon' => 'eicon-h-align-right',
-					],
-                    'stretch' => [
-                        'title' => esc_html__( 'Stretch', 'language-switcher-translation-polylang-for-elementor' ),
-                        'icon' => 'eicon-h-align-stretch',
-                    ],
+					]
 				],
 				'default' => 'left',
+                'condition' => [
+                    'lsp_language_switcher_type' => 'dropdown',
+                ],
+                'selectors' => [
+                    '{{WRAPPER}} .lsp-main-wrapper' => 'text-align: {{VALUE}};',
+                ],
             ]
         );
 
@@ -221,8 +225,8 @@ class LSP_Widget extends Widget_Base {
                 'selectors' => [
                     '{{WRAPPER}} .lsp-main-wrapper .lsp-wrapper.dropdown' => 'margin: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
                     '{{WRAPPER}} .lsp-main-wrapper .lsp-wrapper.dropdown .lsp-lang-item' => 'margin: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
-                    '{{WRAPPER}} .lsp-main-wrapper .lsp-wrapper.horizontal' => 'margin: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
-                    '{{WRAPPER}} .lsp-main-wrapper .lsp-wrapper.vertical' => 'margin: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+                    '{{WRAPPER}} .lsp-main-wrapper .lsp-wrapper.horizontal .lsp-lang-item a' => 'margin: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+                    '{{WRAPPER}} .lsp-main-wrapper .lsp-wrapper.vertical .lsp-lang-item a' => 'margin: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
                 ],
 			]
 		);
@@ -234,16 +238,16 @@ class LSP_Widget extends Widget_Base {
                 'type' => Controls_Manager::DIMENSIONS,
                 'size_units' => [ 'px', '%', 'em', 'rem' ],
                 'default' => [
-                    'top' => 0,
+                    'top' => 10,
                     'right' => 10,
-                    'bottom' => 0,
-                    'left' => 0,
+                    'bottom' => 10,
+                    'left' => 10,
                 ],
                 'selectors' => [
                     '{{WRAPPER}} .lsp-main-wrapper .lsp-wrapper.dropdown' => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
                     '{{WRAPPER}} .lsp-main-wrapper .lsp-wrapper.dropdown .lsp-lang-item' => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
-                    '{{WRAPPER}} .lsp-main-wrapper .lsp-wrapper.horizontal .lsp-lang-item' => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
-                    '{{WRAPPER}} .lsp-main-wrapper .lsp-wrapper.vertical .lsp-lang-item' => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+                    '{{WRAPPER}} .lsp-main-wrapper .lsp-wrapper.horizontal .lsp-lang-item a' => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+                    '{{WRAPPER}} .lsp-main-wrapper .lsp-wrapper.vertical .lsp-lang-item a' => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
                 ],
             ]
         );
@@ -593,6 +597,3 @@ class LSP_Widget extends Widget_Base {
         return $html;
     }
 }
-
-// Register the widget
-\Elementor\Plugin::instance()->widgets_manager->register_widget_type(new LSP_Widget());

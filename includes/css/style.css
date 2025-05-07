@@ -112,7 +112,7 @@
   display: inline-block;
 }
 
-.lsp-active-language:hover .lsp-dropdown-icon {
+.lsp-wrapper.dropdown:hover .lsp-dropdown-icon {
   transform: rotate(180deg);
 }
 
