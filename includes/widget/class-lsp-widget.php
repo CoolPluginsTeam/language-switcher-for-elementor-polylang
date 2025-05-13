@@ -15,12 +15,18 @@ if(!defined('ABSPATH')){
 
 
 class LSP_Widget extends Widget_Base {
+
+    public function __construct($data = [], $args = null) {
+        parent::__construct($data, $args);
+        wp_register_style('lsp-style', LSP_PLUGIN_URL . '/includes/css/language-switcher-style.css', [], LSP_VERSION);
+    }
+
     public function get_name() {
         return 'lsp_widget';
     }
 
     public function get_title() {
-        return __('Language Switcher', 'language-switcher-translation-polylang-for-elementor');
+        return __('Language Switcher', 'language-switcher-polylang-elementor');
     }
 
     public function get_icon() {
@@ -31,11 +37,15 @@ class LSP_Widget extends Widget_Base {
         return ['basic'];
     }
 
+    public function get_style_depends() {
+        return ['lsp-style'];
+    }
+
     protected function register_controls() {
         $this->start_controls_section(
             'section_content',
             [
-                'label' => __('Language Switcher', 'language-switcher-translation-polylang-for-elementor'),
+                'label' => __('Language Switcher', 'language-switcher-polylang-elementor'),
                 'tab' => Controls_Manager::TAB_CONTENT,
             ]
         );
@@ -43,12 +53,12 @@ class LSP_Widget extends Widget_Base {
         $this->add_control(
             'lsp_language_switcher_type',
             [
-                'label' => __('Language Switcher Type', 'language-switcher-translation-polylang-for-elementor'),
+                'label' => __('Language Switcher Type', 'language-switcher-polylang-elementor'),
                 'type' => Controls_Manager::SELECT,
                 'options' => [
-                    'dropdown' => __('Dropdown', 'language-switcher-translation-polylang-for-elementor'),
-                    'vertical' => __('Vertical', 'language-switcher-translation-polylang-for-elementor'),
-                    'horizontal' => __('Horizontal', 'language-switcher-translation-polylang-for-elementor'),
+                    'dropdown' => __('Dropdown', 'language-switcher-polylang-elementor'),
+                    'vertical' => __('Vertical', 'language-switcher-polylang-elementor'),
+                    'horizontal' => __('Horizontal', 'language-switcher-polylang-elementor'),
                 ],
                 'default' => 'dropdown',
             ]
@@ -57,7 +67,7 @@ class LSP_Widget extends Widget_Base {
         $this->add_control(
             'lsp_language_switcher_show_flags',
             [
-                'label' => __('Show Flags', 'language-switcher-translation-polylang-for-elementor'),
+                'label' => __('Show Flags', 'language-switcher-polylang-elementor'),
                 'type' => Controls_Manager::SWITCHER,
                 'default' => 'yes',
             ]
@@ -66,7 +76,7 @@ class LSP_Widget extends Widget_Base {
         $this->add_control(
             'lsp_language_switcher_show_names',
             [
-                'label' => __('Show Language Names', 'language-switcher-translation-polylang-for-elementor'),
+                'label' => __('Show Language Names', 'language-switcher-polylang-elementor'),
                 'type' => Controls_Manager::SWITCHER,
                 'default' => 'yes',
             ]
@@ -75,7 +85,7 @@ class LSP_Widget extends Widget_Base {
         $this->add_control(
             'lsp_languages_switcher_show_code',
             [
-                'label' => __('Show Language Codes', 'language-switcher-translation-polylang-for-elementor'),
+                'label' => __('Show Language Codes', 'language-switcher-polylang-elementor'),
                 'type' => Controls_Manager::SWITCHER,
                 'default' => 'yes',
             ]
@@ -85,7 +95,7 @@ class LSP_Widget extends Widget_Base {
         $this->add_control(
             'lsp_language_switcher_hide_current_language',
             [
-                'label' => __('Hide Current Language', 'language-switcher-translation-polylang-for-elementor'),
+                'label' => __('Hide Current Language', 'language-switcher-polylang-elementor'),
                 'type' => Controls_Manager::SWITCHER,
                 'default' => 'no',
             ]
@@ -94,7 +104,7 @@ class LSP_Widget extends Widget_Base {
         $this->add_control(
             'lsp_language_hide_untranslated_languages',
             [
-                'label' => __('Hide Untranslated Languages', 'language-switcher-translation-polylang-for-elementor'),
+                'label' => __('Hide Untranslated Languages', 'language-switcher-polylang-elementor'),
                 'type' => Controls_Manager::SWITCHER,
                 'default' => 'no',
             ]
@@ -105,7 +115,7 @@ class LSP_Widget extends Widget_Base {
         $this->start_controls_section(
             'section_style',
             [
-                'label' => __('Language Switcher Style', 'language-switcher-translation-polylang-for-elementor'),
+                'label' => __('Language Switcher Style', 'language-switcher-polylang-elementor'),
                 'tab' => Controls_Manager::TAB_STYLE,
             ]
         );
@@ -113,19 +123,19 @@ class LSP_Widget extends Widget_Base {
         $this->add_control(
             'lsp_language_switcher_alignment',
             [
-                'label' => __('Switcher Alignment', 'language-switcher-translation-polylang-for-elementor'),
+                'label' => __('Switcher Alignment', 'language-switcher-polylang-elementor'),
                 'type' => Controls_Manager::CHOOSE,
                 'options' => [
 					'left' => [
-						'title' => esc_html__( 'Left', 'language-switcher-translation-polylang-for-elementor' ),
+						'title' => esc_html__( 'Left', 'language-switcher-polylang-elementor' ),
 						'icon' => 'eicon-h-align-left',
 					],
 					'center' => [
-						'title' => esc_html__( 'Center', 'language-switcher-translation-polylang-for-elementor' ),
+						'title' => esc_html__( 'Center', 'language-switcher-polylang-elementor' ),
 						'icon' => 'eicon-h-align-center',
 					],
 					'right' => [
-						'title' => esc_html__( 'Right', 'language-switcher-translation-polylang-for-elementor' ),
+						'title' => esc_html__( 'Right', 'language-switcher-polylang-elementor' ),
 						'icon' => 'eicon-h-align-right',
 					]
 				],
@@ -142,11 +152,11 @@ class LSP_Widget extends Widget_Base {
         $this->add_control(
             'lsp_language_swtcher_flag_ratio',
             [
-                'label' => __('Flag Ratio', 'language-switcher-translation-polylang-for-elementor'),
+                'label' => __('Flag Ratio', 'language-switcher-polylang-elementor'),
                 'type' => Controls_Manager::SELECT,
                 'options' => [
-                    '11' => __('1/1', 'language-switcher-translation-polylang-for-elementor'),
-                    '43' => __('4/3', 'language-switcher-translation-polylang-for-elementor'),
+                    '11' => __('1/1', 'language-switcher-polylang-elementor'),
+                    '43' => __('4/3', 'language-switcher-polylang-elementor'),
                 ],
                 'prefix_class' => 'lsp-switcher--aspect-ratio-',
                 'default' => '43',
@@ -162,7 +172,7 @@ class LSP_Widget extends Widget_Base {
         $this->add_control(
             'lsp_language_switcher_flag_width',
             [
-                'label' => __('Flag Width', 'language-switcher-translation-polylang-for-elementor'),
+                'label' => __('Flag Width', 'language-switcher-polylang-elementor'),
                 'type' => Controls_Manager::SLIDER,
                 'size_units' => ['px'],
                 'default' => [
@@ -182,7 +192,7 @@ class LSP_Widget extends Widget_Base {
         $this->add_control(
             'lsp_language_switcher_flag_radius',
             [
-                'label' => __('Flag Radius', 'language-switcher-translation-polylang-for-elementor'),
+                'label' => __('Flag Radius', 'language-switcher-polylang-elementor'),
                 'type' => Controls_Manager::SLIDER,
                 'size_units' => ['px', '%'],
                 'range' => [
@@ -213,7 +223,7 @@ class LSP_Widget extends Widget_Base {
         $this->add_control(
 			'lsp_language_switcher_margin',
 			[
-				'label' => esc_html__( 'Margin', 'language-switcher-translation-polylang-for-elementor' ),
+				'label' => esc_html__( 'Margin', 'language-switcher-polylang-elementor' ),
 				'type' => \Elementor\Controls_Manager::DIMENSIONS,
 				'size_units' => [ 'px', '%', 'em', 'rem' ],
 				'default' => [
@@ -224,7 +234,7 @@ class LSP_Widget extends Widget_Base {
 				],
                 'selectors' => [
                     '{{WRAPPER}} .lsp-main-wrapper .lsp-wrapper.dropdown' => 'margin: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
-                    '{{WRAPPER}} .lsp-main-wrapper .lsp-wrapper.dropdown .lsp-lang-item' => 'margin: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+                    // '{{WRAPPER}} .lsp-main-wrapper .lsp-wrapper.dropdown .lsp-lang-item a' => 'margin: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
                     '{{WRAPPER}} .lsp-main-wrapper .lsp-wrapper.horizontal .lsp-lang-item a' => 'margin: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
                     '{{WRAPPER}} .lsp-main-wrapper .lsp-wrapper.vertical .lsp-lang-item a' => 'margin: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
                 ],
@@ -234,7 +244,7 @@ class LSP_Widget extends Widget_Base {
         $this->add_control(
             'lsp_language_switcher_padding',
             [
-                'label' => __('Padding', 'language-switcher-translation-polylang-for-elementor'),
+                'label' => __('Padding', 'language-switcher-polylang-elementor'),
                 'type' => Controls_Manager::DIMENSIONS,
                 'size_units' => [ 'px', '%', 'em', 'rem' ],
                 'default' => [
@@ -256,21 +266,21 @@ class LSP_Widget extends Widget_Base {
         $this->start_controls_tab(
             'lsp_language_switcher_style_tab_normal',
             [
-                'label' => __('Normal', 'language-switcher-translation-polylang-for-elementor'),
+                'label' => __('Normal', 'language-switcher-polylang-elementor'),
             ]
         );
         $this->add_group_control(
             \Elementor\Group_Control_Typography::get_type(),
             [
                 'name' => 'lsp_language_switcher_typography',
-                'label' => __('Typography', 'language-switcher-translation-polylang-for-elementor'),
+                'label' => __('Typography', 'language-switcher-polylang-elementor'),
                 'selector' => '{{WRAPPER}} .lsp-main-wrapper .lsp-wrapper.dropdown .lsp-active-language,{{WRAPPER}} .lsp-main-wrapper .lsp-wrapper.dropdown .lsp-lang-item a, {{WRAPPER}} .lsp-main-wrapper .lsp-wrapper.horizontal .lsp-lang-item a, {{WRAPPER}} .lsp-main-wrapper .lsp-wrapper.vertical .lsp-lang-item a',
             ]
         );
         $this->add_control(
             'lsp_language_switcher_background_color',
             [
-                'label' => __('Switcher Background Color', 'language-switcher-translation-polylang-for-elementor'),
+                'label' => __('Switcher Background Color', 'language-switcher-polylang-elementor'),
                 'type' => Controls_Manager::COLOR,
                 'selectors' => [
                     '{{WRAPPER}} .lsp-main-wrapper .lsp-wrapper.dropdown' => '--lsp-normal-bg-color: {{VALUE}};',
@@ -284,7 +294,7 @@ class LSP_Widget extends Widget_Base {
         $this->add_control(
             'lsp_language_switcher_text_color',
             [
-                'label' => __('Switcher Text Color', 'language-switcher-translation-polylang-for-elementor'),
+                'label' => __('Switcher Text Color', 'language-switcher-polylang-elementor'),
                 'type' => Controls_Manager::COLOR,
                 'selectors' => [
                     '{{WRAPPER}} .lsp-main-wrapper .lsp-wrapper.dropdown .lsp-active-language,{{WRAPPER}} .lsp-main-wrapper .lsp-wrapper.dropdown .lsp-lang-item a, {{WRAPPER}} .lsp-main-wrapper .lsp-wrapper.horizontal .lsp-lang-item a, {{WRAPPER}} .lsp-main-wrapper .lsp-wrapper.vertical .lsp-lang-item a' => '--lsp-normal-text-color: {{VALUE}};',
@@ -296,27 +306,27 @@ class LSP_Widget extends Widget_Base {
         $this->start_controls_tab(
             'lsp_language_switcher_style_tab_hover',
             [
-                'label' => __('Hover', 'language-switcher-translation-polylang-for-elementor'),
+                'label' => __('Hover', 'language-switcher-polylang-elementor'),
             ]
         );
         $this->add_group_control(
             \Elementor\Group_Control_Typography::get_type(),
             [
                 'name' => 'lsp_language_switcher_typography_hover',
-                'label' => __('Typography', 'language-switcher-translation-polylang-for-elementor'),
+                'label' => __('Typography', 'language-switcher-polylang-elementor'),
                 'selector' => '{{WRAPPER}} .lsp-main-wrapper .lsp-wrapper.dropdown .lsp-active-language:hover,{{WRAPPER}} .lsp-main-wrapper .lsp-wrapper.dropdown .lsp-lang-item a:hover, {{WRAPPER}} .lsp-main-wrapper .lsp-wrapper.horizontal .lsp-lang-item a:hover, {{WRAPPER}} .lsp-main-wrapper .lsp-wrapper.vertical .lsp-lang-item a:hover',
             ]
         );
         $this->add_control(
             'lsp_language_switcher_background_color_hover',
             [
-                'label' => __('Switcher Background Color', 'language-switcher-translation-polylang-for-elementor'),
+                'label' => __('Switcher Background Color', 'language-switcher-polylang-elementor'),
                 'type' => Controls_Manager::COLOR,
                 'selectors' => [
                     '{{WRAPPER}} .lsp-main-wrapper .lsp-wrapper.dropdown:hover' => '--lsp-normal-bg-color: {{VALUE}};',
                     '{{WRAPPER}} .lsp-main-wrapper .lsp-wrapper.dropdown ul li:hover' => '--lsp-normal-bg-color: {{VALUE}};',
-                    '{{WRAPPER}} .lsp-main-wrapper .lsp-wrapper.horizontal .lsp-lang-item:hover a' => '--lsp-normal-bg-color: {{VALUE}};',
-                    '{{WRAPPER}} .lsp-main-wrapper .lsp-wrapper.vertical .lsp-lang-item:hover a' => '--lsp-normal-bg-color: {{VALUE}};',
+                    '{{WRAPPER}} .lsp-main-wrapper .lsp-wrapper.horizontal .lsp-lang-item a:hover' => '--lsp-normal-bg-color: {{VALUE}};',
+                    '{{WRAPPER}} .lsp-main-wrapper .lsp-wrapper.vertical .lsp-lang-item a:hover' => '--lsp-normal-bg-color: {{VALUE}};',
                 ],
             ]
         );
@@ -324,10 +334,10 @@ class LSP_Widget extends Widget_Base {
         $this->add_control(
             'lsp_language_switcher_text_color_hover',
             [
-                'label' => __('Switcher Text Color', 'language-switcher-translation-polylang-for-elementor'),
+                'label' => __('Switcher Text Color', 'language-switcher-polylang-elementor'),
                 'type' => Controls_Manager::COLOR,
                 'selectors' => [
-                    '{{WRAPPER}} .lsp-main-wrapper .lsp-wrapper.dropdown .lsp-active-language:hover,{{WRAPPER}} .lsp-main-wrapper .lsp-wrapper.dropdown .lsp-lang-item a:hover, {{WRAPPER}} .lsp-main-wrapper .lsp-wrapper.horizontal .lsp-lang-item a:hover, {{WRAPPER}} .lsp-main-wrapper .lsp-wrapper.vertical .lsp-lang-item a:hover' => '--lsp-normal-text-color: {{VALUE}};',
+                    '{{WRAPPER}} .lsp-main-wrapper .lsp-wrapper.dropdown:hover .lsp-active-language,{{WRAPPER}} .lsp-main-wrapper .lsp-wrapper.dropdown .lsp-lang-item:hover a, {{WRAPPER}} .lsp-main-wrapper .lsp-wrapper.horizontal .lsp-lang-item a:hover, {{WRAPPER}} .lsp-main-wrapper .lsp-wrapper.vertical .lsp-lang-item a:hover' => '--lsp-normal-text-color: {{VALUE}};',
                 ],
             ]
         );
@@ -340,7 +350,7 @@ class LSP_Widget extends Widget_Base {
         $this->start_controls_section(
             'section_dropdown_style',
             [
-                'label' => __('Dropdown Style', 'language-switcher-translation-polylang-for-elementor'),
+                'label' => __('Dropdown Style', 'language-switcher-polylang-elementor'),
                 'tab' => Controls_Manager::TAB_STYLE,
                 'condition' => [
                     'lsp_language_switcher_type' => 'dropdown',
@@ -351,11 +361,11 @@ class LSP_Widget extends Widget_Base {
         $this->add_control(
             'lsp_language_switcher_dropown_direction',
             [
-                'label' => __('Dropdown Direction', 'language-switcher-translation-polylang-for-elementor'),
+                'label' => __('Dropdown Direction', 'language-switcher-polylang-elementor'),
                 'type' => Controls_Manager::SELECT,
                 'options' => [
-                    'up' => __('Up', 'language-switcher-translation-polylang-for-elementor'),
-                    'down' => __('Down', 'language-switcher-translation-polylang-for-elementor'),
+                    'up' => __('Up', 'language-switcher-polylang-elementor'),
+                    'down' => __('Down', 'language-switcher-polylang-elementor'),
                 ],
                 'default' => 'down',
                 'condition' => [
@@ -368,7 +378,7 @@ class LSP_Widget extends Widget_Base {
         $this->add_control(
             'lsp_language_switcher_icon',
             [
-                'label' => __('Switcher Icon', 'language-switcher-translation-polylang-for-elementor'),
+                'label' => __('Switcher Icon', 'language-switcher-polylang-elementor'),
                 'type' => Controls_Manager::ICONS,
                 'default' => [
                     'value'   => 'fas fa-caret-down',
@@ -387,7 +397,7 @@ class LSP_Widget extends Widget_Base {
         $this->add_control(
             'lsp_language_switcher_icon_size',
             [
-                'label' => __('Icon Size', 'language-switcher-translation-polylang-for-elementor'),
+                'label' => __('Icon Size', 'language-switcher-polylang-elementor'),
                 'type' => Controls_Manager::SLIDER,
                 'size_units' => ['px', '%'],
                 'range' => [
@@ -414,7 +424,7 @@ class LSP_Widget extends Widget_Base {
         $this->add_control(
             'lsp_language_switcher_icon_color',
             [
-                'label' => __('Icon Color', 'language-switcher-translation-polylang-for-elementor'),
+                'label' => __('Icon Color', 'language-switcher-polylang-elementor'),
                 'type' => Controls_Manager::COLOR,
                 'condition' => [
                     'lsp_language_switcher_type' => 'dropdown',
@@ -428,7 +438,7 @@ class LSP_Widget extends Widget_Base {
         $this->add_control(
             'lsp_language_switcher_icon_spacing',
             [
-                'label' => __('Icon Spacing', 'language-switcher-translation-polylang-for-elementor'),
+                'label' => __('Icon Spacing', 'language-switcher-polylang-elementor'),
                 'type' => Controls_Manager::SLIDER,
                 'size_units' => ['px', '%'],
                 'range' => [
@@ -503,6 +513,9 @@ class LSP_Widget extends Widget_Base {
         if(empty($lsp_data)){
             return;
         }
+        if($settings['lsp_language_switcher_show_flags'] !== 'yes' && $settings['lsp_language_switcher_show_names'] !== 'yes' && $settings['lsp_languages_switcher_show_code'] !== 'yes'){
+            return;
+        }
         $switcher_html = '';
         $switcher_html .= '<div class="lsp-main-wrapper">';
         if($settings['lsp_language_switcher_type'] == 'dropdown'){
@@ -515,16 +528,41 @@ class LSP_Widget extends Widget_Base {
             $switcher_html .= '</div>';
         }
         $switcher_html .= '</div>';
-        echo $switcher_html;
+        echo ( $switcher_html );
     }
 
     public function lsp_render_dropdown_switcher($settings, $lsp_data){
         $languages = $lsp_data['lspLanguageData'];
         $current_lang = $lsp_data['lspCurrentLang'];
-        $active_html = self::get_active_language_html($languages[$current_lang], $settings);
+        
+        // If current language should be shown, use it as active language
+        if ($settings['lsp_language_switcher_hide_current_language'] !== 'yes') {
+            $active_language = $languages[$current_lang];
+        } else {
+            // Find first available language that's not the current language
+            $active_language = null;
+            foreach ($languages as $lang) {
+                if ($current_lang !== $lang['slug'] && 
+                    !($lang['no_translation'] && $settings['lsp_language_hide_untranslated_languages'] === 'yes')) {
+                    $active_language = $lang;
+                    break;
+                }
+            }
+        }
+        
+        // If no language found, return empty
+        if (!$active_language) {
+            return '';
+        }
+        
+        $active_html = self::get_active_language_html($active_language, $settings);
         $languages_html = '';
+        
         foreach ($languages as $lang) {
-            if ($current_lang === $lang['slug'] || ($lang['no_translation'] && $settings['lsp_language_hide_untranslated_languages'] === 'yes')) {
+            // Skip if it's the current language (when hidden), active language, or untranslated language
+            if (($current_lang === $lang['slug'] && $settings['lsp_language_switcher_hide_current_language'] === 'yes') || 
+                $active_language['slug'] === $lang['slug'] || 
+                ($lang['no_translation'] && $settings['lsp_language_hide_untranslated_languages'] === 'yes')) {
                 continue;
             }
 

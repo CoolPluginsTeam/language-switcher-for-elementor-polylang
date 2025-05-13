@@ -1,5 +1,5 @@
 <?php
-namespace LanguageSwitcherPolylangElementor\LSP;
+namespace LanguageSwitcherManagerPolylangElementor\LSP;
 
 class LSPManager {
 
@@ -23,7 +23,7 @@ class LSPManager {
 
     public function lsp_translate_template_id($post_id) {
         $translated_id = pll_get_post($post_id);
-        $this->current_template_id = $translated_id ?: $post_id;
+        $this->current_template_id = isset($translated_id) ? $translated_id : $post_id;
         return $this->current_template_id;
     }
 
@@ -87,7 +87,7 @@ class LSPManager {
         $document->start_controls_section(
             'lsp_language_panel_controls',
             [
-                'label' => esc_html__('Translations', 'language-switcher-elementor'),
+                'label' => esc_html__('Translations', 'language-switcher-polylang-elementor'),
                 'tab'   => \Elementor\Controls_Manager::TAB_SETTINGS,
             ]
         );
@@ -118,8 +118,8 @@ class LSPManager {
             } else {
                 $create_link = add_query_arg([
                     'post_type' => get_post_type($post_id),
-                    'from_post' => $post_id,
-                    'new_lang'  => $lang_slug,
+                    'from_post' => esc_attr($post_id),
+                    'new_lang'  => esc_attr($lang_slug),
                     '_wpnonce'  => wp_create_nonce('new-post-translation'),
                 ], admin_url('post-new.php'));
 
@@ -130,7 +130,8 @@ class LSPManager {
                         'raw'     => sprintf(
                             '<a href="%s" target="_blank"><i class="eicon-plus"></i> %s</a>',
                             esc_url($create_link),
-                            sprintf(__('Add translation — %s', 'language-switcher-elementor'), esc_html($lang->name))
+                            // translators: 1: Language name
+                            sprintf(__('Add translation — %s', 'language-switcher-polylang-elementor'), esc_html($lang->name))
                         ),
                         'content_classes' => 'elementor-control-field',
                     ]

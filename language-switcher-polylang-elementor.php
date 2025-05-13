@@ -8,7 +8,7 @@ Author:      Coolplugins
 Author URI:  http://coolplugins.net/
 License:     GPL2
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
-Text Domain: language-switcher-translation-polylang-for-elementor
+Text Domain: language-switcher-polylang-elementor
 Domain Path: /languages
 
 Language Switcher & Translation – Polylang for Elementor is free software: you can redistribute it and/or modify
@@ -28,13 +28,13 @@ along with Language Switcher & Translation – Polylang for Elementor. If not, s
 namespace LanguageSwitcherPolylangElementor\LSP;
 
 define('LSP_VERSION', '1.0.0');
-define('LSP_PLUGIN_NAME', 'language-switcher-translation-polylang-for-elementor');
+define('LSP_PLUGIN_NAME', 'language-switcher-polylang-elementor');
 define('LSP_PLUGIN_DIR', plugin_dir_path(__FILE__));
 define('LSP_PLUGIN_URL', plugin_dir_url(__FILE__));
 
 
-if(! class_exists('LanguageSwitcher')){
-    class LanguageSwitcher {
+if(! class_exists('LSP_LanguageSwitcher')){
+    class LSP_LanguageSwitcher {
         public static $instance;
         public function __construct() {
             add_action( 'plugins_loaded', [ $this, 'lsp_init' ] );
@@ -42,7 +42,7 @@ if(! class_exists('LanguageSwitcher')){
         }
 
         public function lsp_load_textdomain() {
-            load_plugin_textdomain('language-switcher-translation-polylang-for-elementor', false, basename(dirname(__FILE__)) . '/languages');
+            load_plugin_textdomain('language-switcher-polylang-elementor', false, basename(dirname(__FILE__)) . '/languages');
         }
 
         public function lsp_init() {
@@ -62,19 +62,25 @@ if(! class_exists('LanguageSwitcher')){
                 $url         = 'plugin-install.php?tab=plugin-information&plugin=polylang&TB_iframe=true';
                 $title       = 'Polylang';
                 $plugin_info = get_plugin_data( __FILE__, true, true );
+                $allowed_html = array(
+                    'a' => array(
+                        'href'  => array(),
+                        'title' => array(),
+                        'class' => array(),
+                    ),
+                    'strong' => array(),
+                );
                 echo '<div class="error"><p>' .
                 sprintf(
+                    // translators: 1: Plugin name, 2: Plugin name
                     esc_html__(
                         'In order to use %1$s plugin, please install and activate the latest version  of %2$s',
-                        'language-switcher-translation-polylang-for-elementor'
+                        'language-switcher-polylang-elementor'
                     ),
                     wp_kses( '<strong>' . esc_html( $plugin_info['Name'] ) . '</strong>', 'strong' ),
-                    wp_kses( '<a href="' . esc_url( $url ) . '" class="thickbox" title="' . esc_attr( $title ) . '">' . esc_html( $title ) . '</a>', 'a' )
-                ) . '.</p></div>';
+                    wp_kses( '<a href="' . esc_url( $url ) . '" class="thickbox" title="' . esc_attr( $title ) . '">' . esc_html( $title ) . '</a>', $allowed_html )
 
-                if ( function_exists( 'deactivate_plugins' ) ) {
-                    deactivate_plugins( __FILE__ );
-                }
+                ) . '.</p></div>';
             }
         }
 
@@ -83,19 +89,27 @@ if(! class_exists('LanguageSwitcher')){
                 $url         = 'plugin-install.php?tab=plugin-information&plugin=elementor&TB_iframe=true';
                 $title       = 'Elementor';
                 $plugin_info = get_plugin_data( __FILE__, true, true );
+                $allowed_html = array(
+                    'a' => array(
+                        'href'  => array(),
+                        'title' => array(),
+                        'class' => array(),
+                    ),
+                    'strong' => array(),
+                );
                 echo '<div class="error"><p>' .
                 sprintf(
+                    // translators: 1: Plugin name, 2: Plugin name
                     esc_html__(
                         'In order to use %1$s plugin, please install and activate the latest version  of %2$s',
-                        'language-switcher-translation-polylang-for-elementor'
+                        'language-switcher-polylang-elementor'
                     ),
                     wp_kses( '<strong>' . esc_html( $plugin_info['Name'] ) . '</strong>', 'strong' ),
-                    wp_kses( '<a href="' . esc_url( $url ) . '" class="thickbox" title="' . esc_attr( $title ) . '">' . esc_html( $title ) . '</a>', 'a' )
+                    wp_kses(
+                        '<a href="' . esc_url( $url ) . '" class="thickbox" title="' . esc_attr( $title ) . '">' . esc_html( $title ) . '</a>',
+                        $allowed_html
+                      )
                 ) . '.</p></div>';
-
-                if ( function_exists( 'deactivate_plugins' ) ) {
-                    deactivate_plugins( __FILE__ );
-                }
             }
         }
         
@@ -106,5 +120,5 @@ if(! class_exists('LanguageSwitcher')){
 			return self::$instance;
 		}
     }
-    LanguageSwitcher::get_instance();
+    LSP_LanguageSwitcher::get_instance();
 }
