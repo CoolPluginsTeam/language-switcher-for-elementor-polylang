@@ -1,4 +1,10 @@
 <?php
+/**
+ * Language Switcher Polylang Elementor Widget
+ *
+ * @package LanguageSwitcherPolylangElementorWidget
+ * @since 1.0.0
+ */
 
 namespace LanguageSwitcherPolylangElementorWidget\LSP;
 use Elementor\Controls_Manager;
@@ -13,34 +19,74 @@ if(!defined('ABSPATH')){
 	exit;
 }
 
-
+/**
+ * Class LSP_Widget
+ *
+ * Main widget class for the Language Switcher Polylang Elementor widget.
+ *
+ * @since 1.0.0
+ */
 class LSP_Widget extends Widget_Base {
 
+	/**
+	 * Constructor for the widget.
+	 *
+	 * @param array $data Widget data.
+	 * @param array $args Widget arguments.
+	 */
     public function __construct($data = [], $args = null) {
         parent::__construct($data, $args);
         wp_register_style('lsp-style', LSP_PLUGIN_URL . '/includes/css/language-switcher-style.css', [], LSP_VERSION);
     }
 
+	/**
+	 * Get widget name.
+	 *
+	 * @return string Widget name.
+	 */
     public function get_name() {
         return 'lsp_widget';
     }
 
+	/**
+	 * Get widget title.
+	 *
+	 * @return string Widget title.
+	 */
     public function get_title() {
         return __('Language Switcher', 'language-switcher-polylang-elementor');
     }
 
+	/**
+	 * Get widget icon.
+	 *
+	 * @return string Widget icon.
+	 */
     public function get_icon() {
         return 'eicon-global-settings';
     }
 
+	/**
+	 * Get widget categories.
+	 *
+	 * @return array Widget categories.
+	 */
     public function get_categories() {
         return ['basic'];
     }
 
+	/**
+	 * Get widget style dependencies.
+	 *
+	 * @return array Widget style dependencies.
+	 */
     public function get_style_depends() {
         return ['lsp-style'];
     }
 
+	/**
+	 * Register widget controls.
+	 */
     protected function register_controls() {
         $this->start_controls_section(
             'section_content',
@@ -461,6 +507,12 @@ class LSP_Widget extends Widget_Base {
         
     }
     
+	/**
+	 * Localize Polylang data for the widget.
+	 *
+	 * @param array $data Data to be localized.
+	 * @return array Localized data.
+	 */
     public function lsp_localize_polyglang_data( $data ) {
         global $polylang;
         $lsp_polylang = $polylang;
@@ -504,6 +556,9 @@ class LSP_Widget extends Widget_Base {
         return $data;
     }
 
+	/**
+	 * Render the widget output on the frontend.
+	 */
     protected function render() {
         $settings = $this->get_active_settings();
         
@@ -531,6 +586,13 @@ class LSP_Widget extends Widget_Base {
         echo ( $switcher_html );
     }
 
+	/**
+	 * Render dropdown switcher.
+	 *
+	 * @param array $settings Widget settings.
+	 * @param array $lsp_data Language data.
+	 * @return string HTML output.
+	 */
     public function lsp_render_dropdown_switcher($settings, $lsp_data){
         $languages = $lsp_data['lspLanguageData'];
         $current_lang = $lsp_data['lspCurrentLang'];
@@ -585,6 +647,13 @@ class LSP_Widget extends Widget_Base {
         return $active_html . '<ul class="lsp-language-list">' . $languages_html . '</ul>';
     }
 
+	/**
+	 * Get active language HTML.
+	 *
+	 * @param array  $language Language data.
+	 * @param array  $settings Widget settings.
+	 * @return string HTML output.
+	 */
     public static function get_active_language_html($language, $settings){
         $html = '<span class="lsp-active-language">';
         $html .= '<a href="' . esc_url($language['url']) . '">';
@@ -604,6 +673,13 @@ class LSP_Widget extends Widget_Base {
         return $html;
     }
 
+	/**
+	 * Render Vertcal and Horizontal switcher.
+	 *
+	 * @param array $settings Widget settings.
+	 * @param array $lsp_data Language data.
+	 * @return string HTML output.
+	 */
     public static function lsp_render_switcher($settings, $lsp_data){
         $html = '';
         $languages = $lsp_data['lspLanguageData'];

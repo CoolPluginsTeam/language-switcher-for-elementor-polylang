@@ -1,8 +1,36 @@
 <?php
+/**
+ * Main plugin class for Language Switcher Polylang Elementor integration.
+ *
+ * @package LanguageSwitcherManagerPolylangElementor
+ * @since 1.0.0
+ */
+
 namespace LanguageSwitcherManagerPolylangElementor\LSP;
 
+/**
+ * Class LSPManager
+ *
+ * Handles the integration between Polylang and Elementor for template translations.
+ *
+ * @since 1.0.0
+ */
 class LSPManager {
 
+    /**
+     * Current template ID being processed.
+     *
+     * @var int|null
+     */
+    private $current_template_id;
+
+    /**
+     * Constructor.
+     *
+     * Initializes the plugin by setting up necessary hooks and filters.
+     *
+     * @since 1.0.0
+     */
     public function __construct() {
         add_filter('pll_get_post_types', [$this, 'lsp_register_supported_post_types'], 10, 2);
         add_filter('elementor/theme/get_location_templates/template_id', [$this, 'lsp_translate_template_id']);
@@ -16,19 +44,47 @@ class LSPManager {
         }
     }
 
+    /**
+     * Registers supported post types for Polylang translation.
+     *
+     * @since 1.0.0
+     *
+     * @param array $types        Array of post types.
+     * @param bool  $is_settings  Whether this is called from settings page.
+     * @return array Modified array of post types.
+     */
     public function lsp_register_supported_post_types($types, $is_settings) {
         $custom_post_types = ['elementor_library'];
         return array_merge($types, array_combine($custom_post_types, $custom_post_types));
     }
 
+    /**
+     * Translates template ID based on current language.
+     *
+     * @since 1.0.0
+     *
+     * @param int $post_id The template post ID.
+     * @return int Translated template ID.
+     */
     public function lsp_translate_template_id($post_id) {
         $translated_id = pll_get_post($post_id);
         $this->current_template_id = isset($translated_id) ? $translated_id : $post_id;
         return $this->current_template_id;
     }
 
+    /**
+     * Translates condition sub ID based on current language.
+     *
+     * @since 1.0.0
+     *
+     * @param int   $sub_id     The sub ID to translate.
+     * @param array $condition  The condition data.
+     * @return int Translated sub ID.
+     */
     public function lsp_translate_condition_sub_id($sub_id, $condition) {
-        if (!$sub_id) return $sub_id;
+        if (!$sub_id) {
+            return $sub_id;
+        }
 
         $default_lang = pll_default_language();
         $current_lang = pll_get_post_language($this->current_template_id);
@@ -44,6 +100,16 @@ class LSPManager {
         return $sub_id;
     }
 
+    /**
+     * Handles translation of Elementor template shortcodes.
+     *
+     * @since 1.0.0
+     *
+     * @param bool   $false  Whether to skip shortcode processing.
+     * @param string $tag    Shortcode tag.
+     * @param array  $attrs  Shortcode attributes.
+     * @return string|bool Processed shortcode or false.
+     */
     public function lsp_handle_shortcode_translation($false, $tag, $attrs) {
         if ('elementor-template' !== $tag || isset($attrs['skip'])) {
             return $false;
@@ -60,6 +126,16 @@ class LSPManager {
         return do_shortcode('[elementor-template' . $output . ']');
     }
 
+    /**
+     * Updates conditions when translations change.
+     *
+     * @since 1.0.0
+     *
+     * @param int    $post_id  Post ID.
+     * @param array  $terms    Terms.
+     * @param array  $tt_ids   Term taxonomy IDs.
+     * @param string $taxonomy Taxonomy name.
+     */
     public function lsp_update_conditions_on_translation_change($post_id, $terms, $tt_ids, $taxonomy) {
         if ('post_translations' === $taxonomy && get_post_type($post_id) === 'elementor_library') {
             $theme_module = \ElementorPro\Plugin::instance()->modules_manager->get_modules('theme-builder');
@@ -67,15 +143,33 @@ class LSPManager {
         }
     }
 
+    /**
+     * Translates widget template ID.
+     *
+     * @since 1.0.0
+     *
+     * @param \Elementor\Element_Base $element Element instance.
+     */
     public function lsp_translate_widget_template_id($element) {
-        if ('template' !== $element->get_name()) return;
+        if ('template' !== $element->get_name()) {
+            return;
+        }
 
         $template_id = pll_get_post($element->get_settings('template_id')) ?: $element->get_settings('template_id');
         $element->set_settings('template_id', $template_id);
     }
 
+    /**
+     * Adds language panel controls to Elementor document.
+     *
+     * @since 1.0.0
+     *
+     * @param \Elementor\Core\Base\Document $document Document instance.
+     */
     public function lsp_add_language_panel_controls($document) {
-        if (!method_exists($document, 'get_main_id')) return;
+        if (!method_exists($document, 'get_main_id')) {
+            return;
+        }
 
         require_once LSP_PLUGIN_DIR . 'helpers/class-lsp-helpers.php';
 
@@ -105,8 +199,8 @@ class LSPManager {
                 $document->add_control(
                     "lsp_elementor_edit_lang_{$lang_slug}",
                     [
-                        'type'    => \Elementor\Controls_Manager::RAW_HTML,
-                        'raw'     => sprintf(
+                        'type'            => \Elementor\Controls_Manager::RAW_HTML,
+                        'raw'             => sprintf(
                             '<a href="%s" target="_blank"><i class="eicon-pencil"></i> %s — %s</a>',
                             esc_url($edit_link),
                             esc_html(get_the_title($translated_post_id)),
@@ -126,12 +220,15 @@ class LSPManager {
                 $document->add_control(
                     "lsp_elementor_add_lang_{$lang_slug}",
                     [
-                        'type'    => \Elementor\Controls_Manager::RAW_HTML,
-                        'raw'     => sprintf(
+                        'type'            => \Elementor\Controls_Manager::RAW_HTML,
+                        'raw'             => sprintf(
                             '<a href="%s" target="_blank"><i class="eicon-plus"></i> %s</a>',
                             esc_url($create_link),
-                            // translators: 1: Language name
-                            sprintf(__('Add translation — %s', 'language-switcher-polylang-elementor'), esc_html($lang->name))
+                            sprintf(
+                                /* translators: %s: Language name */
+                                __('Add translation — %s', 'language-switcher-polylang-elementor'),
+                                esc_html($lang->name)
+                            )
                         ),
                         'content_classes' => 'elementor-control-field',
                     ]
@@ -143,4 +240,5 @@ class LSPManager {
     }
 }
 
+// Initialize the plugin
 new LSPManager();
