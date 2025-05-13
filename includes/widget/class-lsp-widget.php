@@ -36,7 +36,25 @@ class LSP_Widget extends Widget_Base {
 	 */
     public function __construct($data = [], $args = null) {
         parent::__construct($data, $args);
+        add_action('elementor/editor/after_enqueue_scripts', array( $this,'language_switcher_icon_css'));
         wp_register_style('lsp-style', LSP_PLUGIN_URL . '/includes/css/language-switcher-style.css', [], LSP_VERSION);
+    }
+
+    /**
+     * Add custom CSS for the widget icon.
+     */
+    function language_switcher_icon_css() {
+        echo '<style>
+            .lsp-widget-icon {
+                display: inline-block;
+                width: 25px;
+                height: 25px;
+                background-image: url('.LSP_PLUGIN_URL.'/assets/images/lang_switcher.svg);
+                background-size: contain;
+                background-repeat: no-repeat;
+                background-position: center;
+            }
+        </style>';
     }
 
 	/**
@@ -63,7 +81,7 @@ class LSP_Widget extends Widget_Base {
 	 * @return string Widget icon.
 	 */
     public function get_icon() {
-        return 'eicon-global-settings';
+       return 'lsp-widget-icon';
     }
 
 	/**
