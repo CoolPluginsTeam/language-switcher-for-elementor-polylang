@@ -578,12 +578,12 @@ class LSP_Widget extends Widget_Base {
             $switcher_html .= $this->lsp_render_dropdown_switcher($settings, $lsp_data);
             $switcher_html .= '</div>';
         }else{
-            $switcher_html .= '<div class="lsp-wrapper ' . $settings['lsp_language_switcher_type'] . '">';
+            $switcher_html .= '<div class="lsp-wrapper ' . esc_attr($settings['lsp_language_switcher_type']) . '">';
             $switcher_html .= $this->lsp_render_switcher($settings, $lsp_data);
             $switcher_html .= '</div>';
         }
         $switcher_html .= '</div>';
-        echo ( $switcher_html );
+        echo ($switcher_html);
     }
 
 	/**
@@ -633,7 +633,7 @@ class LSP_Widget extends Widget_Base {
             $languages_html .= '<li class="lsp-lang-item">';
             $languages_html .= '<a href="' . esc_url($lang['url']) . '">';
             if (!empty($settings['lsp_language_switcher_show_flags']) && $settings['lsp_language_switcher_show_flags'] === 'yes') {
-                $languages_html .= '<div class="lsp-lang-image">' . $flag_icon . '</div>';
+                $languages_html .= '<div class="lsp-lang-image">' . ($flag_icon) . '</div>';
             }
             if (!empty($settings['lsp_language_switcher_show_names']) && $settings['lsp_language_switcher_show_names'] === 'yes') {
                 $languages_html .= '<div class="lsp-lang-name">' . esc_html($lang['name']) . '</div>';
@@ -658,7 +658,7 @@ class LSP_Widget extends Widget_Base {
         $html = '<span class="lsp-active-language">';
         $html .= '<a href="' . esc_url($language['url']) . '">';
         if (!empty($settings['lsp_language_switcher_show_flags']) && $settings['lsp_language_switcher_show_flags'] === 'yes') {
-            $html .= '<div class="lsp-lang-image">' . \LSP_HELPERS::get_country_flag($language['flag'], $language['name']) . '</div>';
+            $html .= '<div class="lsp-lang-image">' . (\LSP_HELPERS::get_country_flag($language['flag'], $language['name'])) . '</div>';
         }
         if (!empty($settings['lsp_language_switcher_show_names']) && $settings['lsp_language_switcher_show_names'] === 'yes') {
             $html .= '<div class="lsp-lang-name">' . esc_html($language['name']) . '</div>';
@@ -667,7 +667,7 @@ class LSP_Widget extends Widget_Base {
             $html .= '<div class="lsp-lang-code">' . esc_html($language['slug']) . '</div>';
         }
         if(!empty($settings['lsp_language_switcher_icon'])){
-            $html .= '<i class="lsp-dropdown-icon ' . $settings['lsp_language_switcher_icon']['value'] . '"></i>';
+            $html .= '<i class="lsp-dropdown-icon ' . esc_attr($settings['lsp_language_switcher_icon']['value']) . '"></i>';
         }
         $html .= '</a></span>';
         return $html;
@@ -697,13 +697,13 @@ class LSP_Widget extends Widget_Base {
             $html .= '<li class="lsp-lang-item">';
             $html .= $anchor_open;
             if (!empty($settings['lsp_language_switcher_show_flags']) && $settings['lsp_language_switcher_show_flags'] === 'yes') {
-                $html .= '<div class="lsp-lang-image">' .$flag_icon .'</div>';
+                $html .= '<div class="lsp-lang-image">' . ($flag_icon) . '</div>';
             }
             if (!empty($settings['lsp_language_switcher_show_names']) && $settings['lsp_language_switcher_show_names'] === 'yes') {
-                $html .= '<div class="lsp-lang-name">' . wp_kses_post(esc_html($lang['name'])) . '</div>';
+                $html .= '<div class="lsp-lang-name">' . esc_html($lang['name']) . '</div>';
             }
             if (!empty($settings['lsp_languages_switcher_show_code']) && $settings['lsp_languages_switcher_show_code'] === 'yes') {
-                $html .= '<div class="lsp-lang-code">' . wp_kses_post(esc_html($lang['slug'])) . '</div>';
+                $html .= '<div class="lsp-lang-code">' . esc_html($lang['slug']) . '</div>';
             }
             $html .= $anchor_close;
             $html .= '</li>';

@@ -82,8 +82,8 @@ if ( ! class_exists( 'LSP_LanguageSwitcher' ) ) {
                 return;
             }
 
-            $url = 'plugin-install.php?tab=plugin-information&plugin=polylang&TB_iframe=true';
-            $title = 'Polylang';
+            $url = esc_url_raw( 'plugin-install.php?tab=plugin-information&plugin=polylang&TB_iframe=true' );
+            $title = sanitize_text_field( 'Polylang' );
             $plugin_info = get_plugin_data( __FILE__, true, true );
             $allowed_html = array(
                 'a' => array(
@@ -115,8 +115,8 @@ if ( ! class_exists( 'LSP_LanguageSwitcher' ) ) {
                 return;
             }
 
-            $url = 'plugin-install.php?tab=plugin-information&plugin=elementor&TB_iframe=true';
-            $title = 'Elementor';
+            $url = esc_url_raw( 'plugin-install.php?tab=plugin-information&plugin=elementor&TB_iframe=true' );
+            $title = sanitize_text_field( 'Elementor' );
             $plugin_info = get_plugin_data( __FILE__, true, true );
             $allowed_html = array(
                 'a' => array(
