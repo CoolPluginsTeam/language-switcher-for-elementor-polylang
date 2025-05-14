@@ -326,6 +326,36 @@ class LSP_Widget extends Widget_Base {
             ]
         );
         
+        $this->add_group_control(
+			\Elementor\Group_Control_Border::get_type(),
+			[
+				'name' => 'lsp_language_switcher_border',
+				'label' => __('Border', 'language-switcher-polylang-elementor'),
+				'selector' => '{{WRAPPER}} .lsp-main-wrapper .lsp-wrapper.dropdown, {{WRAPPER}} .lsp-main-wrapper .lsp-wrapper.horizontal li a, {{WRAPPER}} .lsp-main-wrapper .lsp-wrapper.vertical li a',
+			]
+		);
+
+        $this->add_control(
+            'lsp_language_switcher_border_radius',
+            [
+                'label' => __('Border Radius', 'language-switcher-polylang-elementor'),
+                'type' => Controls_Manager::DIMENSIONS,
+                'size_units' => [ 'px', '%', 'em', 'rem' ],
+                'default' => [
+                    'top' => 0,
+                    'right' => 0,
+                    'bottom' => 0,
+                    'left' => 0,
+                ],
+                'selectors' => [
+                    '{{WRAPPER}} .lsp-main-wrapper .lsp-wrapper.dropdown' => 'border-radius: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+                    '{{WRAPPER}} .lsp-main-wrapper .lsp-wrapper.dropdown .lsp-language-list' => 'border-radius: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+                    '{{WRAPPER}} .lsp-main-wrapper .lsp-wrapper.horizontal li a' => 'border-radius: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+                    '{{WRAPPER}} .lsp-main-wrapper .lsp-wrapper.vertical li a' => 'border-radius: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+                ],
+
+            ]
+        );
         $this->start_controls_tabs('lsp_language_switcher_style_tabs');
         $this->start_controls_tab(
             'lsp_language_switcher_style_tab_normal',
@@ -521,8 +551,78 @@ class LSP_Widget extends Widget_Base {
             ]
         );
 
+        $this->add_control(
+            'lsp_language_switcher_dropdwon_spacing',
+            [
+                'label' => __('Dropdown Spacing', 'language-switcher-polylang-elementor'),
+                'type' => Controls_Manager::SLIDER,
+                'size_units' => ['px'],
+                'range' => [
+                    'px' => [
+                        'min' => 0,
+                        'max' => 50,
+                        'step' => 1,
+                    ],
+                ],
+                'selectors' => [
+                    '{{WRAPPER}}.lsp-dropdown-direction-down .lsp-wrapper.dropdown ul' => 'margin-top: {{SIZE}}{{UNIT}};',
+                    '{{WRAPPER}}.lsp-dropdown-direction-up .lsp-wrapper.dropdown ul' => 'margin-bottom: {{SIZE}}{{UNIT}};',
+                ]
+            ]
+        );
+
+        $this->add_group_control(
+            \Elementor\Group_Control_Border::get_type(),
+            [
+                'name' => 'lsp_language_switcher_dropdown_list_border',
+                'label' => __('Dropdown List Border', 'language-switcher-polylang-elementor'),
+                'separator' => 'before',
+                'selector' => '{{WRAPPER}} .lsp-main-wrapper .lsp-wrapper.dropdown ul',
+                'fields_options' => [
+                    'border' => [
+                        'label' => __('Dropdown List Border', 'language-switcher-polylang-elementor'),
+                    ],
+                    'width' => [
+                        'label' => __('Border Width', 'language-switcher-polylang-elementor'),
+                    ],
+                    'color' => [
+                        'label' => __('Border Color', 'language-switcher-polylang-elementor'),
+                    ],
+                ],
+            ]
+        );
+
+        $this->add_control(
+            'lsp_language_switcher_dropdown_language_item_separator',
+            [
+                'label' => __('Language Item Separator', 'language-switcher-polylang-elementor'),
+                'type' => Controls_Manager::SLIDER,
+                'size_units' => ['px'],
+                'range' => [
+                    'px' => [
+                        'min' => 0,
+                        'max' => 50,
+                        'step' => 1,
+                    ],
+                ],
+                'selectors' => [
+                    '{{WRAPPER}} .lsp-wrapper.dropdown ul.lsp-language-list li.lsp-lang-item:not(:last-child)' => 'border-bottom: {{SIZE}}{{UNIT}} solid;',
+                ],
+            ]
+        );
+
+        $this->add_control(
+            'lsp_language_switcher_dropdown_language_item_separator_color',
+            [
+                'label' => __('Separator Color', 'language-switcher-polylang-elementor'),
+                'type' => Controls_Manager::COLOR,
+                'selectors' => [
+                    '{{WRAPPER}} .lsp-wrapper.dropdown ul.lsp-language-list li.lsp-lang-item:not(:last-child)' => 'border-bottom-color: {{VALUE}};',
+                ],
+            ]
+        );
         $this->end_controls_section();
-        
+    
     }
     
 	/**

@@ -12,6 +12,10 @@
     padding: 0;
 }
 
+.lsp-main-wrapper .lsp-language-list{
+  overflow: hidden;
+}
+
 /* Base wrapper */
 .lsp-main-wrapper {
     font-family: inherit;
