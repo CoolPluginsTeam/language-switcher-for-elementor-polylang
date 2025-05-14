@@ -49,13 +49,14 @@ class LSP_Widget extends Widget_Base {
                 display: inline-block;
                 width: 25px;
                 height: 25px;
-                background-image: url('.LSP_PLUGIN_URL.'/assets/images/lang_switcher.svg);
+                background-image: url(' . esc_url( LSP_PLUGIN_URL . '/assets/images/lang_switcher.svg' ) . ');
                 background-size: contain;
                 background-repeat: no-repeat;
                 background-position: center;
             }
         </style>';
     }
+    
 
 	/**
 	 * Get widget name.
@@ -701,7 +702,7 @@ class LSP_Widget extends Widget_Base {
             $switcher_html .= '</div>';
         }
         $switcher_html .= '</div>';
-        echo ($switcher_html);
+        echo $switcher_html; // No escaping
     }
 
 	/**
@@ -751,7 +752,7 @@ class LSP_Widget extends Widget_Base {
             $languages_html .= '<li class="lsp-lang-item">';
             $languages_html .= '<a href="' . esc_url($lang['url']) . '">';
             if (!empty($settings['lsp_language_switcher_show_flags']) && $settings['lsp_language_switcher_show_flags'] === 'yes') {
-                $languages_html .= '<div class="lsp-lang-image">' . ($flag_icon) . '</div>';
+                $languages_html .= '<div class="lsp-lang-image">' . $flag_icon . '</div>';
             }
             if (!empty($settings['lsp_language_switcher_show_names']) && $settings['lsp_language_switcher_show_names'] === 'yes') {
                 $languages_html .= '<div class="lsp-lang-name">' . esc_html($lang['name']) . '</div>';
@@ -775,8 +776,9 @@ class LSP_Widget extends Widget_Base {
     public static function get_active_language_html($language, $settings){
         $html = '<span class="lsp-active-language">';
         $html .= '<a href="' . esc_url($language['url']) . '">';
+        $flag_icon = \LSP_HELPERS::get_country_flag($language['flag'], $language['name']);
         if (!empty($settings['lsp_language_switcher_show_flags']) && $settings['lsp_language_switcher_show_flags'] === 'yes') {
-            $html .= '<div class="lsp-lang-image">' . (\LSP_HELPERS::get_country_flag($language['flag'], $language['name'])) . '</div>';
+            $html .= '<div class="lsp-lang-image">' . $flag_icon . '</div>';
         }
         if (!empty($settings['lsp_language_switcher_show_names']) && $settings['lsp_language_switcher_show_names'] === 'yes') {
             $html .= '<div class="lsp-lang-name">' . esc_html($language['name']) . '</div>';
