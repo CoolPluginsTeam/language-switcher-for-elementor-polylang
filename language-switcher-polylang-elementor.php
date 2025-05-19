@@ -16,6 +16,9 @@
 
 namespace LanguageSwitcherPolylangElementor\LSP;
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 /**
  * Define plugin constants
  */

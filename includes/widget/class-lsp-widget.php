@@ -369,7 +369,7 @@ class LSP_Widget extends Widget_Base {
             [
                 'name' => 'lsp_language_switcher_typography',
                 'label' => __('Typography', 'language-switcher-polylang-elementor'),
-                'selector' => '{{WRAPPER}} .lsp-main-wrapper .lsp-wrapper.dropdown .lsp-active-language,{{WRAPPER}} .lsp-main-wrapper .lsp-wrapper.dropdown .lsp-lang-item a, {{WRAPPER}} .lsp-main-wrapper .lsp-wrapper.horizontal .lsp-lang-item a, {{WRAPPER}} .lsp-main-wrapper .lsp-wrapper.vertical .lsp-lang-item a',
+                'selector' => '{{WRAPPER}} .lsp-main-wrapper .lsp-wrapper.dropdown .lsp-active-language a div:not(.lsp-lang-image), {{WRAPPER}} .lsp-main-wrapper .lsp-wrapper.dropdown .lsp-lang-item a, {{WRAPPER}} .lsp-main-wrapper .lsp-wrapper.horizontal .lsp-lang-item a, {{WRAPPER}} .lsp-main-wrapper .lsp-wrapper.vertical .lsp-lang-item a',
             ]
         );
         $this->add_control(

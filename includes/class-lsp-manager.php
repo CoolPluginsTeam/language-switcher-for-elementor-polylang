@@ -8,6 +8,9 @@
 
 namespace LanguageSwitcherManagerPolylangElementor\LSP;
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 /**
  * Class LSPManager
  *
@@ -67,9 +70,29 @@ class LSPManager {
      * @return int Translated template ID.
      */
     public function lsp_translate_template_id($post_id) {
-        $translated_id = pll_get_post($post_id);
-        $this->current_template_id = isset($translated_id) ? $translated_id : $post_id;
-        return $this->current_template_id;
+        // Get the language of the current page
+        $page_lang = pll_get_post_language(get_the_ID());
+        
+        // Get the translated template in current page's language (if exists)
+        $translated_post_id = pll_get_post($post_id, $page_lang);
+    
+        // If translated template exists, use it. Otherwise, fallback to default language template
+        if ($translated_post_id) {
+            $post_id = $translated_post_id;
+        } else {
+            // Fallback: get the template in the default language
+            $default_lang = pll_default_language();
+            $default_template_id = pll_get_post($post_id, $default_lang);
+            
+            if ($default_template_id) {
+                $post_id = $default_template_id;
+            }
+            // Else fallback is original post_id (in case no default exists either)
+        }
+    
+        $this->template_id = $post_id; // Save for later use
+    
+        return $post_id;
     }
 
     /**
@@ -137,10 +160,12 @@ class LSPManager {
      * @param string $taxonomy Taxonomy name.
      */
     public function lsp_update_conditions_on_translation_change($post_id, $terms, $tt_ids, $taxonomy) {
-        if ('post_translations' === $taxonomy && get_post_type($post_id) === 'elementor_library') {
-            $theme_module = \ElementorPro\Plugin::instance()->modules_manager->get_modules('theme-builder');
-            $theme_module->get_conditions_manager()->get_cache()->regenerate();
-        }
+        if ( 'post_translations' === $taxonomy && 'elementor_library' === get_post_type( $post_id ) ) {
+
+			$theme_builder = \ElementorPro\Plugin::instance()->modules_manager->get_modules( 'theme-builder' );
+			$theme_builder->get_conditions_manager()->get_cache()->regenerate();
+
+		}
     }
 
     /**

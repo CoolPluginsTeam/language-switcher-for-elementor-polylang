@@ -23,6 +23,10 @@
     line-height: 1.5;
 }
 
+.lsp-main-wrapper .lsp-wrapper a{
+  text-decoration: none;
+}
+
 .lsp-main-wrapper .lsp-wrapper.horizontal {
   display: flex;
   flex-wrap: wrap;
