@@ -565,6 +565,10 @@ class LSEP_Widget extends Widget_Base {
                         'step' => 1,
                     ],
                 ],
+                'default' => [
+                    'unit' => 'px',
+                    'size' => 0,
+                ],
                 'selectors' => [
                     '{{WRAPPER}}.lsep-dropdown-direction-down .lsep-wrapper.dropdown ul' => 'margin-top: {{SIZE}}{{UNIT}};',
                     '{{WRAPPER}}.lsep-dropdown-direction-up .lsep-wrapper.dropdown ul' => 'margin-bottom: {{SIZE}}{{UNIT}};',
