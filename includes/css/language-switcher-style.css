@@ -1,51 +1,51 @@
-.lsp-main-wrapper{
-  --lsp-flag-radius: 0px;
-  --lsp-flag-ratio: 4/3;
-  --lsp-normal-bg-color: #fff;
-  --lsp-normal-text-color: #000;
+.lsep-main-wrapper{
+  --lsep-flag-radius: 0px;
+  --lsep-flag-ratio: 4/3;
+  --lsep-normal-bg-color: #fff;
+  --lsep-normal-text-color: #000;
 }
 /* General reset */
-.lsp-language-list,
-.lsp-language-list li {
+.lsep-language-list,
+.lsep-language-list li {
     list-style: none;
     margin: 0;
     padding: 0;
 }
 
-.lsp-main-wrapper .lsp-language-list{
+.lsep-main-wrapper .lsep-language-list{
   overflow: hidden;
 }
 
 /* Base wrapper */
-.lsp-main-wrapper {
+.lsep-main-wrapper {
     font-family: inherit;
     font-size: inherit;
     line-height: 1.5;
 }
 
-.lsp-main-wrapper .lsp-wrapper a{
+.lsep-main-wrapper .lsep-wrapper a{
   text-decoration: none;
 }
 
-.lsp-main-wrapper .lsp-wrapper.horizontal {
+.lsep-main-wrapper .lsep-wrapper.horizontal {
   display: flex;
   flex-wrap: wrap;
   overflow: hidden;
 }
 
-.lsp-main-wrapper .lsp-wrapper.vertical {
+.lsep-main-wrapper .lsep-wrapper.vertical {
   display: flex;
   flex-direction: column;
   overflow: hidden;
 }
 
 /* Language switcher container */
-.lsp-wrapper {
+.lsep-wrapper {
     padding: 10px;
 }
 
 /* Language item styling */
-.lsp-lang-item {
+.lsep-lang-item {
     display: flex;
     align-items: center;
     gap: 8px;
@@ -55,26 +55,26 @@
     line-height: 1;
 }
 
-.lsp-wrapper.horizontal .lsp-lang-item a,
-.lsp-wrapper.vertical .lsp-lang-item a{
-  background-color: var(--lsp-normal-bg-color);
+.lsep-wrapper.horizontal .lsep-lang-item a,
+.lsep-wrapper.vertical .lsep-lang-item a{
+  background-color: var(--lsep-normal-bg-color);
 }
 
 
-.lsp-lang-image{
-  aspect-ratio: var(--lsp-flag-ratio);
+.lsep-lang-image{
+  aspect-ratio: var(--lsep-flag-ratio);
 }
 
 /* Flag image styling */
-.lsp-lang-image img {
+.lsep-lang-image img {
     object-fit: cover;
-    border-radius: var(--lsp-flag-radius);
+    border-radius: var(--lsep-flag-radius);
 }
 
 /* Name, code, and flag inline */
-.lsp-lang-image,
-.lsp-lang-name,
-.lsp-lang-code {
+.lsep-lang-image,
+.lsep-lang-name,
+.lsep-lang-code {
     display: inline-block;
     vertical-align: middle;
     flex-shrink: 0;
@@ -82,49 +82,49 @@
 }
 
 /* Link reset */
-.lsp-lang-item a,
-.lsp-active-language a {
+.lsep-lang-item a,
+.lsep-active-language a {
     text-decoration: none;
     display: flex;
     align-items: center;
     gap: 8px;
-    color: var(--lsp-normal-text-color);
+    color: var(--lsep-normal-text-color);
 }
 
 /* Active language button (dropdown trigger) */
-.lsp-active-language {
+.lsep-active-language {
     display: flex;
     align-items: center;
     gap: 8px;
     cursor: pointer;
     padding: 6px 8px;
     border-radius: 4px;
-    color: var(--lsp-normal-text-color);
+    color: var(--lsep-normal-text-color);
 }
 
 /* DROPDOWN STYLING */
-.lsp-wrapper.dropdown {
+.lsep-wrapper.dropdown {
   position: relative;
   display: inline-flex;
   margin: 0 auto;
   padding: 10px 15px;
   cursor: pointer;
   outline: none;
-  background-color: var(--lsp-normal-bg-color);
+  background-color: var(--lsep-normal-bg-color);
   overflow: visible;
   align-items: center;
 }
 
-.lsp-active-language .lsp-dropdown-icon {
+.lsep-active-language .lsep-dropdown-icon {
   transition: transform 0.3s ease;
   display: inline-block;
 }
 
-.lsp-wrapper.dropdown:hover .lsp-dropdown-icon {
+.lsep-wrapper.dropdown:hover .lsep-dropdown-icon {
   transform: rotate(180deg);
 }
 
-.lsp-wrapper.dropdown span a{
+.lsep-wrapper.dropdown span a{
   display: flex;
   flex-wrap: wrap;
   gap: .6rem;
@@ -133,7 +133,7 @@
           align-items: center;
 }
 
-.lsp-wrapper.dropdown ul {
+.lsep-wrapper.dropdown ul {
   position: absolute;
   top: 100%;
   left: 0px;
@@ -151,30 +151,30 @@
   width: 100%;
 }
 
-.lsp-wrapper.dropdown ul li{
+.lsep-wrapper.dropdown ul li{
   text-decoration: none;
-  background: var(--lsp-normal-bg-color);
+  background: var(--lsep-normal-bg-color);
   display: block
 }
-.lsp-wrapper.dropdown li a{
-  color: var(--lsp-normal-text-color);
+.lsep-wrapper.dropdown li a{
+  color: var(--lsep-normal-text-color);
   padding: 5px 15px;
   -webkit-transition: all 0.3s ease-out;
   transition: all 0.3s ease-out;
   white-space: nowrap;
 }
 
-.lsp-dropdown-direction-up .lsp-wrapper.dropdown ul {
+.lsep-dropdown-direction-up .lsep-wrapper.dropdown ul {
   top: auto;
   bottom: 100%;
   justify-content: flex-start;
 }
 
-.lsp-wrapper.dropdown.active::after, .lsp-wrapper.dropdown:hover::after {
+.lsep-wrapper.dropdown.active::after, .lsep-wrapper.dropdown:hover::after {
   border-width: 0 6px 6px 6px;
 }
 
-.lsp-wrapper.dropdown.active ul, .lsp-wrapper.dropdown:hover ul {
+.lsep-wrapper.dropdown.active ul, .lsep-wrapper.dropdown:hover ul {
   opacity: 1;
   pointer-events: auto;
 }

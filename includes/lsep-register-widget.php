@@ -16,11 +16,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * Class LSP_Register_Widget
+ * Class LSEP_Register_Widget
  *
  * Handles the registration of custom Elementor widget.
  */
-class LSP_Register_Widget {
+class LSEP_Register_Widget {
 
 	/**
 	 * Constructor
@@ -28,7 +28,7 @@ class LSP_Register_Widget {
 	 * Initialize the class and set up hooks.
 	 */
 	public function __construct() {
-		add_action( 'elementor/widgets/register', array( $this, 'lsp_register_widgets' ) );
+		add_action( 'elementor/widgets/register', array( $this, 'lsep_register_widgets' ) );
 	}
 
 	/**
@@ -36,11 +36,11 @@ class LSP_Register_Widget {
 	 *
 	 * @return void
 	 */
-	public function lsp_register_widgets() {
-		require_once LSP_PLUGIN_DIR . 'includes/widget/class-lsp-widget.php';
-		\Elementor\Plugin::instance()->widgets_manager->register( new \LanguageSwitcherPolylangElementorWidget\LSP\LSP_Widget() );
+	public function lsep_register_widgets() {
+		require_once LSEP_PLUGIN_DIR . 'includes/widget/class-lsep-widget.php';
+		\Elementor\Plugin::instance()->widgets_manager->register( new \LanguageSwitcherPolylangElementorWidget\LSEP\LSEP_Widget() );
 	}
 }
 
 // Initialize the widget registration
-new LSP_Register_Widget();
+new LSEP_Register_Widget();

@@ -1,4 +1,4 @@
-﻿=== Language Switcher & Translation – Polylang for Elementor ===
+﻿=== Language Switcher for Elementor & Polylang ===
 Contributors: coolplugins, narinder-singh, satinder-singh  
 Tags: elementor, language switcher, polylang, multilingual, languages  
 Requires at least: 5.0  
@@ -8,11 +8,11 @@ Stable tag: 1.0.0
 License: GPLv2 or later  
 License URI: https://www.gnu.org/licenses/gpl-2.0.html  
 
-Language Switcher & Translation – Polylang for Elementor – Easily add a customizable language switcher to your Elementor pages and connect translated Elementor templates using Polylang.
+Easily add a customizable language switcher to your Elementor pages and connect translated Elementor templates using Polylang.
 
 == Description ==
 
-**Language Switcher & Translation – Polylang for Elementor** is a WordPress plugin that helps you add a language switcher to your website and translate Elementor Templates. This plugin connects the Polylang multilingual plugin with Elementor, making it easier to build and manage a multilingual website visually.
+**Language Switcher for Elementor & Polylang** is a WordPress plugin that helps you add a language switcher to your website and translate Elementor Templates. This plugin connects the Polylang multilingual plugin with Elementor, making it easier to build and manage a multilingual website visually.
 
 With this plugin, you can:
 
@@ -23,7 +23,7 @@ With this plugin, you can:
 
 ### Why Use This Plugin?
 
-**Language Switcher & Translation – Polylang for Elementor** provides a seamless integration between Polylang and Elementor. Here's why it’s a must-have for multilingual Elementor websites:
+**Language Switcher for Elementor & Polylang** provides a seamless integration between Polylang and Elementor. Here's why it’s a must-have for multilingual Elementor websites:
 
 ✅ **Language Switcher Widget**  
 ✅ **Translate Elementor Templates Easily**  

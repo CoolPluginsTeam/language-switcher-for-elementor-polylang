@@ -1,1 +1,1 @@
-# language-switcher-polylang-elementor
+# language-switcher-for-elementor-polylang

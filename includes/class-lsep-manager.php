@@ -6,19 +6,19 @@
  * @since 1.0.0
  */
 
-namespace LanguageSwitcherManagerPolylangElementor\LSP;
+namespace LanguageSwitcherManagerPolylangElementor\LSEP;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 /**
- * Class LSPManager
+ * Class LSEPManager
  *
  * Handles the integration between Polylang and Elementor for template translations.
  *
  * @since 1.0.0
  */
-class LSPManager {
+class LSEPManager {
 
     /**
      * Current template ID being processed.
@@ -35,15 +35,15 @@ class LSPManager {
      * @since 1.0.0
      */
     public function __construct() {
-        add_filter('pll_get_post_types', [$this, 'lsp_register_supported_post_types'], 10, 2);
-        add_filter('elementor/theme/get_location_templates/template_id', [$this, 'lsp_translate_template_id']);
-        add_filter('elementor/theme/get_location_templates/condition_sub_id', [$this, 'lsp_translate_condition_sub_id'], 10, 2);
-        add_filter('pre_do_shortcode_tag', [$this, 'lsp_handle_shortcode_translation'], 10, 3);
-        add_action('elementor/frontend/widget/before_render', [$this, 'lsp_translate_widget_template_id']);
-        add_action('elementor/documents/register_controls', [$this, 'lsp_add_language_panel_controls']);
+        add_filter('pll_get_post_types', [$this, 'lsep_register_supported_post_types'], 10, 2);
+        add_filter('elementor/theme/get_location_templates/template_id', [$this, 'lsep_translate_template_id']);
+        add_filter('elementor/theme/get_location_templates/condition_sub_id', [$this, 'lsep_translate_condition_sub_id'], 10, 2);
+        add_filter('pre_do_shortcode_tag', [$this, 'lsep_handle_shortcode_translation'], 10, 3);
+        add_action('elementor/frontend/widget/before_render', [$this, 'lsep_translate_widget_template_id']);
+        add_action('elementor/documents/register_controls', [$this, 'lsep_add_language_panel_controls']);
 
         if (is_plugin_active('elementor-pro/elementor-pro.php')) {
-            add_action('set_object_terms', [$this, 'lsp_update_conditions_on_translation_change'], 10, 4);
+            add_action('set_object_terms', [$this, 'lsep_update_conditions_on_translation_change'], 10, 4);
         }
     }
 
@@ -56,7 +56,7 @@ class LSPManager {
      * @param bool  $is_settings  Whether this is called from settings page.
      * @return array Modified array of post types.
      */
-    public function lsp_register_supported_post_types($types, $is_settings) {
+    public function lsep_register_supported_post_types($types, $is_settings) {
         $custom_post_types = ['elementor_library'];
         return array_merge($types, array_combine($custom_post_types, $custom_post_types));
     }
@@ -69,7 +69,7 @@ class LSPManager {
      * @param int $post_id The template post ID.
      * @return int Translated template ID.
      */
-    public function lsp_translate_template_id($post_id) {
+    public function lsep_translate_template_id($post_id) {
         // Get the language of the current page
         $page_lang = pll_get_post_language(get_the_ID());
         
@@ -104,7 +104,7 @@ class LSPManager {
      * @param array $condition  The condition data.
      * @return int Translated sub ID.
      */
-    public function lsp_translate_condition_sub_id($sub_id, $condition) {
+    public function lsep_translate_condition_sub_id($sub_id, $condition) {
         if (!$sub_id) {
             return $sub_id;
         }
@@ -133,7 +133,7 @@ class LSPManager {
      * @param array  $attrs  Shortcode attributes.
      * @return string|bool Processed shortcode or false.
      */
-    public function lsp_handle_shortcode_translation($false, $tag, $attrs) {
+    public function lsep_handle_shortcode_translation($false, $tag, $attrs) {
         if ('elementor-template' !== $tag || isset($attrs['skip'])) {
             return $false;
         }
@@ -159,7 +159,7 @@ class LSPManager {
      * @param array  $tt_ids   Term taxonomy IDs.
      * @param string $taxonomy Taxonomy name.
      */
-    public function lsp_update_conditions_on_translation_change($post_id, $terms, $tt_ids, $taxonomy) {
+    public function lsep_update_conditions_on_translation_change($post_id, $terms, $tt_ids, $taxonomy) {
         if ( 'post_translations' === $taxonomy && 'elementor_library' === get_post_type( $post_id ) ) {
 
 			$theme_builder = \ElementorPro\Plugin::instance()->modules_manager->get_modules( 'theme-builder' );
@@ -175,7 +175,7 @@ class LSPManager {
      *
      * @param \Elementor\Element_Base $element Element instance.
      */
-    public function lsp_translate_widget_template_id($element) {
+    public function lsep_translate_widget_template_id($element) {
         if ('template' !== $element->get_name()) {
             return;
         }
@@ -191,12 +191,12 @@ class LSPManager {
      *
      * @param \Elementor\Core\Base\Document $document Document instance.
      */
-    public function lsp_add_language_panel_controls($document) {
+    public function lsep_add_language_panel_controls($document) {
         if (!method_exists($document, 'get_main_id')) {
             return;
         }
 
-        require_once LSP_PLUGIN_DIR . 'helpers/class-lsp-helpers.php';
+        require_once LSEP_PLUGIN_DIR . 'helpers/class-lsep-helpers.php';
 
         $post_id = $document->get_main_id();
         $languages = pll_languages_list(['fields' => '']);
@@ -204,9 +204,9 @@ class LSPManager {
         $current_lang_name = pll_get_post_language($post_id, 'name');
 
         $document->start_controls_section(
-            'lsp_language_panel_controls',
+            'lsep_language_panel_controls',
             [
-                'label' => esc_html__('Translations', 'language-switcher-polylang-elementor'),
+                'label' => esc_html__('Translations', 'language-switcher-for-elementor-polylang'),
                 'tab'   => \Elementor\Controls_Manager::TAB_SETTINGS,
             ]
         );
@@ -222,7 +222,7 @@ class LSPManager {
                 }
 
                 $document->add_control(
-                    "lsp_elementor_edit_lang_{$lang_slug}",
+                    "lsep_elementor_edit_lang_{$lang_slug}",
                     [
                         'type'            => \Elementor\Controls_Manager::RAW_HTML,
                         'raw'             => sprintf(
@@ -243,7 +243,7 @@ class LSPManager {
                 ], admin_url('post-new.php'));
 
                 $document->add_control(
-                    "lsp_elementor_add_lang_{$lang_slug}",
+                    "lsep_elementor_add_lang_{$lang_slug}",
                     [
                         'type'            => \Elementor\Controls_Manager::RAW_HTML,
                         'raw'             => sprintf(
@@ -251,7 +251,7 @@ class LSPManager {
                             esc_url($create_link),
                             sprintf(
                                 /* translators: %s: Language name */
-                                __('Add translation — %s', 'language-switcher-polylang-elementor'),
+                                __('Add translation — %s', 'language-switcher-for-elementor-polylang'),
                                 esc_html($lang->name)
                             )
                         ),
@@ -266,4 +266,4 @@ class LSPManager {
 }
 
 // Initialize the plugin
-new LSPManager();
+new LSEPManager();

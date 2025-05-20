@@ -1,20 +1,20 @@
 <?php
 /**
- * Plugin Name: Language Switcher & Translation – Polylang for Elementor
+ * Plugin Name: Language Switcher for Elementor & Polylang
  * Plugin URI:
- * Description: Language Switcher & Translation – Polylang for Elementor to use language switcher in your page or Elementor header menu
+ * Description: Language Switcher for Elementor & Polylang to use language switcher in your page or Elementor header menu
  * Version:     1.0.0
  * Author:      Coolplugins
  * Author URI:  http://coolplugins.net/
  * License:     GPL2
  * License URI: https://www.gnu.org/licenses/gpl-2.0.html
- * Text Domain: language-switcher-polylang-elementor
+ * Text Domain: language-switcher-for-elementor-polylang
  * Domain Path: /languages
  *
  * @package LanguageSwitcherPolylangElementor
  */
 
-namespace LanguageSwitcherPolylangElementor\LSP;
+namespace LanguageSwitcherPolylangElementor\LSEP;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -22,18 +22,18 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * Define plugin constants
  */
-define( 'LSP_VERSION', '1.0.0' );
-define( 'LSP_PLUGIN_NAME', 'language-switcher-polylang-elementor' );
-define( 'LSP_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
-define( 'LSP_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
+define( 'LSEP_VERSION', '1.0.0' );
+define( 'LSEP_PLUGIN_NAME', 'language-switcher-for-elementor-polylang' );
+define( 'LSEP_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
+define( 'LSEP_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
 
-if ( ! class_exists( 'LSP_LanguageSwitcher' ) ) {
+if ( ! class_exists( 'LSEP_LanguageSwitcher' ) ) {
     /**
      * Main plugin class
      *
      * @since 1.0.0
      */
-    class LSP_LanguageSwitcher {
+    class LSEP_LanguageSwitcher {
         /**
          * Instance of this class
          *
@@ -45,8 +45,8 @@ if ( ! class_exists( 'LSP_LanguageSwitcher' ) ) {
          * Constructor
          */
         public function __construct() {
-            add_action( 'plugins_loaded', array( $this, 'lsp_init' ) );
-            add_action( 'init', array( $this, 'lsp_load_textdomain' ) );
+            add_action( 'plugins_loaded', array( $this, 'lsep_init' ) );
+            add_action( 'init', array( $this, 'lsep_load_textdomain' ) );
         }
 
         /**
@@ -54,8 +54,8 @@ if ( ! class_exists( 'LSP_LanguageSwitcher' ) ) {
          *
          * @since 1.0.0
          */
-        public function lsp_load_textdomain() {
-            load_plugin_textdomain( 'language-switcher-polylang-elementor', false, basename( dirname( __FILE__ ) ) . '/languages' );
+        public function lsep_load_textdomain() {
+            load_plugin_textdomain( 'language-switcher-for-elementor-polylang', false, basename( dirname( __FILE__ ) ) . '/languages' );
         }
 
         /**
@@ -63,16 +63,16 @@ if ( ! class_exists( 'LSP_LanguageSwitcher' ) ) {
          *
          * @since 1.0.0
          */
-        public function lsp_init() {
+        public function lsep_init() {
             global $polylang;
             if ( ! isset( $polylang ) ) {
-                add_action( 'admin_notices', array( $this, 'lsp_required_plugins_admin_notice' ) );
+                add_action( 'admin_notices', array( $this, 'lsep_required_plugins_admin_notice' ) );
             }
             if ( ! is_plugin_active( 'elementor/elementor.php' ) ) {
-                add_action( 'admin_notices', array( $this, 'lsp_elementor_required_admin_notice' ) );
+                add_action( 'admin_notices', array( $this, 'lsep_elementor_required_admin_notice' ) );
             }
-            require_once LSP_PLUGIN_DIR . 'includes/class-lsp-manager.php';
-            require_once LSP_PLUGIN_DIR . 'includes/lsp-register-widget.php';
+            require_once LSEP_PLUGIN_DIR . 'includes/class-lsep-manager.php';
+            require_once LSEP_PLUGIN_DIR . 'includes/lsep-register-widget.php';
         }
 
         /**
@@ -80,7 +80,7 @@ if ( ! class_exists( 'LSP_LanguageSwitcher' ) ) {
          *
          * @since 1.0.0
          */
-        public function lsp_required_plugins_admin_notice() {
+        public function lsep_required_plugins_admin_notice() {
             if ( ! current_user_can( 'activate_plugins' ) ) {
                 return;
             }
@@ -101,7 +101,7 @@ if ( ! class_exists( 'LSP_LanguageSwitcher' ) ) {
                 '<div class="error"><p>%s</p></div>',
                 sprintf(
                     /* translators: 1: Plugin name, 2: Plugin name */
-                    esc_html__( 'In order to use %1$s plugin, please install and activate the latest version of %2$s', 'language-switcher-polylang-elementor' ),
+                    esc_html__( 'In order to use %1$s plugin, please install and activate the latest version of %2$s', 'language-switcher-for-elementor-polylang' ),
                     wp_kses( '<strong>' . esc_html( $plugin_info['Name'] ) . '</strong>', $allowed_html ),
                     wp_kses( '<a href="' . esc_url( $url ) . '" class="thickbox" title="' . esc_attr( $title ) . '">' . esc_html( $title ) . '</a>', $allowed_html )
                 )
@@ -113,7 +113,7 @@ if ( ! class_exists( 'LSP_LanguageSwitcher' ) ) {
          *
          * @since 1.0.0
          */
-        public function lsp_elementor_required_admin_notice() {
+        public function lsep_elementor_required_admin_notice() {
             if ( ! current_user_can( 'activate_plugins' ) ) {
                 return;
             }
@@ -134,7 +134,7 @@ if ( ! class_exists( 'LSP_LanguageSwitcher' ) ) {
                 '<div class="error"><p>%s</p></div>',
                 sprintf(
                     /* translators: 1: Plugin name, 2: Plugin name */
-                    esc_html__( 'In order to use %1$s plugin, please install and activate the latest version of %2$s', 'language-switcher-polylang-elementor' ),
+                    esc_html__( 'In order to use %1$s plugin, please install and activate the latest version of %2$s', 'language-switcher-for-elementor-polylang' ),
                     wp_kses( '<strong>' . esc_html( $plugin_info['Name'] ) . '</strong>', $allowed_html ),
                     wp_kses( '<a href="' . esc_url( $url ) . '" class="thickbox" title="' . esc_attr( $title ) . '">' . esc_html( $title ) . '</a>', $allowed_html )
                 )
@@ -156,5 +156,5 @@ if ( ! class_exists( 'LSP_LanguageSwitcher' ) ) {
     }
 
     // Initialize the plugin
-    LSP_LanguageSwitcher::get_instance();
+    LSEP_LanguageSwitcher::get_instance();
 }

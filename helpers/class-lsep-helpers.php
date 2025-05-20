@@ -11,13 +11,13 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * Class LSP_HELPERS
+ * Class LSEP_HELPERS
  *
  * Helper functions for Language Switcher Polylang Elementor plugin.
  *
  * @since 1.0.0
  */
-class LSP_HELPERS {
+class LSEP_HELPERS {
 
 	/**
 	 * Extract flag code from flag URL.
@@ -46,8 +46,8 @@ class LSP_HELPERS {
 		$flag         = array();
 
 		if ( $country_code && class_exists( 'PLL_Language' ) && method_exists( 'PLL_Language', 'get_flag_html' ) ) {
-			$flag['path'] = LSP_PLUGIN_DIR . 'assets/flags/' . esc_html( $country_code ) . '.svg';
-			$flag['url']  = esc_url( LSP_PLUGIN_URL . 'assets/flags/' . esc_html( $country_code ) . '.svg' );
+			$flag['path'] = LSEP_PLUGIN_DIR . 'assets/flags/' . esc_html( $country_code ) . '.svg';
+			$flag['url']  = esc_url( LSEP_PLUGIN_URL . 'assets/flags/' . esc_html( $country_code ) . '.svg' );
 			$flag['src'] = $flag['url'];
 			$flag_html = \PLL_Language::get_flag_html( $flag, '', $lang );
 			return $flag_html;
