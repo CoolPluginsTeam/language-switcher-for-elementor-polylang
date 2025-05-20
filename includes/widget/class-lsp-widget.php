@@ -702,7 +702,7 @@ class LSP_Widget extends Widget_Base {
             $switcher_html .= '</div>';
         }
         $switcher_html .= '</div>';
-        echo $switcher_html;
+        echo wp_kses_post($switcher_html);
     }
 
 	/**
