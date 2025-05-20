@@ -35,6 +35,15 @@ class LSEPManager {
      * @since 1.0.0
      */
     public function __construct() {
+        // Check if Polylang is active
+        global $polylang;
+        if ( ! isset( $polylang ) ) {
+            return;
+        }
+
+        if(! is_plugin_active( 'elementor/elementor.php' )){
+            return;
+        }
         add_filter('pll_get_post_types', [$this, 'lsep_register_supported_post_types'], 10, 2);
         add_filter('elementor/theme/get_location_templates/template_id', [$this, 'lsep_translate_template_id']);
         add_filter('elementor/theme/get_location_templates/condition_sub_id', [$this, 'lsep_translate_condition_sub_id'], 10, 2);

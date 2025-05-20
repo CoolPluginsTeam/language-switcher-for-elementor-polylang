@@ -28,6 +28,15 @@ class LSEP_Register_Widget {
 	 * Initialize the class and set up hooks.
 	 */
 	public function __construct() {
+		// Check if Elementor is active
+		global $polylang;
+        if ( ! isset( $polylang ) ) {
+            return;
+        }
+
+        if(! is_plugin_active( 'elementor/elementor.php' )){
+            return;
+        }
 		add_action( 'elementor/widgets/register', array( $this, 'lsep_register_widgets' ) );
 	}
 
