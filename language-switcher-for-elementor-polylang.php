@@ -48,6 +48,8 @@ if ( ! class_exists( 'LSEP_LanguageSwitcher' ) ) {
             register_activation_hook( __FILE__, array( $this, 'lsep_activate' ) );
             add_action( 'plugins_loaded', array( $this, 'lsep_init' ) );
             add_action( 'init', array( $this, 'lsep_load_textdomain' ) );
+            add_action( 'admin_init', array( $this, 'lsep_redirect_to_settings' ) );
+            add_filter( 'plugin_action_links_' . plugin_basename( __FILE__ ), array( $this, 'lsep_settings_page' ) );
         }
 
         /**
@@ -60,10 +62,42 @@ if ( ! class_exists( 'LSEP_LanguageSwitcher' ) ) {
 			update_option( 'lsep-type', 'FREE' );
 			update_option( 'lsep-installDate', gmdate( 'Y-m-d h:i:s' ) );
 			update_option( 'lsep-ratingDiv', 'no' );
+            update_option( 'lsep_plugin_activation_redirect', true );
 			if (!get_option( 'lsep_initial_save_version' ) ) {
                 add_option( 'lsep_initial_save_version', LSEP_VERSION );
             }
 		}
+
+        /**
+         * Redirect to settings page on plugin activation.
+         *
+         * @since 1.0.0
+         */
+        public function lsep_redirect_to_settings() {
+            global $polylang;
+            if ( ! isset( $polylang ) ) {
+                return;
+            }
+
+            if(! is_plugin_active( 'elementor/elementor.php' )){
+                return;
+            }
+            if ( get_option( 'lsep_plugin_activation_redirect', false ) ) {
+                delete_option( 'lsep_plugin_activation_redirect' );
+                wp_redirect( admin_url( 'admin.php?page=lsep-get-started' ) );
+                exit;
+            }
+        }
+
+        /**
+         * Description  Add links in plugin list page
+         *
+         * @param array $links  The Links you want to add.
+         */
+        public function lsep_settings_page( $links ) {
+            $links[] = '<a style="font-weight:bold" href="' . esc_url( admin_url( 'admin.php?page=lsep-get-started' ) ) . '">' . __( 'Get Started', 'language-switcher-for-elementor-polylang' ) . '</a>';
+            return $links;
+        }
 
         /**
          * Load plugin text domain
@@ -89,14 +123,14 @@ if ( ! class_exists( 'LSEP_LanguageSwitcher' ) ) {
             }
             require_once LSEP_PLUGIN_DIR . 'includes/class-lsep-manager.php';
             require_once LSEP_PLUGIN_DIR . 'includes/lsep-register-widget.php';
+            require_once LSEP_PLUGIN_DIR . 'admin/dashboard/lsep-dashboard.php';
 
             if ( is_admin() && !defined( LSEP_VERSION ) ) {
-				/** Feedback form after deactivation */
-				require_once __DIR__ . '/admin/feedback/admin-feedback-form.php';
-				/*** Plugin review notice file */
-				require_once __DIR__ . '/admin/lsep-feedback-notice.php';
-				// new LSEPFeedbackNotice();
-			}
+                /** Feedback form after deactivation */
+                require_once __DIR__ . '/admin/feedback/admin-feedback-form.php';
+                /*** Plugin review notice file */
+                require_once __DIR__ . '/admin/lsep-feedback-notice.php';
+            }
         }
 
         /**
