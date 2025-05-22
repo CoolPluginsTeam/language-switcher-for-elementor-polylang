@@ -42,12 +42,28 @@ if ( ! class_exists( 'LSEP_LanguageSwitcher' ) ) {
         public static $instance;
 
         /**
-         * Constructor
+         * Constructor  
          */
         public function __construct() {
+            register_activation_hook( __FILE__, array( $this, 'lsep_activate' ) );
             add_action( 'plugins_loaded', array( $this, 'lsep_init' ) );
             add_action( 'init', array( $this, 'lsep_load_textdomain' ) );
         }
+
+        /**
+         * Set settings on plugin activation.
+         *
+         * @since 1.0.0
+         */
+        public function lsep_activate() {
+			update_option( 'lsep-v', LSEP_VERSION );
+			update_option( 'lsep-type', 'FREE' );
+			update_option( 'lsep-installDate', gmdate( 'Y-m-d h:i:s' ) );
+			update_option( 'lsep-ratingDiv', 'no' );
+			if (!get_option( 'lsep_initial_save_version' ) ) {
+                add_option( 'lsep_initial_save_version', LSEP_VERSION );
+            }
+		}
 
         /**
          * Load plugin text domain
@@ -73,6 +89,14 @@ if ( ! class_exists( 'LSEP_LanguageSwitcher' ) ) {
             }
             require_once LSEP_PLUGIN_DIR . 'includes/class-lsep-manager.php';
             require_once LSEP_PLUGIN_DIR . 'includes/lsep-register-widget.php';
+
+            if ( is_admin() && !defined( LSEP_VERSION ) ) {
+				/** Feedback form after deactivation */
+				require_once __DIR__ . '/admin/feedback/admin-feedback-form.php';
+				/*** Plugin review notice file */
+				require_once __DIR__ . '/admin/lsep-feedback-notice.php';
+				// new LSEPFeedbackNotice();
+			}
         }
 
         /**
