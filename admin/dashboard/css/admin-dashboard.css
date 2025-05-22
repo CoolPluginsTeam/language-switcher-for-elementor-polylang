@@ -1,11 +1,11 @@
-.tab-pane {
+.lsep-tab-pane {
     display: none;
     padding: 20px 0;
 }
-.tab-pane.active {
+.lsep-tab-pane.active {
     display: block;
 }
-.nav-tab-wrapper {
+.lsep-nav-tab-wrapper {
     margin-bottom: 20px;
 }
 .lsep-get-started-content,

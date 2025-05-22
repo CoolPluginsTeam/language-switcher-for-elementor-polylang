@@ -24,7 +24,6 @@ class LSEP_Get_Started {
      */
     public function __construct() {
         add_action('admin_menu', array($this, 'lsep_add_get_started_page'), 100);
-        wp_enqueue_script( 'lsep-dashboard-script', plugin_dir_url( __FILE__ ) . '/js/admin-dashboard.js', array( 'jquery' ), LSEP_VERSION );
 		wp_enqueue_style( 'lsep-dashboard-style', plugin_dir_url( __FILE__ ) . '/css/admin-dashboard.css', null, LSEP_VERSION );
     }
 
@@ -52,12 +51,10 @@ class LSEP_Get_Started {
             
             <h2 class="nav-tab-wrapper">
                 <a href="#getting-started" class="nav-tab nav-tab-active"><?php echo esc_html__('Getting Started', 'language-switcher-for-elementor-polylang'); ?></a>
-                <a href="#features" class="nav-tab"><?php echo esc_html__('Features', 'language-switcher-for-elementor-polylang'); ?></a>
-                <a href="#support" class="nav-tab"><?php echo esc_html__('Support', 'language-switcher-for-elementor-polylang'); ?></a>
             </h2>
 
-            <div class="tab-content">
-                <div id="getting-started" class="tab-pane active">
+            <div class="lsep-tab-content">
+                <div id="getting-started" class="lsep-tab-pane active">
                     <div class="lsep-get-started-content">
                         <h3><?php echo esc_html__('Quick Start Guide', 'language-switcher-for-elementor-polylang'); ?></h3>
                         <p><?php echo esc_html__('Thank you for installing Language Switcher for Elementor & Polylang. This plugin allows you to add a language switcher to your Elementor pages and menus.', 'language-switcher-for-elementor-polylang'); ?></p>
@@ -69,30 +66,6 @@ class LSEP_Get_Started {
                             <li><?php echo esc_html__('Search for "Language Switcher" in the Elementor modules panel', 'language-switcher-for-elementor-polylang'); ?></li>
                             <li><?php echo esc_html__('Drag and drop the widget where you want to display the language switcher', 'language-switcher-for-divi-polylang'); ?></li>
                         </ol>
-                    </div>
-                </div>
-
-                <div id="features" class="tab-pane">
-                    <div class="lsep-features-content">
-                        <h3><?php echo esc_html__('Key Features', 'language-switcher-for-elementor-polylang'); ?></h3>
-                        <ul>
-                            <li><?php echo esc_html__('Easy integration with Elementor Builder', 'language-switcher-for-elementor-polylang'); ?></li>
-                            <li><?php echo esc_html__('Customizable language switcher design', 'language-switcher-for-elementor-polylang'); ?></li>
-                            <li><?php echo esc_html__('Support for all Polylang languages', 'language-switcher-for-elementor-polylang'); ?></li>
-                            <li><?php echo esc_html__('Mobile-friendly responsive design', 'language-switcher-for-elementor-polylang'); ?></li>
-                        </ul>
-                    </div>
-                </div>
-
-                <div id="support" class="tab-pane">
-                    <div class="lsep-support-content">
-                        <h3><?php echo esc_html__('Need Help?', 'language-switcher-for-elementor-polylang'); ?></h3>
-                        <p><?php echo esc_html__('If you need any assistance or have questions about the plugin, please:', 'language-switcher-for-elementor-polylang'); ?></p>
-                        <ul>
-                            <li><?php echo esc_html__('Check our documentation', 'language-switcher-for-elementor-polylang'); ?></li>
-                            <li><?php echo esc_html__('Visit our support forum', 'language-switcher-for-elementor-polylang'); ?></li>
-                            <li><?php echo esc_html__('Contact our support team', 'language-switcher-for-elementor-polylang'); ?></li>
-                        </ul>
                     </div>
                 </div>
             </div>
