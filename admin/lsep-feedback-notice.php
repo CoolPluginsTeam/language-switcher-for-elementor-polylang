@@ -63,9 +63,9 @@ if ( ! class_exists( 'LSEPFeedbackNotice' ) ) {
 			$img_path           = LSEP_PLUGIN_URL . 'assets/images/lsep-icon.png';
 			$p_name             = 'Language Switcher for Elementor & Polylang';
 			$like_it_text       = 'Rate Now! ★★★★★';
-			$already_rated_text = esc_html__( 'I already rated it', 'LSEP' );
-			$not_interested     = esc_html__( 'Not Interested', 'LSEP' );
-			$not_like_it_text   = esc_html__( 'No, not good enough, i do not like to rate it!', 'LSEP' );
+			$already_rated_text = esc_html__( 'I already rated it', 'language-switcher-for-elementor-polylang' );
+			$not_interested     = esc_html__( 'Not Interested', 'language-switcher-for-elementor-polylang' );
+			$not_like_it_text   = esc_html__( 'No, not good enough, i do not like to rate it!', 'language-switcher-for-elementor-polylang' );
 			$p_link             = esc_url( 'https://wordpress.org/support/plugin/language-switcher-for-elementor-polylang/reviews/#new-post' );
 			$pro_url            = esc_url( 'https://1.envato.market/calendar' );
 
