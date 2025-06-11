@@ -221,7 +221,10 @@ class lsep_feedback {
 			$plugin_initial =  get_option( 'lsep_initial_save_version' );
 			$sanitized_message = sanitize_text_field( $_POST['message'] ) == '' ? 'N/A' : sanitize_text_field( $_POST['message'] );
 			$admin_email       = sanitize_email( get_option( 'admin_email' ) );
-			$site_url          = esc_url( site_url() );
+			$site_url          = get_site_url();
+			$install_date      = get_option( 'lsep_install_date' );
+			$uni_id            = '40';
+			$site_id           = $site_url . '-' . $install_date . '-' . $uni_id;
 			$response          = wp_remote_post(
 				$this->feedback_url,
 				array(
@@ -236,6 +239,7 @@ class lsep_feedback {
                         'review'         => $sanitized_message,
                         'email'          => $admin_email,
                         'domain'         => $site_url,
+						'site_id'        => md5($site_id),
                     ),
                 )
 			);

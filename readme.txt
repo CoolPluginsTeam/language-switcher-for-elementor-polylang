@@ -4,7 +4,7 @@ Tags: elementor, language switcher, polylang, multilingual, languages
 Requires at least: 5.0  
 Tested up to: 6.8  
 Requires PHP: 7.2  
-Stable tag: 1.0.0  
+Stable tag: 1.1.0  
 License: GPLv2 or later  
 License URI: https://www.gnu.org/licenses/gpl-2.0.html  
 
@@ -65,6 +65,10 @@ With this plugin, you can:
 3. Drag and drop the **Language Switcher** widget into your desired section (body, footer, header, sidebar, etc.).
 4. Customize its layout, elements, and translation control settings.
 
+ == Screenshots == 
+1. Language Switcher Widget preview.
+2. Language Switcher Widget Settings.
+
 == Frequently Asked Questions ==
 
 = Where can I place the language switcher on my site? =  
@@ -77,6 +81,16 @@ You can choose from three layout styles: Dropdown, Horizontal, and Vertical.
 Yes, the plugin works with both the free and Pro versions of Polylang.
 
 == Changelog ==
+<strong>Version 1.1.0 | 10 June 2025</strong>
+<pre>
+Fixed: Minor issues.
+</pre>
+
+<strong>Version 1.0.1 | 29 May 2025</strong>
+<pre>
+Fixed: Minor issues.
+</pre>
+
 <strong>Version 1.0.0 | 05 May 2025</strong>
 <pre>
 New: Initial plugin release.

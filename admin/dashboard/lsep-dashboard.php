@@ -5,7 +5,7 @@
  * @package LanguageSwitcherPolylangElementor
  */
 
-namespace LanguageSwitcherPolylangElementor\Admin;
+namespace LSEP\LanguageSwitcherPolylangElementor\Admin;
 
 if (!defined('ABSPATH')) {
     exit;

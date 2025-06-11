@@ -6,7 +6,7 @@
  * @since 1.0.0
  */
 
-namespace LanguageSwitcherPolylangElementorWidget\LSEP;
+namespace LSEP\LanguageSwitcherPolylangElementorWidget;
 use Elementor\Controls_Manager;
 use Elementor\Group_Control_Typography;
 use Elementor\Scheme_Typography;
@@ -34,28 +34,37 @@ class LSEP_Widget extends Widget_Base {
 	 * @param array $data Widget data.
 	 * @param array $args Widget arguments.
 	 */
-    public function __construct($data = [], $args = null) {
-        parent::__construct($data, $args);
-        add_action('elementor/editor/after_enqueue_scripts', array( $this,'language_switcher_icon_css'));
-        wp_register_style('lsep-style', LSEP_PLUGIN_URL . '/includes/css/language-switcher-style.css', [], LSEP_VERSION);
-    }
+   public function __construct($data = [], $args = null) {
+    parent::__construct($data, $args);
 
-    /**
-     * Add custom CSS for the widget icon.
-     */
-    function language_switcher_icon_css() {
-        echo '<style>
-            .lsep-widget-icon {
-                display: inline-block;
-                width: 25px;
-                height: 25px;
-                background-image: url(' . esc_url( LSEP_PLUGIN_URL . '/assets/images/lang_switcher.svg' ) . ');
-                background-size: contain;
-                background-repeat: no-repeat;
-                background-position: center;
-            }
-        </style>';
-    }
+    wp_register_style(
+        'lsep-style',
+        LSEP_PLUGIN_URL . '/includes/css/language-switcher-style.css',
+        [],
+        LSEP_VERSION
+    );
+
+    add_action('elementor/editor/after_enqueue_scripts', array($this, 'lsep_language_switcher_icon_css'));
+}
+
+public function lsep_language_switcher_icon_css() {
+    wp_enqueue_style('lsep-style');
+
+    $inline_css = "
+        .lsep-widget-icon {
+            display: inline-block;
+            width: 25px;
+            height: 25px;
+            background-image: url('" . esc_url(LSEP_PLUGIN_URL . '/assets/images/lang_switcher.svg') . "');
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+        }
+    ";
+
+    wp_add_inline_style('lsep-style', $inline_css);
+}
+
     
 
 	/**
@@ -740,7 +749,7 @@ class LSEP_Widget extends Widget_Base {
             return '';
         }
         
-        $active_html = self::get_active_language_html($active_language, $settings);
+        $active_html = self::lsep_get_active_language_html($active_language, $settings);
         $languages_html = '';
         
         foreach ($languages as $lang) {
@@ -777,7 +786,7 @@ class LSEP_Widget extends Widget_Base {
 	 * @param array  $settings Widget settings.
 	 * @return string HTML output.
 	 */
-    public static function get_active_language_html($language, $settings){
+    public static function lsep_get_active_language_html($language, $settings){
         $html = '<span class="lsep-active-language">';
         $html .= '<a href="' . esc_url($language['url']) . '">';
         $flag_icon = \LSEP_HELPERS::get_country_flag($language['flag'], $language['name']);

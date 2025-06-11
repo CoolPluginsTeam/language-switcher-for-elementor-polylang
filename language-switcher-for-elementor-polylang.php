@@ -16,7 +16,7 @@
  * @package LanguageSwitcherPolylangElementor
  */
 
-namespace LanguageSwitcherPolylangElementor\LSEP;
+namespace LSEP\LanguageSwitcherPolylangElementor;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -66,6 +66,9 @@ if ( ! class_exists( 'LSEP_LanguageSwitcher' ) ) {
             update_option( 'lsep_plugin_activation_redirect', true );
 			if (!get_option( 'lsep_initial_save_version' ) ) {
                 add_option( 'lsep_initial_save_version', LSEP_VERSION );
+            }
+            if(!get_option( 'lsep_install_date' ) ) {
+                add_option( 'lsep_install_date', gmdate('Y-m-d h:i:s') );
             }
 		}
 
