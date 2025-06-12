@@ -46,7 +46,7 @@ class LSEP_Register_Widget {
 	 * @return void
 	 */
 	public function lsep_register_widgets() {
-		require_once LSEP_PLUGIN_DIR . 'includes/widget/class-lsep-widget.php';
+		require_once LSEP_PLUGIN_DIR . 'includes/widget/lsep-widget.php';
 		\Elementor\Plugin::instance()->widgets_manager->register( new LSEP\LanguageSwitcherPolylangElementorWidget\LSEP_Widget() );
 	}
 }

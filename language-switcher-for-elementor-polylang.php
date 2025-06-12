@@ -109,7 +109,7 @@ if ( ! class_exists( 'LSEP_LanguageSwitcher' ) ) {
          * @since 1.0.0
          */
         public function lsep_init() {
-            require_once LSEP_PLUGIN_DIR . 'includes/class-lsep-manager.php';
+            require_once LSEP_PLUGIN_DIR . 'includes/lsep-manager.php';
             require_once LSEP_PLUGIN_DIR . 'includes/lsep-register-widget.php';
             require_once LSEP_PLUGIN_DIR . 'admin/dashboard/lsep-dashboard.php';
 

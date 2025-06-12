@@ -646,12 +646,13 @@ public function lsep_language_switcher_icon_css() {
 	 * @return array Localized data.
 	 */
     public function lsep_localize_polyglang_data( $data ) {
+        // Get the global Polylang object
         global $polylang;
         $lsep_polylang = $polylang;
         $data = [];
         if ( isset( $lsep_polylang ) ) {
                 try {
-                    require_once LSEP_PLUGIN_DIR . 'helpers/class-lsep-helpers.php';
+                    require_once LSEP_PLUGIN_DIR . 'helpers/lsep-helpers.php';
                     if ( function_exists( 'pll_the_languages' ) && function_exists( 'pll_current_language' ) ) {
                         $languages = pll_the_languages( array( 'raw' => 1 ) );
                         if ( empty( $languages ) ) {
@@ -661,7 +662,7 @@ public function lsep_language_switcher_icon_css() {
                         $languages = array_map(
                             function( $language ) {
                                 return $language['name'] = array(
-                                    'flagCode'       => esc_html( \LSEP_HELPERS::get_flag_code( $language['flag'] ) ),
+                                    'flagCode'       => esc_html( \LSEP_HELPERS::lsep_get_flag_code( $language['flag'] ) ),
                                     'slug'           => esc_html( $language['slug'] ),
                                     'name'           => esc_html( $language['name'] ),
                                     'no_translation' => esc_html( $language['no_translation'] ),
@@ -760,7 +761,7 @@ public function lsep_language_switcher_icon_css() {
                 continue;
             }
 
-            $flag_icon = \LSEP_HELPERS::get_country_flag($lang['flag'], $lang['name']);
+            $flag_icon = \LSEP_HELPERS::lsep_get_country_flag($lang['flag'], $lang['name']);
 
             $languages_html .= '<li class="lsep-lang-item">';
             $languages_html .= '<a href="' . esc_url($lang['url']) . '">';
@@ -789,7 +790,7 @@ public function lsep_language_switcher_icon_css() {
     public static function lsep_get_active_language_html($language, $settings){
         $html = '<span class="lsep-active-language">';
         $html .= '<a href="' . esc_url($language['url']) . '">';
-        $flag_icon = \LSEP_HELPERS::get_country_flag($language['flag'], $language['name']);
+        $flag_icon = \LSEP_HELPERS::lsep_get_country_flag($language['flag'], $language['name']);
         if (!empty($settings['lsep_language_switcher_show_flags']) && $settings['lsep_language_switcher_show_flags'] === 'yes') {
             $html .= '<div class="lsep-lang-image">' . $flag_icon . '</div>';
         }
@@ -823,7 +824,7 @@ public function lsep_language_switcher_icon_css() {
                 continue;
             }
 
-            $flag_icon = \LSEP_HELPERS::get_country_flag($lang['flag'], $lang['name']);
+            $flag_icon = \LSEP_HELPERS::lsep_get_country_flag($lang['flag'], $lang['name']);
             $anchor_open = '<a href="' . esc_url($lang['url']) . '">';
             $anchor_close = '</a>';
 
