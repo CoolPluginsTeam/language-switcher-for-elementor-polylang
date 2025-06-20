@@ -61,8 +61,6 @@ if ( ! class_exists( 'LSEP_LanguageSwitcher' ) ) {
         public function lsep_activate() {
 			update_option( 'lsep-v', LSEP_VERSION );
 			update_option( 'lsep-type', 'FREE' );
-			update_option( 'lsep-installDate', gmdate( 'Y-m-d h:i:s' ) );
-			update_option( 'lsep-ratingDiv', 'no' );
             update_option( 'lsep_plugin_activation_redirect', true );
 			if (!get_option( 'lsep_initial_save_version' ) ) {
                 add_option( 'lsep_initial_save_version', LSEP_VERSION );
@@ -116,8 +114,6 @@ if ( ! class_exists( 'LSEP_LanguageSwitcher' ) ) {
             if ( is_admin() && !defined( LSEP_VERSION ) ) {
                 /** Feedback form after deactivation */
                 require_once __DIR__ . '/admin/feedback/admin-feedback-form.php';
-                /*** Plugin review notice file */
-                require_once __DIR__ . '/admin/lsep-feedback-notice.php';
             }
         }
 
