@@ -1,5 +1,5 @@
 ﻿=== Language Switcher for Elementor & Polylang ===
-Contributors: coolplugins, narinder-singh, satinder-singh  
+Contributors: coolplugins, narinder-singh, satindersingh  
 Tags: elementor, language switcher, polylang, multilingual, languages  
 Requires at least: 5.0  
 Tested up to: 6.8  
