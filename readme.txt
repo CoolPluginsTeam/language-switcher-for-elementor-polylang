@@ -4,7 +4,7 @@ Tags: elementor, language switcher, polylang, multilingual, languages
 Requires at least: 5.0  
 Tested up to: 6.8  
 Requires PHP: 7.2  
-Stable tag: 1.2.0  
+Stable tag: 1.2.1  
 License: GPLv2 or later  
 License URI: https://www.gnu.org/licenses/gpl-2.0.html  
 
@@ -14,7 +14,15 @@ Easily add a customizable language switcher to your Elementor pages and connect 
 
 **Language Switcher for Elementor & Polylang** is a WordPress plugin that helps you add a language switcher to your website and translate Elementor Templates. This plugin connects the Polylang multilingual plugin with Elementor, making it easier to build and manage a multilingual website visually.
 
-With this plugin, you can:
+https://www.youtube.com/watch?v=HyM0woo9Cg0
+
+[Check Demo](https://locoaddon.com/?utm_source=lsep_plugin&utm_medium=readme&utm_campaign=demo&utm_content=check-demo)
+
+[Check AI Translation for Polylang](https://wordpress.org/plugins/automatic-translations-for-polylang/)
+
+https://www.youtube.com/watch?v=ecHsOyIL_J4
+
+**With this plugin, you can:**
 
 - Add a customizable language switcher anywhere on your Elementor layout
 - Translate Elementor templates easily
@@ -23,7 +31,7 @@ With this plugin, you can:
 
 ### Why Use This Plugin?
 
-**Language Switcher for Elementor & Polylang** provides a seamless integration between Polylang and Elementor. Here's why it’s a must-have for multilingual Elementor websites:
+**Elementor Language Switcher for Polylang** provides a seamless integration between Polylang and Elementor. Here's why it’s a must-have for multilingual Elementor websites:
 
 ✅ **Language Switcher Widget**  
 ✅ **Translate Elementor Templates Easily**  
@@ -58,6 +66,22 @@ With this plugin, you can:
 
 * **User-Friendly and Fully Responsive Design.**
 
+### Check other Polylang Plugin addons
+
+**[AI Translation for Polylang](https://wordpress.org/plugins/automatic-translations-for-polylang/)** reduces your translation workload by 90%. With this powerful addon, you can translate your Gutenberg and Elementor pages, sections, and widgets within a few minutes.
+This addon duplicates and translates page/post titles, content, images, galleries, and meta fields, eliminating the need to manually adjust featured images, layouts, and other elements.
+
+**[Check it](https://wordpress.org/plugins/automatic-translations-for-polylang/)**
+
+**[Language Switcher – Polylang for Divi](https://wordpress.org/plugins/language-switcher-for-divi-polylang/
+)** is a WordPress plugin that helps you add a language switcher to your website using the Divi Builder. This plugin connects the Polylang multilingual plugin with the Divi theme, making it easier to build a multilingual website.
+
+**[Check it](https://wordpress.org/plugins/language-switcher-for-divi-polylang/
+)**
+
+**[Polylang Duplicate Content ](https://wordpress.org/plugins/duplicate-content-addon-for-polylang/)** addon Reduce your translation workload by 70% with this convenient Polylang addon. Effortlessly duplicate your original or default language post content into other languages of the same post, streamlining the translation process.
+**[Check it](https://wordpress.org/plugins/duplicate-content-addon-for-polylang/)**
+
 ### How to Add the Language Switcher
 
 1. Go to your WordPress Dashboard.
@@ -65,23 +89,69 @@ With this plugin, you can:
 3. Drag and drop the **Language Switcher** widget into your desired section (body, footer, header, sidebar, etc.).
 4. Customize its layout, elements, and translation control settings.
 
+== Installation ==
+
+1. Upload the plugin files to the `/wp-content/plugins/language-switcher-elementor-polylang` directory, or 
+install the plugin through the WordPress Plugins screen.
+
+2. Activate the plugin through the ‘Plugins’ screen in WordPress.
+
+3. Make sure you have both **Elementor** and **Polylang** (Free or Pro) installed and activated.
+
+4. Open a page, post, header, or footer with Elementor.
+
+5. Drag the **Language Switcher** widget into your desired section.
+
+6. Customize layout, language visibility options, and switcher styles in the Elementor panel.
+
+7. Save and preview the changes.
+
+
  == Screenshots == 
 1. Language Switcher Widget preview.
 2. Language Switcher Widget Settings.
 
 == Frequently Asked Questions ==
 
-= Where can I place the language switcher on my site? =  
-You can place the language switcher anywhere inside an Elementor layout, including Pages, Posts, Headers, Footers, and Sidebars.
+= What is this plugin used for? =
+This plugin allows you to add a customizable language switcher on Elementor-built websites using Polylang. It also helps link translated templates directly within Elementor.
 
-= What layout styles are available for the language switcher? =  
-You can choose from three layout styles: Dropdown, Horizontal, and Vertical.
+= Do I need to install Polylang for this plugin to work? =
+Yes, this plugin requires the Polylang plugin (Free or Pro) to manage and assign translations.
 
-= Is this plugin compatible with Polylang Pro? =  
-Yes, the plugin works with both the free and Pro versions of Polylang.
+= Can I add the switcher in a header or footer? =
+Absolutely! You can add the language switcher widget in any Elementor section, including headers, footers, sidebars, or even popups.
+
+= Does it support custom language display elements like flags or short codes? =
+Yes, you can display flags, full language names, or short codes (e.g., EN, FR). You can also hide the current language or untranslated languages.
+
+= Will this plugin work with Elementor Free or Elementor Pro? =
+Yes, it works with both. The plugin uses the Elementor widget system, which is available in the free version.
+
+= Can I preview the switcher before publishing? =
+Yes. A real-time preview is available within the Elementor editor so you can style and test your switcher visually.
+
+= Is the switcher responsive? =
+Yes, the language switcher is fully responsive and works on all screen sizes.
+
+= How do I add an Elementor language switcher using Polylang? =
+You can add an Elementor language switcher by installing the *Language Switcher for Elementor & Polylang* plugin. Once activated, simply drag the **Language Switcher widget** into your Elementor layout and connect it with your Polylang language setup. You can display languages using flags, names, or codes—making it easy to build a multilingual site without coding.
+
+= Can I translate Elementor templates with Polylang using this plugin? =
+Yes, this plugin allows you to translate Elementor templates using Polylang. You can link each version of a translated template directly from the Elementor Editor and control how visitors switch between languages on different pages. It’s the best way to make your Elementor designs multilingual with Polylang.
+
+= How can I report security bugs? =
+You can report security bugs through the Patchstack Vulnerability Disclosure Program. The Patchstack team help validate, triage and handle any security vulnerabilities.[Report a security vulnerability](https://patchstack.com/database/wordpress/plugin/language-switcher-for-elementor-polylang/vdp)
 
 == Changelog ==
-<strong>Version 1.2.0 | 21 June 2025</strong>
+
+<strong>Version 1.2.1 | 26 June 2025</strong>
+<pre>
+Improved:Improved Review notice.
+Tweaks:- added video link and updated content inside readme.txt file.
+</pre>
+
+<strong>Version 1.2.0 | 20 June 2025</strong>
 <pre>
 Fixed: Minor issues.
 </pre>
