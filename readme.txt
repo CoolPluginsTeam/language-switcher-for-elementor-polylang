@@ -4,7 +4,7 @@ Tags: elementor, language switcher, polylang, multilingual, languages
 Requires at least: 5.0  
 Tested up to: 6.8  
 Requires PHP: 7.2  
-Stable tag: 1.1.0  
+Stable tag: 1.2.0  
 License: GPLv2 or later  
 License URI: https://www.gnu.org/licenses/gpl-2.0.html  
 
@@ -81,6 +81,11 @@ You can choose from three layout styles: Dropdown, Horizontal, and Vertical.
 Yes, the plugin works with both the free and Pro versions of Polylang.
 
 == Changelog ==
+<strong>Version 1.2.0 | 21 June 2025</strong>
+<pre>
+Fixed: Minor issues.
+</pre>
+
 <strong>Version 1.1.0 | 10 June 2025</strong>
 <pre>
 Fixed: Minor issues.
