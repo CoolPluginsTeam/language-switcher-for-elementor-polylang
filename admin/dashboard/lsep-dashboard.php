@@ -9,7 +9,7 @@ if (!defined('ABSPATH')) {
  * Do not call or initialize this class directly, instead use the function mentioned at the bottom of this file
  */
 
-    class cool_plugins_polylang_addons
+    class cool_plugins_lsep_polylang_addons
     {
 
         /**
@@ -153,14 +153,14 @@ if (!defined('ABSPATH')) {
             function displayPluginAdminDashboard(){
                 echo '<div class="wrap lsep-get-started">';
                 echo '<h1>'.esc_html__('Welcome to Language Switcher for Elementor & Polylang', 'language-switcher-for-elementor-polylang').'</h1>';
-                echo '<h2 class="nav-tab-wrapper">';
-                echo '<a href="#getting-started" class="nav-tab nav-tab-active">'.esc_html__('Get Started', 'language-switcher-for-elementor-polylang').'</a>';
-                echo '<a href="#more-addons" class="nav-tab">'.esc_html__('More Addons', 'language-switcher-for-elementor-polylang').'</a>';
+                echo '<h2 class="nav-tab-wrapper lsep-nav-tab-wrapper">';
+                echo '<a href="#lsep-getting-started" class="nav-tab nav-tab-active lsep-nav-tab lsep-nav-tab-active">'.esc_html__('Get Started', 'language-switcher-for-elementor-polylang').'</a>';
+                echo '<a href="#lsep-more-addons" class="nav-tab lsep-nav-tab">'.esc_html__('More Addons', 'language-switcher-for-elementor-polylang').'</a>';
                 echo '</h2>';
-                echo '<div id="getting-started" class="lsep-tab-content active">';
+                echo '<div id="lsep-getting-started" class="lsep-tab-content active">';
                 $this->get_started_content();
                 echo '</div>';
-                echo '<div id="more-addons" class="lsep-tab-content">'; 
+                echo '<div id="lsep-more-addons" class="lsep-tab-content">'; 
                 $this->moreaddons_plugins_data();
                 echo '</div>';
                 echo '</div>';
@@ -258,9 +258,9 @@ if (!defined('ABSPATH')) {
              */
             function enqueue_required_scripts(){
                 // A common CSS file will be enqueued for admin panel
-                wp_enqueue_style('cool-plugins-polylang-addon', plugin_dir_url(__FILE__) .'assets/css/styles.css', null, null, 'all');
-                wp_enqueue_script( 'cool-plugins-polylang-addon', plugin_dir_url(__FILE__) .'assets/js/script.js', array('jquery'), null, true);
-                wp_localize_script( 'cool-plugins-polylang-addon', 'cp_polylang', array('ajax_url'=> admin_url('admin-ajax.php')));
+                wp_enqueue_style('cool-lsep-plugins-polylang-addon', plugin_dir_url(__FILE__) .'assets/css/styles.css', null, null, 'all');
+                wp_enqueue_script( 'cool-lsep-plugins-polylang-addon', plugin_dir_url(__FILE__) .'assets/js/script.js', array('jquery'), null, true);
+                wp_localize_script( 'cool-lsep-plugins-polylang-addon', 'lsep_polylang', array('ajax_url'=> admin_url('admin-ajax.php')));
                 
             }
 
@@ -386,8 +386,8 @@ if (!defined('ABSPATH')) {
      * initialize the main dashboard class with all required parameters
      */
 
-    function cool_plugins_polylang_addon_settings_page($tag ,$settings_page_slug, $dashboard_heading ){
-        $polylang_page = cool_plugins_polylang_addons::init();
+    function cool_plugins_lsep_polylang_addon_settings_page($tag ,$settings_page_slug, $dashboard_heading ){
+        $polylang_page = cool_plugins_lsep_polylang_addons::init();
         $polylang_page->show_plugins( $tag, $settings_page_slug, $dashboard_heading );
 
     }

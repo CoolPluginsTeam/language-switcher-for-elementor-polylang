@@ -1,10 +1,10 @@
 jQuery(document).ready(function($) {
     // Tab functionality
-    $('.nav-tab').on('click', function(e) {
+    $('.lsep-nav-tab').on('click', function(e) {
         e.preventDefault();
         
         // Remove active class from all tabs
-        $('.nav-tab').removeClass('nav-tab-active');
+        $('.lsep-nav-tab').removeClass('nav-tab-active');
         
         // Add active class to clicked tab
         $(this).addClass('nav-tab-active');
@@ -27,7 +27,7 @@ jQuery(document).ready(function($) {
             
             $.ajax({
                     type: 'POST',
-                    url: cp_polylang.ajax_url,
+                    url: lsep_polylang.ajax_url,
                     data: { 'action': 'cool_plugins_install_' + pluginTag, 'wp_nonce': nonce, 'nonce_name': nonceName, 'polylang_slug': pluginSlug  },
                     beforeSend: function(res) {
                         btn.text('Installing...');
@@ -51,7 +51,7 @@ jQuery(document).ready(function($) {
             let btn = $(this);
             $.ajax({
                     type: 'POST',
-                    url: cp_polylang.ajax_url,
+                    url: lsep_polylang.ajax_url,
                     data: { 'action': 'cool_plugins_activate_' + pluginTag, 'polylang_activate_pluginbase': pluginFile, 'wp_nonce': nonce, 'nonce_name': nonceName, 'polylang_activate_slug': pluginSlug },
                     beforeSend: function(res) {
                         btn.text('Activating...');

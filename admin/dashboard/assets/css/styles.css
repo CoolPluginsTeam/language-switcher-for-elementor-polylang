@@ -156,11 +156,11 @@ span.plugin-update-available {
 }
 
 /* Tab functionality */
-.nav-tab-wrapper {
+.lsep-nav-tab-wrapper {
     margin-bottom: 20px;
 }
 
-.nav-tab {
+.lsep-nav-tab {
     cursor: pointer;
     text-decoration: none;
 }

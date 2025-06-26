@@ -61,9 +61,10 @@ if ( ! class_exists( 'LSEP_LanguageSwitcher' ) ) {
         public function lsep_activate() {
 			update_option( 'lsep-v', LSEP_VERSION );
 			update_option( 'lsep-type', 'FREE' );
-            update_option( 'lsep_plugin_activation_redirect', true );
+           
 			if (!get_option( 'lsep_initial_save_version' ) ) {
                 add_option( 'lsep_initial_save_version', LSEP_VERSION );
+                add_option( 'lsep_plugin_activation_redirect', true );
             }
             if(!get_option( 'lsep_install_date' ) ) {
                 add_option( 'lsep_install_date', gmdate('Y-m-d h:i:s') );
@@ -114,7 +115,7 @@ if ( ! class_exists( 'LSEP_LanguageSwitcher' ) ) {
                 /** Feedback form after deactivation */
                 require_once __DIR__ . '/admin/feedback/admin-feedback-form.php';
                 require_once LSEP_PLUGIN_DIR . 'admin/dashboard/lsep-dashboard.php';
-                cool_plugins_polylang_addon_settings_page( 'polylang-addons', 'cool-plugins-polylang-addons', 'Polylang Addons' );
+                cool_plugins_lsep_polylang_addon_settings_page( 'polylang-addons', 'cool-plugins-polylang-addons', 'Polylang Addons' );
             }
         }
 
