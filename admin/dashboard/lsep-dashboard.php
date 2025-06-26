@@ -151,7 +151,27 @@ if (!defined('ABSPATH')) {
              * Avoid using any HTML here or use nominal HTML tags inside this function.
              */
             function displayPluginAdminDashboard(){
+                echo '<div class="wrap lsdp-get-started">';
+                echo '<h1>'.esc_html__('Welcome to Language Switcher for Elementor & Polylang', 'language-switcher-for-elementor-polylang').'</h1>';
+                echo '<h2 class="nav-tab-wrapper">';
+                echo '<a href="#getting-started" class="nav-tab nav-tab-active">'.esc_html__('Get Started', 'language-switcher-for-elementor-polylang').'</a>';
+                echo '<a href="#more-addons" class="nav-tab">'.esc_html__('More Addons', 'language-switcher-for-elementor-polylang').'</a>';
+                echo '</h2>';
+                echo '<div id="getting-started" class="lsdp-tab-content active">';
+                $this->get_started_content();
+                echo '</div>';
+                echo '<div id="more-addons" class="lsdp-tab-content">'; 
+                $this->moreaddons_plugins_data();
+                echo '</div>';
+                echo '</div>';
+                
+            }
 
+            function get_started_content(){
+                require $this->addon_dir . '/includes/get-started-content.php';
+            }
+
+            function moreaddons_plugins_data(){
                 $tag = $this->plugin_tag;
                 $plugins = $this->request_wp_plugins_data( $tag );
                 $this->request_pro_plugins_data( $tag );

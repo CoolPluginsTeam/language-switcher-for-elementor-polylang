@@ -154,3 +154,128 @@ span.plugin-update-available {
         padding: 0 0 30px;
     }
 }
+
+/* Tab functionality */
+.nav-tab-wrapper {
+    margin-bottom: 20px;
+}
+
+.nav-tab {
+    cursor: pointer;
+    text-decoration: none;
+}
+
+.nav-tab-active {
+    background-color: #fff;
+    border-bottom-color: #fff;
+}
+
+/* Hide all tab content by default */
+.lsdp-tab-content {
+    display: none;
+}
+
+/* Show active tab content */
+.lsdp-tab-content.active {
+    display: block;
+}
+
+/* Get started content styling */
+.lsdp-get-started-content {
+    background: #fff;
+    padding: 20px;
+    margin: 15px auto;
+    border-radius: 10px;
+    border: 1px solid #ddd;
+}
+
+/* Two-column layout */
+.lsdp-content-wrapper {
+    display: flex;
+    gap: 30px;
+    align-items: flex-start;
+}
+
+.lsdp-content-left {
+    flex: 1;
+    min-width: 0; /* Prevents flex item from overflowing */
+}
+
+.lsdp-content-right {
+    flex: 1;
+    min-width: 300px;
+}
+
+/* Video section styling */
+.lsdp-video-section {
+    padding: 20px;
+}
+
+.lsdp-video-section h4 {
+    color: #1bb95a;
+    margin-bottom: 15px;
+    font-size: 16px;
+    text-align: center;
+}
+
+.lsdp-video-container {
+    position: relative;
+    width: 100%;
+    margin-bottom: 15px;
+}
+
+.lsdp-video-container iframe {
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.lsdp-video-description {
+    text-align: center;
+    color: #666;
+    font-size: 14px;
+    line-height: 1.4;
+    margin: 0;
+}
+
+.lsdp-get-started-content h3 {
+    color: #1bb95a;
+    margin-bottom: 15px;
+    font-size: 18px;
+}
+
+.lsdp-get-started-content h4 {
+    color: #333;
+    margin: 20px 0 10px 0;
+    font-size: 16px;
+}
+
+.lsdp-get-started-content ul {
+    margin: 10px 0;
+    padding-left: 20px;
+}
+
+.lsdp-get-started-content li {
+    margin-bottom: 5px;
+    line-height: 1.5;
+}
+
+.lsdp-get-started-content p {
+    line-height: 1.6;
+    margin-bottom: 15px;
+}
+
+/* Responsive design for mobile */
+@media only screen and (max-width: 768px) {
+    .lsdp-content-wrapper {
+        flex-direction: column;
+        gap: 20px;
+    }
+    
+    .lsdp-content-right {
+        min-width: auto;
+    }
+    
+    .lsdp-video-container iframe {
+        height: 200px;
+    }
+}
