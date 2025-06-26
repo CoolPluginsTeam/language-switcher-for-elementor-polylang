@@ -1,8 +1,8 @@
-<div class="lsdp-get-started-content">
-    <div class="lsdp-content-wrapper">
-        <div class="lsdp-content-left">
+<div class="lsep-get-started-content">
+    <div class="lsep-content-wrapper">
+        <div class="lsep-content-left">
             <h3><?php echo esc_html__('Quick Start Guide', 'language-switcher-for-elementor-polylang'); ?></h3>
-            <p><?php echo esc_html__('Thank you for installing Language Switcher for Elementor & Polylang. This plugin allows you to create a seamless multilingual experience on your Elementor-powered site.', 'language-switcher-for-elementor-polylang'); ?></p>
+            <p><?php echo esc_html__('Thank you for installing Language Switcher for Elementor & Polylang. This plugin handles the multilingual functionality for your Elementor-powered site.', 'language-switcher-for-elementor-polylang'); ?></p>
             
             <h4><?php echo esc_html__('1. Add Language Switcher Widget', 'language-switcher-for-elementor-polylang'); ?></h4>
             <ul>
@@ -30,9 +30,9 @@
             <p><?php echo esc_html__('This feature helps you maintain consistency across multilingual content and improves translation workflow directly from your WordPress dashboard.', 'language-switcher-for-elementor-polylang'); ?></p>
         </div>
         
-        <div class="lsdp-content-right">
-            <div class="lsdp-video-section">
-                <div class="lsdp-video-container">
+        <div class="lsep-content-right">
+            <div class="lsep-video-section">
+                <div class="lsep-video-container">
                     <iframe 
                         width="100%" 
                         height="500px" 

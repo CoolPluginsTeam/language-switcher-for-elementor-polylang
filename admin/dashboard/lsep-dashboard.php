@@ -151,16 +151,16 @@ if (!defined('ABSPATH')) {
              * Avoid using any HTML here or use nominal HTML tags inside this function.
              */
             function displayPluginAdminDashboard(){
-                echo '<div class="wrap lsdp-get-started">';
+                echo '<div class="wrap lsep-get-started">';
                 echo '<h1>'.esc_html__('Welcome to Language Switcher for Elementor & Polylang', 'language-switcher-for-elementor-polylang').'</h1>';
                 echo '<h2 class="nav-tab-wrapper">';
                 echo '<a href="#getting-started" class="nav-tab nav-tab-active">'.esc_html__('Get Started', 'language-switcher-for-elementor-polylang').'</a>';
                 echo '<a href="#more-addons" class="nav-tab">'.esc_html__('More Addons', 'language-switcher-for-elementor-polylang').'</a>';
                 echo '</h2>';
-                echo '<div id="getting-started" class="lsdp-tab-content active">';
+                echo '<div id="getting-started" class="lsep-tab-content active">';
                 $this->get_started_content();
                 echo '</div>';
-                echo '<div id="more-addons" class="lsdp-tab-content">'; 
+                echo '<div id="more-addons" class="lsep-tab-content">'; 
                 $this->moreaddons_plugins_data();
                 echo '</div>';
                 echo '</div>';

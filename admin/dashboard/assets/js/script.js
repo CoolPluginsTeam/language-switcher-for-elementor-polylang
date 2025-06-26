@@ -10,7 +10,7 @@ jQuery(document).ready(function($) {
         $(this).addClass('nav-tab-active');
         
         // Hide all content sections
-        $('.lsdp-tab-content').removeClass('active');
+        $('.lsep-tab-content').removeClass('active');
         
         // Show corresponding content based on href
         var target = $(this).attr('href');

@@ -171,17 +171,17 @@ span.plugin-update-available {
 }
 
 /* Hide all tab content by default */
-.lsdp-tab-content {
+.lsep-tab-content {
     display: none;
 }
 
 /* Show active tab content */
-.lsdp-tab-content.active {
+.lsep-tab-content.active {
     display: block;
 }
 
 /* Get started content styling */
-.lsdp-get-started-content {
+.lsep-get-started-content {
     background: #fff;
     padding: 20px;
     margin: 15px auto;
@@ -190,46 +190,46 @@ span.plugin-update-available {
 }
 
 /* Two-column layout */
-.lsdp-content-wrapper {
+.lsep-content-wrapper {
     display: flex;
     gap: 30px;
     align-items: flex-start;
 }
 
-.lsdp-content-left {
+.lsep-content-left {
     flex: 1;
     min-width: 0; /* Prevents flex item from overflowing */
 }
 
-.lsdp-content-right {
+.lsep-content-right {
     flex: 1;
     min-width: 300px;
 }
 
 /* Video section styling */
-.lsdp-video-section {
+.lsep-video-section {
     padding: 20px;
 }
 
-.lsdp-video-section h4 {
+.lsep-video-section h4 {
     color: #1bb95a;
     margin-bottom: 15px;
     font-size: 16px;
     text-align: center;
 }
 
-.lsdp-video-container {
+.lsep-video-container {
     position: relative;
     width: 100%;
     margin-bottom: 15px;
 }
 
-.lsdp-video-container iframe {
+.lsep-video-container iframe {
     border-radius: 8px;
     box-shadow: 0 2px 8px rgba(0,0,0,0.1);
 }
 
-.lsdp-video-description {
+.lsep-video-description {
     text-align: center;
     color: #666;
     font-size: 14px;
@@ -237,45 +237,45 @@ span.plugin-update-available {
     margin: 0;
 }
 
-.lsdp-get-started-content h3 {
+.lsep-get-started-content h3 {
     color: #1bb95a;
     margin-bottom: 15px;
     font-size: 18px;
 }
 
-.lsdp-get-started-content h4 {
+.lsep-get-started-content h4 {
     color: #333;
     margin: 20px 0 10px 0;
     font-size: 16px;
 }
 
-.lsdp-get-started-content ul {
+.lsep-get-started-content ul {
     margin: 10px 0;
     padding-left: 20px;
 }
 
-.lsdp-get-started-content li {
+.lsep-get-started-content li {
     margin-bottom: 5px;
     line-height: 1.5;
 }
 
-.lsdp-get-started-content p {
+.lsep-get-started-content p {
     line-height: 1.6;
     margin-bottom: 15px;
 }
 
 /* Responsive design for mobile */
 @media only screen and (max-width: 768px) {
-    .lsdp-content-wrapper {
+    .lsep-content-wrapper {
         flex-direction: column;
         gap: 20px;
     }
     
-    .lsdp-content-right {
+    .lsep-content-right {
         min-width: auto;
     }
     
-    .lsdp-video-container iframe {
+    .lsep-video-container iframe {
         height: 200px;
     }
 }
