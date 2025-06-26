@@ -109,11 +109,12 @@ if ( ! class_exists( 'LSEP_LanguageSwitcher' ) ) {
         public function lsep_init() {
             require_once LSEP_PLUGIN_DIR . 'includes/lsep-manager.php';
             require_once LSEP_PLUGIN_DIR . 'includes/lsep-register-widget.php';
-            require_once LSEP_PLUGIN_DIR . 'admin/dashboard/lsep-dashboard.php';
-
+            
             if ( is_admin() && !defined( LSEP_VERSION ) ) {
                 /** Feedback form after deactivation */
                 require_once __DIR__ . '/admin/feedback/admin-feedback-form.php';
+                require_once LSEP_PLUGIN_DIR . 'admin/dashboard/lsep-dashboard.php';
+                cool_plugins_polylang_addon_settings_page( 'polylang-addons', 'cool-plugins-polylang-addons', 'Polylang Addons' );
             }
         }
 
