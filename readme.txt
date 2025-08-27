@@ -12,75 +12,53 @@ Easily add a customizable language switcher to your Elementor pages and connect 
 
 == Description ==
 
-**Language Switcher for Elementor & Polylang** is a WordPress plugin that helps you add a language switcher to your website and translate Elementor Templates. This plugin connects the Polylang multilingual plugin with Elementor, making it easier to build and manage a multilingual website visually.
+**Language Switcher for Elementor & Polylang** is a WordPress plugin that helps you add a language switcher to your website and translate Elementor Templates. 
 
 https://www.youtube.com/watch?v=HyM0woo9Cg0
 
-[Check Demo](https://locoaddon.com/?utm_source=lsep_plugin&utm_medium=readme&utm_campaign=demo&utm_content=check-demo)
+This plugin connects the Polylang multilingual plugin with Elementor, making it easier to build and manage a multilingual website visually.
 
-[Check AI Translation for Polylang](https://wordpress.org/plugins/automatic-translations-for-polylang/)
-
-https://www.youtube.com/watch?v=ecHsOyIL_J4
-
-**With this plugin, you can:**
-
-- Add a customizable language switcher anywhere on your Elementor layout
-- Translate Elementor templates easily
-- Link each translated template to its corresponding version directly in Elementor Editor
-- Control page switching behavior between translated versions
 
 ### Why Use This Plugin?
 
 **Elementor Language Switcher for Polylang** provides a seamless integration between Polylang and Elementor. Here's why it’s a must-have for multilingual Elementor websites:
 
-✅ **Language Switcher Widget**  
-✅ **Translate Elementor Templates Easily**  
-✅ **Link to Translated Page Directly from Elementor Editor**  
-✅ **Place Anywhere on the Page**  
-✅ **Customizable Layout & Display Options**
-✅ **Saves Time & Enhances Workflow**  
+- Language Switcher Widget  
+- Translate Elementor Templates Easily  
+- Link to Translated Page Directly from Elementor Editor  
+- Place Anywhere on the Page 
+- Customizable Layout & Display Options
+- Saves Time & Enhances Workflow 
 
 ### Key Features
 
-* **Elementor Widget Support:**  
-  Drag and drop the language switcher widget directly inside Elementor Editor—just like any other widget. No coding required.
+* **Elementor Widget Support:** Drag and drop the language switcher widget directly inside Elementor Editor, just like any other widget.
 
-* **Page Linking in Elementor:**  
-  Get full control to link a page to its translated version. Use Elementor Editor to switch and connect the translated template easily.
+* **Page Linking in Elementor:** Get full control to link a page to its translated version. Use Elementor Editor to switch and connect the translated template easily.
 
-* **Three Layout Options:**  
-  The plugin offers three layout styles, Dropdown, Horizontal & Vertical. Choose how you want the language switcher to appear on your website.
+* **Three Layout Options:** The plugin offers three layout styles, Dropdown, Horizontal & Vertical. Choose how you want the language switcher to appear on your website.
 
-* **Custom Switcher Elements:**  
-  Enable or disable various elements such as:
+* **Custom Switcher Elements:** Enable or disable various elements such as:
   - **Language Flag** – Show a country flag icon next to each language (🇺🇸).
   - **Language Name** – Show the full name like "English", "Spanish".
   - **Language Code** – Show short codes like EN, FR, DE.
   - **Hide Current Language** – Option to hide the active language.
   - **Hide Untranslated Languages** – Option to hide languages if the page has no translation in that language.
 
-* **Frontend Display Preview:**  
-  Instantly preview how your language switcher looks on the frontend.
+* **Frontend Display Preview:** Instantly preview how your language switcher looks on the frontend.
 
-* **Fully Compatible with Polylang Free and Pro.**
+* Fully Compatible with Polylang Free and Pro.
 
-* **User-Friendly and Fully Responsive Design.**
+* User-Friendly and Fully Responsive Design.
 
 ### Check other Polylang Plugin addons
 
-**[AI Translation for Polylang](https://wordpress.org/plugins/automatic-translations-for-polylang/)** reduces your translation workload by 90%. With this powerful addon, you can translate your Gutenberg and Elementor pages, sections, and widgets within a few minutes.
-This addon duplicates and translates page/post titles, content, images, galleries, and meta fields, eliminating the need to manually adjust featured images, layouts, and other elements.
+- **[AutoPoly - AI Translation for Polylang](https://coolplugins.net/product/autopoly-ai-translation-for-polylang/?utm_source=lsep_plugin&utm_medium=readme&utm_campaign=get_pro&utm_content=atfp_check_out)** reduces your translation workload by translating your Gutenberg and Elementor pages, sections, and widgets within a few minutes.
 
-**[Check it](https://wordpress.org/plugins/automatic-translations-for-polylang/)**
-
-**[Language Switcher – Polylang for Divi](https://wordpress.org/plugins/language-switcher-for-divi-polylang/
+- **[Language Switcher – Polylang for Divi](https://wordpress.org/plugins/language-switcher-for-divi-polylang/
 )** is a WordPress plugin that helps you add a language switcher to your website using the Divi Builder. This plugin connects the Polylang multilingual plugin with the Divi theme, making it easier to build a multilingual website.
 
-**[Check it](https://wordpress.org/plugins/language-switcher-for-divi-polylang/
-)**
-
-**[Polylang Duplicate Content ](https://wordpress.org/plugins/duplicate-content-addon-for-polylang/)** addon Reduce your translation workload by 70% with this convenient Polylang addon. Effortlessly duplicate your original or default language post content into other languages of the same post, streamlining the translation process.
-**[Check it](https://wordpress.org/plugins/duplicate-content-addon-for-polylang/)**
+- **[Polylang Duplicate Content ](https://wordpress.org/plugins/duplicate-content-addon-for-polylang/)** addon effortlessly duplicate your original or default language post content into other languages of the same post, making translation process easier.
 
 ### How to Add the Language Switcher
 
@@ -91,8 +69,7 @@ This addon duplicates and translates page/post titles, content, images, gallerie
 
 == Installation ==
 
-1. Upload the plugin files to the `/wp-content/plugins/language-switcher-elementor-polylang` directory, or 
-install the plugin through the WordPress Plugins screen.
+1. Upload the plugin files to the `/wp-content/plugins/language-switcher-elementor-polylang` directory, or install the plugin through the WordPress Plugins screen.
 
 2. Activate the plugin through the ‘Plugins’ screen in WordPress.
 
@@ -145,30 +122,21 @@ You can report security bugs through the Patchstack Vulnerability Disclosure Pro
 
 == Changelog ==
 
-<strong>Version 1.2.1 | 26 June 2025</strong>
-<pre>
-Improved:Improved Review notice.
-Tweaks:- added video link and updated content inside readme.txt file.
-</pre>
+= Version 1.2.1 | 26 June 2025 =
+- **Improved:** Improved Review notice.
+- **Tweaks:** added video link and updated content inside the readme.txt file.
 
-<strong>Version 1.2.0 | 20 June 2025</strong>
-<pre>
-Fixed: Minor issues.
-</pre>
+= Version 1.2.0 | 20 June 2025 =
+- **Fixed:** Minor issues.
 
-<strong>Version 1.1.0 | 10 June 2025</strong>
-<pre>
-Fixed: Minor issues.
-</pre>
+= Version 1.1.0 | 10 June 2025 =
+- **Fixed:** Minor issues.
 
-<strong>Version 1.0.1 | 29 May 2025</strong>
-<pre>
-Fixed: Minor issues.
-</pre>
+= Version 1.0.1 | 29 May 2025 =
+- **Fixed:** Minor issues.
 
-<strong>Version 1.0.0 | 05 May 2025</strong>
-<pre>
-New: Initial plugin release.
-</pre>
+= Version 1.0.0 | 05 May 2025 =
+- **New:** Initial plugin release.
+
  == Upgrade Notice == 
 Initial release
