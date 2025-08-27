@@ -59,11 +59,11 @@ class LSEP_Register_Widget {
 	// Elementor Review notice ajax request function
 	public function lsep_elementor_review_notice() {
 		if ( ! check_ajax_referer( 'lsep_elementor_review', 'nonce', false ) ) {
-			wp_send_json_error( __( 'Invalid security token sent.', 'lsep' ) );
+			wp_send_json_error( __( 'Invalid security token sent.', 'language-switcher-for-elementor-polylang' ) );
 			wp_die( '0', 400 );
 		}
 
-		if ( isset( $_POST['lsep_notice_dismiss'] ) && 'true' === sanitize_text_field($_POST['lsep_notice_dismiss']) ) {
+		if ( isset( $_POST['lsep_notice_dismiss'] ) && 'true' === sanitize_text_field(wp_unslash($_POST['lsep_notice_dismiss'])) ) {
 			update_option( 'lsep_elementor_review_notice_dismiss', 'yes' );
 		}
 		exit;

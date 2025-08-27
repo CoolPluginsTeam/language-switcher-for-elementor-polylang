@@ -62,7 +62,7 @@ class lsep_feedback {
 	public function enqueue_feedback_scripts() {
 		$screen = get_current_screen();
 		if ( isset( $screen ) && $screen->id == 'plugins' ) {
-			wp_enqueue_script( __NAMESPACE__ . 'feedback-script', $this->plugin_url . '/js/admin-feedback.js', array( 'jquery' ), $this->plugin_version );
+			wp_enqueue_script( __NAMESPACE__ . 'feedback-script', $this->plugin_url . '/js/admin-feedback.js', array( 'jquery' ), $this->plugin_version, true );
 			wp_enqueue_style( 'cool-plugins-feedback-style', $this->plugin_url . '/css/admin-feedback.css', null, $this->plugin_version );
 		}
 	}
@@ -77,24 +77,24 @@ class lsep_feedback {
 		}
 		$deactivate_reasons = array(
 			'didnt_work_as_expected'         => array(
-				'title'             => __( 'The plugin didn\'t work as expected', 'cool-plugins' ),
-				'input_placeholder' => 'What did you expect?',
+				'title'             => esc_html__( 'The plugin didn\'t work as expected', 'cool-plugins' ),
+				'input_placeholder' => esc_html__( 'What did you expect?', 'cool-plugins' ),
 			),
 			'found_a_better_plugin'          => array(
-				'title'             => __( 'I found a better plugin', 'cool-plugins' ),
-				'input_placeholder' => __( 'Please share which plugin', 'cool-plugins' ),
+				'title'             => esc_html__( 'I found a better plugin', 'cool-plugins' ),
+				'input_placeholder' => esc_html__( 'Please share which plugin', 'cool-plugins' ),
 			),
 			'couldnt_get_the_plugin_to_work' => array(
-				'title'             => __( 'The plugin is not working', 'cool-plugins' ),
-				'input_placeholder' => 'Please share your issue. So we can fix that for other users.',
+				'title'             => esc_html__( 'The plugin is not working', 'cool-plugins' ),
+				'input_placeholder' => esc_html__( 'Please share your issue. So we can fix that for other users.', 'cool-plugins' ),
 			),
 			'temporary_deactivation'         => array(
-				'title'             => __( 'It\'s a temporary deactivation', 'cool-plugins' ),
+				'title'             => esc_html__( 'It\'s a temporary deactivation', 'cool-plugins' ),
 				'input_placeholder' => '',
 			),
 			'other'                          => array(
-				'title'             => __( 'Other', 'cool-plugins' ),
-				'input_placeholder' => __( 'Please share the reason', 'cool-plugins' ),
+				'title'             => esc_html__( 'Other', 'cool-plugins' ),
+				'input_placeholder' => esc_html__( 'Please share the reason', 'cool-plugins' ),
 			),
 		);
 
@@ -103,7 +103,7 @@ class lsep_feedback {
 						
 			<div class="cool-plugins-deactivation-response">
 			<div id="cool-plugins-deactivate-feedback-dialog-header">
-				<span id="cool-plugins-feedback-form-title"><?php echo __( 'Quick Feedback', 'cool-plugins' ); ?></span>
+				<span id="cool-plugins-feedback-form-title"><?php echo esc_html__( 'Quick Feedback', 'cool-plugins' ); ?></span>
 			</div>
 			<div id="cool-plugins-loader-wrapper">
 				<div class="cool-plugins-loader-container">
@@ -116,7 +116,7 @@ class lsep_feedback {
 				wp_nonce_field( '_cool-plugins_deactivate_feedback_nonce' );
 				?>
 				<input type="hidden" name="action" value="cool-plugins_deactivate_feedback" />
-				<div id="cool-plugins-deactivate-feedback-dialog-form-caption"><?php echo __( 'If you have a moment, please share why you are deactivating this plugin.', 'cool-plugins' ); ?></div>
+				<div id="cool-plugins-deactivate-feedback-dialog-form-caption"><?php echo esc_html__( 'If you have a moment, please share why you are deactivating this plugin.', 'cool-plugins' ); ?></div>
 				<div id="cool-plugins-deactivate-feedback-dialog-form-body">
 					<?php foreach ( $deactivate_reasons as $reason_key => $reason ) : ?>
 						<div class="cool-plugins-deactivate-feedback-dialog-input-wrapper">
@@ -130,7 +130,7 @@ class lsep_feedback {
 							<?php endif; ?>
 						</div>
 					<?php endforeach; ?>
-					<input class="cool-plugins-GDPR-data-notice" id="cool-plugins-GDPR-data-notice" type="checkbox"><label for="cool-plugins-GDPR-data-notice"><?php echo __( 'I agree to share anonymous usage data and basic site details (such as server, PHP, and WordPress versions) to support AI Translation Addon for TranslatePress improvement efforts. Additionally, I allow Cool Plugins to store all information provided through this form and to respond to my inquiry.', 'cool-plugins' ); ?></label>
+					<input class="cool-plugins-GDPR-data-notice" id="cool-plugins-GDPR-data-notice" type="checkbox"><label for="cool-plugins-GDPR-data-notice"><?php echo esc_html__( 'I agree to share anonymous usage data and basic site details (such as server, PHP, and WordPress versions) to support AI Translation Addon for TranslatePress improvement efforts. Additionally, I allow Cool Plugins to store all information provided through this form and to respond to my inquiry.', 'cool-plugins' ); ?></label>
 				</div>
 				<div class="cool-plugin-popup-button-wrapper">
 					<a class="cool-plugins-button button-deactivate" id="cool-plugin-submitNdeactivate">Submit and Deactivate</a>
@@ -146,7 +146,7 @@ class lsep_feedback {
 	function lsep_get_user_info() {
 		global $wpdb;
 		$server_info = [
-		'server_software'        => isset($_SERVER['SERVER_SOFTWARE']) ? sanitize_text_field($_SERVER['SERVER_SOFTWARE']) : 'N/A',
+		'server_software'        => isset($_SERVER['SERVER_SOFTWARE']) ? sanitize_text_field(wp_unslash($_SERVER['SERVER_SOFTWARE'])) : 'N/A',
 		'mysql_version'          => sanitize_text_field($wpdb->get_var("SELECT VERSION()")),
 		'php_version'            => sanitize_text_field(phpversion()),
 		'wp_version'             => sanitize_text_field(get_bloginfo('version')),
@@ -188,37 +188,37 @@ class lsep_feedback {
 	 */
 
 	public function submit_deactivation_response() {
-		if ( ! isset( $_POST['_wpnonce'] ) || ! wp_verify_nonce( $_POST['_wpnonce'], '_cool-plugins_deactivate_feedback_nonce' ) ) {
+		if ( ! isset( $_POST['_wpnonce'] ) || ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['_wpnonce'] ) ), '_cool-plugins_deactivate_feedback_nonce' ) ) {
 			wp_send_json_error();
 		} else {
 			$reason             = isset( $_POST['reason'] ) ? sanitize_key( $_POST['reason'] ) : '';
 			$deactivate_reasons = array(
 				'didnt_work_as_expected'         => array(
-					'title'             => __( 'The plugin didn\'t work as expected', 'cool-plugins' ),
-					'input_placeholder' => 'What did you expect?',
+					'title'             => esc_html__( 'The plugin didn\'t work as expected', 'cool-plugins' ),
+					'input_placeholder' => esc_html__( 'What did you expect?', 'cool-plugins' ),
 				),
 				'found_a_better_plugin'          => array(
-					'title'             => __( 'I found a better plugin', 'cool-plugins' ),
-					'input_placeholder' => __( 'Please share which plugin', 'cool-plugins' ),
+					'title'             => esc_html__( 'I found a better plugin', 'cool-plugins' ),
+					'input_placeholder' => esc_html__( 'Please share which plugin', 'cool-plugins' ),
 				),
 				'couldnt_get_the_plugin_to_work' => array(
-					'title'             => __( 'The plugin is not working', 'cool-plugins' ),
-					'input_placeholder' => 'Please share your issue. So we can fix that for other users.',
+					'title'             => esc_html__( 'The plugin is not working', 'cool-plugins' ),
+					'input_placeholder' => esc_html__( 'Please share your issue. So we can fix that for other users.', 'cool-plugins' ),
 				),
 				'temporary_deactivation'         => array(
-					'title'             => __( 'It\'s a temporary deactivation', 'cool-plugins' ),
+					'title'             => esc_html__( 'It\'s a temporary deactivation', 'cool-plugins' ),
 					'input_placeholder' => '',
 				),
 				'other'                          => array(
-					'title'             => __( 'Other', 'cool-plugins' ),
-					'input_placeholder' => __( 'Please share the reason', 'cool-plugins' ),
+					'title'             => esc_html__( 'Other', 'cool-plugins' ),
+					'input_placeholder' => esc_html__( 'Please share the reason', 'cool-plugins' ),
 				),
 			);
 
 			$deativation_reason = array_key_exists( $reason, $deactivate_reasons ) ? $reason : 'other';
 
 			$plugin_initial =  get_option( 'lsep_initial_save_version' );
-			$sanitized_message = sanitize_text_field( $_POST['message'] ) == '' ? 'N/A' : sanitize_text_field( $_POST['message'] );
+			$sanitized_message = isset( $_POST['message'] ) && sanitize_text_field( wp_unslash( $_POST['message'] ) ) != '' ? sanitize_text_field( wp_unslash( $_POST['message'] ) ) : 'N/A';
 			$admin_email       = sanitize_email( get_option( 'admin_email' ) );
 			$site_url          = get_site_url();
 			$install_date      = get_option( 'lsep_install_date' );

@@ -751,7 +751,7 @@ public function lsep_language_switcher_icon_css() {
         
         // If current language should be shown, use it as active language
         if ($settings['lsep_language_switcher_hide_current_language'] !== 'yes') {
-            $active_language = $languages[$current_lang];
+            $active_language = isset($languages[$current_lang]) ? $languages[$current_lang] : null;
         } else {
             // Find first available language that's not the current language
             $active_language = null;
