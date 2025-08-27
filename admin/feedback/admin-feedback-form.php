@@ -45,7 +45,7 @@ class lsep_feedback {
 	 *
 	 * @var feedback_url
 	 */
-	private $feedback_url = 'http://feedback.coolplugins.net/wp-json/coolplugins-feedback/v1/feedback';
+	private $feedback_url = 'https://feedback.coolplugins.net/wp-json/coolplugins-feedback/v1/feedback';
 	/**
 	 * Use this constructor to fire all actions and filters.
 	 */
@@ -107,7 +107,7 @@ class lsep_feedback {
 			</div>
 			<div id="cool-plugins-loader-wrapper">
 				<div class="cool-plugins-loader-container">
-					<img class="cool-plugins-preloader" src="<?php echo $this->plugin_url; ?>images/cool-plugins-preloader.gif">
+					<img class="cool-plugins-preloader" src="<?php echo esc_url( $this->plugin_url ); ?>images/cool-plugins-preloader.gif">
 				</div>
 			</div>
 			<div id="cool-plugins-form-wrapper" class="cool-plugins-form-wrapper-cls">
@@ -146,7 +146,7 @@ class lsep_feedback {
 	function lsep_get_user_info() {
 		global $wpdb;
 		$server_info = [
-		'server_software'        => sanitize_text_field($_SERVER['SERVER_SOFTWARE'] ?? 'N/A'),
+		'server_software'        => isset($_SERVER['SERVER_SOFTWARE']) ? sanitize_text_field($_SERVER['SERVER_SOFTWARE']) : 'N/A',
 		'mysql_version'          => sanitize_text_field($wpdb->get_var("SELECT VERSION()")),
 		'php_version'            => sanitize_text_field(phpversion()),
 		'wp_version'             => sanitize_text_field(get_bloginfo('version')),
@@ -191,8 +191,7 @@ class lsep_feedback {
 		if ( ! isset( $_POST['_wpnonce'] ) || ! wp_verify_nonce( $_POST['_wpnonce'], '_cool-plugins_deactivate_feedback_nonce' ) ) {
 			wp_send_json_error();
 		} else {
-			$reason             = isset( $_POST['reason'] ) ? $_POST['reason'] : '';
-			$reason             = htmlspecialchars( $reason, ENT_QUOTES );
+			$reason             = isset( $_POST['reason'] ) ? sanitize_key( $_POST['reason'] ) : '';
 			$deactivate_reasons = array(
 				'didnt_work_as_expected'         => array(
 					'title'             => __( 'The plugin didn\'t work as expected', 'cool-plugins' ),

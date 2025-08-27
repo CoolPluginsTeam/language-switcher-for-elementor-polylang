@@ -94,9 +94,9 @@ if ( ! class_exists( 'LSEP_LanguageSwitcher' ) ) {
             require_once LSEP_PLUGIN_DIR . 'includes/lsep-manager.php';
             require_once LSEP_PLUGIN_DIR . 'includes/lsep-register-widget.php';
             
-            if ( is_admin() && !defined( LSEP_VERSION ) ) {
+            if ( is_admin() ) {
                 /** Feedback form after deactivation */
-                require_once __DIR__ . '/admin/feedback/admin-feedback-form.php';
+                require_once LSEP_PLUGIN_DIR . '/admin/feedback/admin-feedback-form.php';
                 cool_plugins_lsep_polylang_addon_settings_page( 'polylang-addons', 'cool-plugins-polylang-addons', 'Polylang Addons' );
             }
         }
