@@ -93,6 +93,7 @@ This plugin connects the Polylang multilingual plugin with Elementor, making it 
 = What is this plugin used for? =
 This plugin allows you to add a customizable language switcher on Elementor-built websites using Polylang. It also helps link translated templates directly within Elementor.
 
+
 = Do I need to install Polylang for this plugin to work? =
 Yes, this plugin requires the Polylang plugin (Free or Pro) to manage and assign translations.
 
