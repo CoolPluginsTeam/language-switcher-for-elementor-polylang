@@ -1,0 +1,61 @@
+name: Merge tagged code to trunk
+
+on:
+  push:
+    tags:
+      - "v*"
+
+permissions:
+  contents: write   # <-- REQUIRED so the job can push
+
+env:
+  TARGET_BRANCH: trunk
+
+jobs:
+  merge_tag_into_target:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout the tag commit
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          ref: ${{ github.ref }}               # refs/tags/v*
+          persist-credentials: true            # keep token for git push
+
+      - name: Configure Git + auth remote
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git config --global --add safe.directory "$GITHUB_WORKSPACE"
+
+          # Make sure 'origin' uses the job token (avoids 403)
+          git remote set-url origin "https://x-access-token:${{ secrets.TRUNK_AUTO_TAG_UPDATE }}@github.com/${{ github.repository }}.git"
+
+      - name: Prepare target branch
+        run: |
+          git fetch origin ${{ env.TARGET_BRANCH }}:${{ env.TARGET_BRANCH }}
+          git switch ${{ env.TARGET_BRANCH }}
+          git pull --ff-only origin ${{ env.TARGET_BRANCH }}
+
+      - name: Merge the tagged commit into target (prefer incoming when stashed)
+        run: |
+          TAG_NAME="${{ github.ref_name }}"
+          TAG_SHA="${{ github.sha }}"
+
+          echo "Merging $TAG_NAME ($TAG_SHA) into ${{ env.TARGET_BRANCH }}"
+
+          if git stash list | grep -q . ; then
+            echo "Stashes found → apply stash and merge WITHOUT committing, preferring incoming changes"
+            # Bring stashed changes into the working tree; ignore non-zero if conflicts appear, we'll resolve in merge
+            git stash pop || true
+            # Resolve any conflicts in favor of the incoming (tag) side
+            git merge --no-ff --no-commit -X theirs "$TAG_SHA"
+          else
+            echo "No stashes → merge AND commit, preferring incoming changes"
+            git merge --no-ff -X theirs -m "deploy-latest-tag-${TAG_NAME}" "$TAG_SHA"
+          fi
+
+
+      - name: Push ONLY commits to target (no tags)
+        run: |
+          git -c push.followTags=false push --no-tags origin HEAD:refs/heads/${{ env.TARGET_BRANCH }}
