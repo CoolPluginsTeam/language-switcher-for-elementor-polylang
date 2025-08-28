@@ -3,7 +3,7 @@
  * Plugin Name: Language Switcher for Elementor & Polylang
  * Plugin URI:
  * Description: Language Switcher for Elementor & Polylang to use language switcher in your page or Elementor header menu
- * Version:     1.2.1
+ * Version:     1.2.2
  * Requires at least: 5.0
  * Requires PHP: 7.2
  * Author:      satindersingh
@@ -24,7 +24,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * Define plugin constants
  */
-define( 'LSEP_VERSION', '1.2.1' );
+define( 'LSEP_VERSION', '1.2.2' );
 define( 'LSEP_PLUGIN_NAME', 'language-switcher-for-elementor-polylang' );
 define( 'LSEP_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
 define( 'LSEP_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
