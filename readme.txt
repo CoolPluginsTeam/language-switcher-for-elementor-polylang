@@ -129,7 +129,7 @@ You can report security bugs through the Patchstack Vulnerability Disclosure Pro
 
 = Version 1.2.1 | 26 June 2025 =
 - **Improved:** Improved Review notice.
-- **Tweaks:** added video link and updated content inside the readme.txt file.
+- **Tweaks:** Added video link and updated content inside the readme.txt file.
 
 = Version 1.2.0 | 20 June 2025 =
 - **Fixed:** Minor issues.
