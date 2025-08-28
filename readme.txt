@@ -4,7 +4,7 @@ Tags: elementor, language switcher, polylang, multilingual, languages
 Requires at least: 5.0  
 Tested up to: 6.8  
 Requires PHP: 7.2  
-Stable tag: 1.2.1  
+Stable tag: 1.2.2  
 License: GPLv2 or later  
 License URI: https://www.gnu.org/licenses/gpl-2.0.html  
 
@@ -93,6 +93,7 @@ This plugin connects the Polylang multilingual plugin with Elementor, making it 
 = What is this plugin used for? =
 This plugin allows you to add a customizable language switcher on Elementor-built websites using Polylang. It also helps link translated templates directly within Elementor.
 
+
 = Do I need to install Polylang for this plugin to work? =
 Yes, this plugin requires the Polylang plugin (Free or Pro) to manage and assign translations.
 
@@ -121,6 +122,10 @@ Yes, this plugin allows you to translate Elementor templates using Polylang. You
 You can report security bugs through the Patchstack Vulnerability Disclosure Program. The Patchstack team help validate, triage and handle any security vulnerabilities.[Report a security vulnerability](https://patchstack.com/database/wordpress/plugin/language-switcher-for-elementor-polylang/vdp)
 
 == Changelog ==
+
+= Version 1.2.2 | 28 August 2025 =
+- **Fixed:** Addressed security vulnerabilities.
+- **Improved:** Enhanced overall code quality.
 
 = Version 1.2.1 | 26 June 2025 =
 - **Improved:** Improved Review notice.

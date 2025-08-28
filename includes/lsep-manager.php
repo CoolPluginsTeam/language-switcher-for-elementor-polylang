@@ -6,19 +6,19 @@
  * @since 1.0.0
  */
 
-namespace LanguageSwitcherManagerPolylangElementor\LSEP;
+namespace LSEP\LanguageSwitcherManagerPolylangElementor;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 /**
- * Class LSEPManager
+ * Class LSEP_Manager
  *
  * Handles the integration between Polylang and Elementor for template translations.
  *
  * @since 1.0.0
  */
-class LSEPManager {
+class LSEP_Manager {
 
     /**
      * Current template ID being processed.
@@ -205,7 +205,7 @@ class LSEPManager {
             return;
         }
 
-        require_once LSEP_PLUGIN_DIR . 'helpers/class-lsep-helpers.php';
+        require_once LSEP_PLUGIN_DIR . 'helpers/lsep-helpers.php';
 
         $post_id = $document->get_main_id();
         $languages = pll_languages_list(['fields' => '']);
@@ -275,4 +275,4 @@ class LSEPManager {
 }
 
 // Initialize the plugin
-new LSEPManager();
+new LSEP_Manager();

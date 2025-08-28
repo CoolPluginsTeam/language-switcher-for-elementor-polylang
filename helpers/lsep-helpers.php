@@ -27,7 +27,7 @@ class LSEP_HELPERS {
 	 * @param string $flag_url The URL of the flag image.
 	 * @return string|false The flag code if found, false otherwise.
 	 */
-	public static function get_flag_code( $flag_url ) {
+	public static function lsep_get_flag_code( $flag_url ) {
 		$flag_code = preg_match( '/polylang\/flags\/([a-z]+)\.(png|svg|jpg|jpeg)$/i', $flag_url, $matches ) ? $matches[1] : false;
 		return $flag_code;
 	}
@@ -41,8 +41,8 @@ class LSEP_HELPERS {
 	 * @param string $lang     The language code.
 	 * @return string The HTML markup for the flag.
 	 */
-	public static function get_country_flag( $flag_url, $lang ) {
-		$country_code = self::get_flag_code( $flag_url );
+	public static function lsep_get_country_flag( $flag_url, $lang ) {
+		$country_code = self::lsep_get_flag_code( $flag_url );
 		$flag         = array();
 
 		if ( $country_code && class_exists( 'PLL_Language' ) && method_exists( 'PLL_Language', 'get_flag_html' ) ) {

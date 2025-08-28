@@ -6,7 +6,7 @@
  * @since 1.0.0
  */
 
-namespace LanguageSwitcherPolylangElementorWidget\LSEP;
+namespace LSEP\LanguageSwitcherPolylangElementorWidget;
 use Elementor\Controls_Manager;
 use Elementor\Group_Control_Typography;
 use Elementor\Scheme_Typography;
@@ -34,28 +34,37 @@ class LSEP_Widget extends Widget_Base {
 	 * @param array $data Widget data.
 	 * @param array $args Widget arguments.
 	 */
-    public function __construct($data = [], $args = null) {
-        parent::__construct($data, $args);
-        add_action('elementor/editor/after_enqueue_scripts', array( $this,'language_switcher_icon_css'));
-        wp_register_style('lsep-style', LSEP_PLUGIN_URL . '/includes/css/language-switcher-style.css', [], LSEP_VERSION);
-    }
+   public function __construct($data = [], $args = null) {
+    parent::__construct($data, $args);
 
-    /**
-     * Add custom CSS for the widget icon.
-     */
-    function language_switcher_icon_css() {
-        echo '<style>
-            .lsep-widget-icon {
-                display: inline-block;
-                width: 25px;
-                height: 25px;
-                background-image: url(' . esc_url( LSEP_PLUGIN_URL . '/assets/images/lang_switcher.svg' ) . ');
-                background-size: contain;
-                background-repeat: no-repeat;
-                background-position: center;
-            }
-        </style>';
-    }
+    wp_register_style(
+        'lsep-style',
+        LSEP_PLUGIN_URL . '/includes/css/language-switcher-style.css',
+        [],
+        LSEP_VERSION
+    );
+
+    add_action('elementor/editor/after_enqueue_scripts', array($this, 'lsep_language_switcher_icon_css'));
+}
+
+public function lsep_language_switcher_icon_css() {
+    wp_enqueue_style('lsep-style');
+
+    $inline_css = "
+        .lsep-widget-icon {
+            display: inline-block;
+            width: 25px;
+            height: 25px;
+            background-image: url('" . esc_url(LSEP_PLUGIN_URL . '/assets/images/lang_switcher.svg') . "');
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+        }
+    ";
+
+    wp_add_inline_style('lsep-style', $inline_css);
+}
+
     
 
 	/**
@@ -175,6 +184,26 @@ class LSEP_Widget extends Widget_Base {
             ]
         );
         
+        if ( ! get_option( 'lsep_elementor_review_notice_dismiss' ) ) {
+            $review_nonce = wp_create_nonce( 'lsep_elementor_review' );
+            $url          = admin_url( 'admin-ajax.php' );
+            $html         = '<div class="lsep_elementor_review_wrapper">';
+            $html        .= '<div id="lsep_elementor_review_dismiss" data-url="' . esc_url( $url ) . '" data-nonce="' . esc_attr( $review_nonce ) . '">Close Notice X</div>
+                            <div class="lsep_elementor_review_msg">' . __( 'Hope this language switcher solved your problem!', 'language-switcher-for-elementor-polylang' ) . '<br><a href="https://wordpress.org/support/plugin/language-switcher-for-elementor-polylang/reviews/#new-post" target="_blank">Share the love with a ⭐⭐⭐⭐⭐ rating.</a><br><br></div>
+                            <div class="lsep_elementor_demo_btn"><a href="https://wordpress.org/support/plugin/language-switcher-for-elementor-polylang/reviews/#new-post" target="_blank">Submit Review</a></div>
+                            </div>';
+
+            $this->add_control(
+                'lsep_review_notice',
+                [
+                    'name'            => 'lsep_review_notice',
+                    'type'            => Controls_Manager::RAW_HTML,
+                    'raw'             => $html,
+                    'content_classes' => 'lsep_elementor_review_notice',
+                ]
+            );
+        }
+
         $this->end_controls_section();
     
         $this->start_controls_section(
@@ -627,7 +656,6 @@ class LSEP_Widget extends Widget_Base {
             ]
         );
         $this->end_controls_section();
-    
     }
     
 	/**
@@ -637,12 +665,13 @@ class LSEP_Widget extends Widget_Base {
 	 * @return array Localized data.
 	 */
     public function lsep_localize_polyglang_data( $data ) {
+        // Get the global Polylang object
         global $polylang;
         $lsep_polylang = $polylang;
         $data = [];
         if ( isset( $lsep_polylang ) ) {
                 try {
-                    require_once LSEP_PLUGIN_DIR . 'helpers/class-lsep-helpers.php';
+                    require_once LSEP_PLUGIN_DIR . 'helpers/lsep-helpers.php';
                     if ( function_exists( 'pll_the_languages' ) && function_exists( 'pll_current_language' ) ) {
                         $languages = pll_the_languages( array( 'raw' => 1 ) );
                         if ( empty( $languages ) ) {
@@ -652,7 +681,7 @@ class LSEP_Widget extends Widget_Base {
                         $languages = array_map(
                             function( $language ) {
                                 return $language['name'] = array(
-                                    'flagCode'       => esc_html( \LSEP_HELPERS::get_flag_code( $language['flag'] ) ),
+                                    'flagCode'       => esc_html( \LSEP_HELPERS::lsep_get_flag_code( $language['flag'] ) ),
                                     'slug'           => esc_html( $language['slug'] ),
                                     'name'           => esc_html( $language['name'] ),
                                     'no_translation' => esc_html( $language['no_translation'] ),
@@ -722,7 +751,7 @@ class LSEP_Widget extends Widget_Base {
         
         // If current language should be shown, use it as active language
         if ($settings['lsep_language_switcher_hide_current_language'] !== 'yes') {
-            $active_language = $languages[$current_lang];
+            $active_language = isset($languages[$current_lang]) ? $languages[$current_lang] : null;
         } else {
             // Find first available language that's not the current language
             $active_language = null;
@@ -740,7 +769,7 @@ class LSEP_Widget extends Widget_Base {
             return '';
         }
         
-        $active_html = self::get_active_language_html($active_language, $settings);
+        $active_html = self::lsep_get_active_language_html($active_language, $settings);
         $languages_html = '';
         
         foreach ($languages as $lang) {
@@ -751,7 +780,7 @@ class LSEP_Widget extends Widget_Base {
                 continue;
             }
 
-            $flag_icon = \LSEP_HELPERS::get_country_flag($lang['flag'], $lang['name']);
+            $flag_icon = \LSEP_HELPERS::lsep_get_country_flag($lang['flag'], $lang['name']);
 
             $languages_html .= '<li class="lsep-lang-item">';
             $languages_html .= '<a href="' . esc_url($lang['url']) . '">';
@@ -777,10 +806,10 @@ class LSEP_Widget extends Widget_Base {
 	 * @param array  $settings Widget settings.
 	 * @return string HTML output.
 	 */
-    public static function get_active_language_html($language, $settings){
+    public static function lsep_get_active_language_html($language, $settings){
         $html = '<span class="lsep-active-language">';
         $html .= '<a href="' . esc_url($language['url']) . '">';
-        $flag_icon = \LSEP_HELPERS::get_country_flag($language['flag'], $language['name']);
+        $flag_icon = \LSEP_HELPERS::lsep_get_country_flag($language['flag'], $language['name']);
         if (!empty($settings['lsep_language_switcher_show_flags']) && $settings['lsep_language_switcher_show_flags'] === 'yes') {
             $html .= '<div class="lsep-lang-image">' . $flag_icon . '</div>';
         }
@@ -814,7 +843,7 @@ class LSEP_Widget extends Widget_Base {
                 continue;
             }
 
-            $flag_icon = \LSEP_HELPERS::get_country_flag($lang['flag'], $lang['name']);
+            $flag_icon = \LSEP_HELPERS::lsep_get_country_flag($lang['flag'], $lang['name']);
             $anchor_open = '<a href="' . esc_url($lang['url']) . '">';
             $anchor_close = '</a>';
 
