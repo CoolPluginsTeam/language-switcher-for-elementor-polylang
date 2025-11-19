@@ -3,7 +3,7 @@
  * Plugin Name: Language Switcher for Elementor & Polylang
  * Plugin URI:
  * Description: Language Switcher for Elementor & Polylang to use language switcher in your page or Elementor header menu
- * Version:     1.2.2
+ * Version:     1.2.3
  * Requires at least: 5.0
  * Requires PHP: 7.2
  * Author:      satindersingh
@@ -24,7 +24,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * Define plugin constants
  */
-define( 'LSEP_VERSION', '1.2.2' );
+define( 'LSEP_VERSION', '1.2.3' );
 define( 'LSEP_PLUGIN_NAME', 'language-switcher-for-elementor-polylang' );
 define( 'LSEP_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
 define( 'LSEP_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
@@ -50,6 +50,7 @@ if ( ! class_exists( 'LSEP_LanguageSwitcher' ) ) {
             register_activation_hook( __FILE__, array( $this, 'lsep_activate' ) );
             add_action( 'plugins_loaded', array( $this, 'lsep_init' ) );
             add_action( 'admin_init', array( $this, 'lsep_redirect_to_settings' ) );
+            add_filter( 'plugin_action_links_' . plugin_basename( __FILE__ ), array( $this, 'lsep_settings_page' ) );
         }
 
         /**
@@ -63,6 +64,7 @@ if ( ! class_exists( 'LSEP_LanguageSwitcher' ) ) {
            
 			if (!get_option( 'lsep_initial_save_version' ) ) {
                 add_option( 'lsep_initial_save_version', LSEP_VERSION );
+                add_option( 'lsep_plugin_activation_redirect', true );
             }
             if(!get_option( 'lsep_install_date' ) ) {
                 add_option( 'lsep_install_date', gmdate('Y-m-d h:i:s') );
@@ -83,6 +85,21 @@ if ( ! class_exists( 'LSEP_LanguageSwitcher' ) ) {
             if(! is_plugin_active( 'elementor/elementor.php' )){
                 return;
             }
+            if ( get_option( 'lsep_plugin_activation_redirect', false ) ) {
+                delete_option( 'lsep_plugin_activation_redirect' );
+                wp_redirect( admin_url( 'admin.php?page=lsep-get-started' ) );
+                exit;
+            }
+        }
+
+        /**
+         * Description  Add links in plugin list page
+         *
+         * @param array $links  The Links you want to add.
+         */
+        public function lsep_settings_page( $links ) {
+            $links[] = '<a style="font-weight:bold" href="' . esc_url( admin_url( 'admin.php?page=lsep-get-started' ) ) . '">' . __( 'Get Started', 'language-switcher-for-elementor-polylang' ) . '</a>';
+            return $links;
         }
 
         /**
@@ -96,7 +113,9 @@ if ( ! class_exists( 'LSEP_LanguageSwitcher' ) ) {
             
             if ( is_admin() ) {
                 /** Feedback form after deactivation */
-                require_once LSEP_PLUGIN_DIR . '/admin/feedback/admin-feedback-form.php';
+                require_once __DIR__ . '/admin/feedback/admin-feedback-form.php';
+                require_once LSEP_PLUGIN_DIR . 'admin/dashboard/lsep-dashboard.php';
+                cool_plugins_lsep_polylang_addon_settings_page( 'polylang-addons', 'cool-plugins-polylang-addons', 'Polylang Addons' );
             }
         }
 
