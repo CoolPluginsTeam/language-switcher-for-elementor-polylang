@@ -870,7 +870,7 @@
 
         renderBorderRadiusField() {
             const { config } = this.state;
-            const corners = ['Top Left', 'Top Right', 'Bottom Left', 'Bottom Right'];
+            const corners = ['Top Left', 'Top Right', 'Bottom Right', 'Bottom Left'];
 
             return h('div', { className: 'lsep-field lsep-field--column' },
                 h('span', { className: 'lsep-field__label lsep-primary-text-bold' }, 'Switcher border radius'),

@@ -14,8 +14,8 @@ if (!defined('ABSPATH')) {
     
     <?php
     // Check Polylang
-    $languages = function_exists('pll_languages_list') ? pll_languages_list() : [];
-    if (empty($languages)) :
+    $lsep_languages = function_exists('pll_languages_list') ? pll_languages_list() : [];
+    if (empty($lsep_languages)) :
     ?>
     <div class="notice notice-warning">
         <p>

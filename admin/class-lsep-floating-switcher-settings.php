@@ -49,11 +49,8 @@ class LSEP_Floating_Switcher_Settings {
    /**
  * Enqueue assets only on our page
  */
-public function enqueue_assets($hook) {
-    // DEBUG: Log the hook to find the correct value
-    error_log('LSEP Hook: ' . $hook);
-    
-    // Try multiple possible hook values
+public function enqueue_assets($hook) {   
+
     $valid_hooks = [
         'lsep-settings_page_lsep-floating-switcher',
         'admin_page_lsep-floating-switcher',
@@ -70,16 +67,16 @@ public function enqueue_assets($hook) {
         }
     }
     
-    // Also check by page parameter
-    if (isset($_GET['page']) && $_GET['page'] === 'lsep-floating-switcher') {
-        $is_our_page = true;
-    }
+// Also check by page parameter
+// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Only checking current admin page, not processing form data
+if (isset($_GET['page']) && sanitize_text_field(wp_unslash($_GET['page'])) === 'lsep-floating-switcher') {
+    $is_our_page = true;
+}
     
     if (!$is_our_page) {
         return;
     }
-    
-    error_log('LSEP: Enqueuing assets on hook: ' . $hook);
+
     
     $plugin_url = plugin_dir_url(dirname(__FILE__));
     $version = time();
@@ -111,8 +108,6 @@ public function enqueue_assets($hook) {
         'lsepFloaterData',
         $this->get_localized_data()
     );
-    
-    error_log('LSEP: Data localized');
     
     wp_set_script_translations(
         'lsep-floating-switcher-app',
@@ -279,7 +274,7 @@ public function enqueue_assets($hook) {
             wp_send_json_error(__('Invalid nonce.', 'language-switcher-for-elementor-polylang'), 403);
         }
         
-        $config_raw = isset($_POST['config']) ? wp_unslash($_POST['config']) : '{}';
+        $config_raw = isset($_POST['config']) ? sanitize_text_field(wp_unslash($_POST['config'])) : '{}';
         $config = json_decode($config_raw, true);
         
         if (!is_array($config)) {

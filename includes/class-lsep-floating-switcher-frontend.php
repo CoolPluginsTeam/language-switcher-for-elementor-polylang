@@ -107,7 +107,7 @@ class LSEP_Floating_Switcher_Frontend {
         
         // Output custom CSS if enabled
         if (!empty($config['enableCustomCss']) && !empty($config['customCss'])) {
-            echo '<style id="lsep-floating-switcher-custom-css">' . wp_strip_all_tags($config['customCss']) . '</style>';
+            echo '<style id="lsep-floating-switcher-custom-css">' . esc_html(wp_strip_all_tags($config['customCss'])) . '</style>';
         }
     }
     
