@@ -1,0 +1,1054 @@
+/**
+ * Floating Switcher Admin CSS
+ * Clean, maintainable version with lsep- prefix
+ */
+
+/* ============================================
+   CSS Variables & Base
+   ============================================ */
+   :root {
+    --lsep-primary: #2271b1;
+    --lsep-primary-hover: #135e96;
+    --lsep-text-primary: #1d2327;
+    --lsep-text-secondary: #646970;
+    --lsep-border: #dcdcde;
+    --lsep-background: #f0f0f1;
+    --lsep-card-bg: #ffffff;
+    --lsep-accent: #2271b1;
+    --lsep-success: #00a32a;
+    --lsep-error: #d63638;
+}
+
+/* ============================================
+   Main Layout
+   ============================================ */
+.lsep-ls-view {
+    display: flex;
+    gap: 30px;
+    max-width: 1600px;
+    margin: 0 auto;
+    padding: 20px 0;
+}
+
+.lsep-floater-settings__wrapper {
+    display: flex;
+    gap: 30px;
+    width: 100%;
+}
+
+.lsep-floater-settings__left {
+    flex: 0 0 400px;
+    min-width: 400px;
+}
+
+.lsep-floater-settings__right {
+    flex: 1;
+    min-width: 600px;
+}
+
+/* ============================================
+   Settings Box
+   ============================================ */
+.lsep-settings-box {
+    background: var(--lsep-card-bg);
+    border: 1px solid var(--lsep-border);
+    border-radius: 8px;
+    margin-bottom: 20px;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.04);
+}
+
+.lsep-settings-box .lsep-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 20px;
+    border-bottom: 1px solid var(--lsep-border);
+    cursor: pointer;
+    user-select: none;
+}
+
+.lsep-settings-box.lsep-collapsible .lsep-header:hover {
+    background-color: #f9f9f9;
+}
+
+.lsep-settings-box .lsep-title {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--lsep-text-primary);
+    margin: 0;
+}
+
+.lsep-settings-box .lsep-body {
+    padding: 20px;
+}
+
+.lsep-settings-box.lsep-collapsible .lsep-body {
+    display: none;
+}
+
+.lsep-settings-box.lsep-collapsible.open .lsep-body {
+    display: block;
+}
+
+/* Chevron icon */
+.lsep-chevron {
+    transition: transform 0.2s ease;
+    transform: rotate(-90deg);
+}
+
+.lsep-settings-box.lsep-collapsible.open .lsep-chevron {
+    transform: rotate(0deg);
+}
+
+/* ============================================
+   Sticky Preview Box
+   ============================================ */
+.lsep-sticky-box {
+    position: sticky;
+    top: 32px;
+}
+
+/* ============================================
+   Language Switcher Preview
+   ============================================ */
+.lsep-language-switcher-preview__container {
+    position: relative;
+    background-image: var(--lsep-preview-bg);
+    background-size: cover;
+    background-position: center;
+    border-radius: 8px;
+    /* padding: 40px 20px; */
+    min-height: 300px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+
+/* ============================================
+   Preview: Dropdown (like TranslatePress - Collapsed by Default)
+   ============================================ */
+
+/* Preview container - simulate page corner */
+.lsep-language-switcher-preview-box {
+    width: 100%;
+    height: 280px;
+    position: relative;
+    background: var(--lsep-preview-bg);
+    background-size: cover;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+/* Switcher positioned absolutely in preview to show position settings */
+.lsep-language-switcher-preview-box .lsep-floating-switcher {
+    display: flex !important;
+    flex-direction: column-reverse !important;
+    border: var(--border-width, 1px) solid var(--border-color, transparent);
+    border-radius: var(--border-radius, 8px);
+    background: var(--bg, #000);
+    padding: 0 !important;
+    width: auto;
+    min-width: unset !important;
+    overflow: hidden;
+    box-shadow: 0 10px 20px 0 rgba(0, 0, 0, 0.05);
+    /* Position absolutely to show actual position */
+    position: absolute !important;
+    bottom: var(--bottom, auto);
+    top: var(--top, auto);
+    right: var(--right, auto);
+    left: var(--left, auto);
+}
+
+/* Top-positioned: normal column order */
+.lsep-language-switcher-preview-box .lsep-switcher-position-top {
+    flex-direction: column !important;
+}
+
+/* Inner wrapper */
+.lsep-language-switcher-preview-box .lsep-language-switcher-inner {
+    display: flex !important;
+    flex-direction: column-reverse !important;
+}
+
+.lsep-language-switcher-preview-box .lsep-switcher-position-top .lsep-language-switcher-inner {
+    flex-direction: column !important;
+}
+
+/* Current/default language item - ALWAYS VISIBLE */
+.lsep-language-switcher-preview-box .lsep-language-item__default {
+    display: flex !important;
+    align-items: center;
+    gap: 8px;
+    padding: 7px 16px !important;
+    color: var(--text, #fff) !important;
+    background: var(--bg, #000) !important;
+    cursor: default;
+    text-decoration: none !important;
+    min-height: 19px;
+    box-sizing: content-box;
+}
+
+/* Dropdown list - HIDDEN by default, SHOWN on hover */
+.lsep-language-switcher-preview-box .lsep-switcher-dropdown-list {
+    display: flex !important;
+    flex-direction: column-reverse !important;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease;
+}
+
+.lsep-language-switcher-preview-box .lsep-switcher-position-top .lsep-switcher-dropdown-list {
+    flex-direction: column !important;
+}
+
+/* SHOW dropdown on hover */
+.lsep-language-switcher-preview-box .lsep-floating-switcher:hover .lsep-switcher-dropdown-list {
+    max-height: 500px;
+    overflow: visible;
+}
+
+/* All language items in dropdown */
+.lsep-language-switcher-preview-box .lsep-switcher-dropdown-list .lsep-language-item {
+    display: flex !important;
+    align-items: center;
+    gap: 8px;
+    padding: 7px 16px !important;
+    color: var(--text, #fff) !important;
+    background: var(--bg, #000) !important;
+    text-decoration: none !important;
+    transition: background var(--transition-duration, 0.2s) ease;
+    cursor: pointer;
+    min-height: 19px;
+    box-sizing: content-box;
+}
+
+.lsep-language-switcher-preview-box .lsep-switcher-dropdown-list .lsep-language-item:hover {
+    background: var(--bg-hover, #444) !important;
+    color: var(--text-hover, #eee) !important;
+}
+
+/* Flag images */
+.lsep-language-switcher-preview-box .lsep-flag-image {
+    width: var(--flag-size, 18px) !important;
+    height: auto;
+    border-radius: var(--flag-radius, 2px);
+    aspect-ratio: var(--aspect-ratio, 4/3);
+    object-fit: cover;
+    flex-shrink: 0;
+}
+
+/* Language names */
+.lsep-language-switcher-preview-box .lsep-language-item-name {
+    font-size: var(--font-size, 14px);
+    line-height: 1.2;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+    font-weight: 400;
+}
+.lsep-language-switcher {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+}
+
+.lsep-floating-switcher {
+    display: flex;
+    flex-direction: column-reverse;
+    border: var(--border-width, 1px) solid var(--border-color, transparent);
+    border-radius: var(--border-radius, 8px);
+    background: var(--bg, #fff);
+    padding: var(--switcher-padding, 10px 0);
+    width: var(--switcher-width, auto);
+    box-shadow: 0 10px 20px 0 rgba(0, 0, 0, 0.05);
+    overflow: hidden;
+}
+
+.lsep-ls-dropdown .lsep-language-switcher-inner {
+    display: flex;
+    flex-direction: column-reverse;
+}
+
+.lsep-language-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 7px 16px;
+    text-decoration: none;
+    color: var(--text, #000);
+    font-size: var(--font-size, 14px);
+    transition: all var(--transition-duration, 0.2s) ease;
+    cursor: pointer;
+}
+
+.lsep-language-item:hover {
+    background: var(--bg-hover, #f3f3f3);
+    color: var(--text-hover, #000);
+}
+
+.lsep-language-item__default {
+    pointer-events: none;
+}
+
+.lsep-flag-image {
+    width: var(--flag-size, 18px);
+    height: auto;
+    border-radius: var(--flag-radius, 2px);
+    aspect-ratio: var(--aspect-ratio, 4/3);
+    object-fit: cover;
+    flex-shrink: 0;
+}
+
+.lsep-language-item-name {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.lsep-switcher-dropdown-list {
+    display: flex;
+    flex-direction: column-reverse;
+}
+
+.lsep-switcher-position-bottom {
+    /* Position classes for floating switcher */
+}
+
+/* ============================================
+   Settings Actions
+   ============================================ */
+.lsep-settings-actions {
+    display: flex;
+    gap: 12px;
+    padding: 16px 20px;
+    background: #fff;
+    border: 1px solid var(--lsep-border);
+    border-radius: 8px;
+    margin-top: 20px;
+}
+
+.lsep-submit-btn {
+    background: var(--lsep-primary);
+    color: #fff;
+    border: none;
+    padding: 8px 20px;
+    border-radius: 4px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.2s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.lsep-submit-btn:hover {
+    background: var(--lsep-primary-hover);
+}
+
+.lsep-submit-btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.lsep-button-secondary {
+    background: transparent;
+    color: var(--lsep-text-primary);
+    border: 1px solid var(--lsep-border);
+    padding: 8px 16px;
+    border-radius: 4px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.lsep-button-secondary:hover {
+    border-color: var(--lsep-primary);
+    color: var(--lsep-primary);
+}
+
+/* ============================================
+   Form Fields Base
+   ============================================ */
+.lsep-field {
+    margin-bottom: 16px;
+}
+
+.lsep-field--row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+}
+
+.lsep-field--column {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+}
+
+.lsep-field__label {
+    font-size: 14px;
+    color: var(--lsep-text-primary);
+    width: var(--lsep-field-label-width, auto);
+}
+
+.lsep-primary-text-bold {
+    font-weight: 600;
+}
+
+.lsep-primary-text {
+    font-size: 14px;
+    color: var(--lsep-text-primary);
+}
+
+.lsep-description-text {
+    font-size: 13px;
+    color: var(--lsep-text-secondary);
+    line-height: 1.5;
+}
+
+.lsep-separator {
+    height: 1px;
+    background: var(--lsep-border);
+    margin: 16px 0;
+}
+
+/* ============================================
+   Toggle Switch
+   ============================================ */
+.lsep-toggle-wrapper {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+}
+
+/* ============================================
+   Toggle Switch - Override WordPress Admin Styles
+   ============================================ */
+   .lsep-toggle-wrapper {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.lsep-toggle-inner {
+    position: relative;
+    width: 44px;
+    height: 24px;
+    background: #8c8f94;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+/* Higher specificity to override WordPress defaults */
+.lsep-toggle-inner input[type="checkbox"].lsep-toggle-input {
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    min-width: 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    opacity: 0 !important;
+    cursor: pointer !important;
+    z-index: 2 !important;
+    border: none !important;
+    box-shadow: none !important;
+    -webkit-appearance: none !important;
+    appearance: none !important;
+}
+
+.lsep-toggle-input:checked + .lsep-toggle-slider {
+    transform: translateX(20px);
+}
+
+.lsep-toggle-inner:has(.lsep-toggle-input:checked) {
+    background: var(--lsep-success);
+}
+
+.lsep-toggle-slider {
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    width: 20px;
+    height: 20px;
+    background: #fff;
+    border-radius: 50%;
+    transition: transform 0.3s ease;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+    pointer-events: none;
+    z-index: 1;
+}
+
+/* Toggle Status Field */
+.lsep-toggle-status-field {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.lsep-radio-group {
+    display: flex;
+    width: 100%;
+    justify-content: space-evenly;
+
+}
+
+.lsep-radio-option {
+    display: flex;
+    align-items: center;
+}
+
+.lsep-radio-label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    font-size: 14px;
+    color: var(--lsep-text-primary);
+}
+
+/* Radio button - override WordPress defaults */
+.lsep-radio-label input[type="radio"] {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    margin: 0 !important;
+    width: 18px !important;
+    height: 18px !important;
+    min-width: 18px !important;
+    border: 2px solid #8c8f94 !important;
+    border-radius: 50% !important;
+    background: #fff !important;
+    cursor: pointer !important;
+    position: relative !important;
+    vertical-align: middle !important;
+    transition: all 0.1s ease !important;
+    box-shadow: none !important;
+    padding: 0 !important;
+}
+
+.lsep-radio-label input[type="radio"]:hover {
+    border-color: var(--lsep-primary, #2271b1) !important;
+}
+
+.lsep-radio-label input[type="radio"]:checked {
+    border-color: var(--lsep-primary, #2271b1) !important;
+    background: var(--lsep-primary, #2271b1) !important;
+}
+
+.lsep-radio-label input[type="radio"]:checked::before {
+    content: '' !important;
+    display: block !important;
+    width: 6px !important;
+    height: 6px !important;
+    border-radius: 50% !important;
+    background: #fff !important;
+    position: absolute !important;
+    top: 50% !important;
+    left: 50% !important;
+    transform: translate(-50%, -50%) !important;
+    margin: 0 !important;
+}
+
+
+/* Remove any WordPress default pseudo-elements */
+.lsep-radio-label input[type="radio"]::after {
+    display: none !important;
+}
+
+/* ============================================
+   Color Picker
+   ============================================ */
+.lsep-color__wrapper {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.lsep-color-input {
+    width: 50px;
+    height: 30px;
+    border: 1px solid var(--lsep-border);
+    border-radius: 4px;
+    cursor: pointer;
+    transition: border-color 0.2s ease;
+}
+
+.lsep-color-input:hover {
+    border-color: var(--lsep-primary);
+}
+
+.lsep-color-input:focus-visible {
+    outline: 2px solid var(--lsep-primary);
+    outline-offset: 2px;
+}
+
+.lsep-color-code {
+    font-size: 13px;
+    font-family: 'Courier New', monospace;
+    color: var(--lsep-text-secondary);
+}
+
+/* Color picker popover */
+.lsep-color__popover {
+    position: absolute;
+    top: calc(100% + 4px);
+    left: 0;
+    z-index: 1000;
+    background: #fff;
+    border: 1px solid var(--lsep-border);
+    border-radius: 8px;
+    padding: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* ============================================
+   Number Input
+   ============================================ */
+.lsep-number__wrapper {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.lsep-number-input {
+    width: 70px;
+    padding: 6px 10px;
+    border: 1px solid var(--lsep-border);
+    border-radius: 4px;
+    font-size: 14px;
+    text-align: center;
+}
+
+.lsep-number-input:focus {
+    outline: none;
+    border-color: var(--lsep-primary);
+    box-shadow: 0 0 0 1px var(--lsep-primary);
+}
+
+/* ============================================
+   Quad Border Radius
+   ============================================ */
+.lsep-quad-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+}
+
+.lsep-quad-radius-corner {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.lsep-corner-label {
+    font-size: 12px;
+    color: var(--lsep-text-secondary);
+}
+
+/* ============================================
+   Preset Cards
+   ============================================ */
+   .lsep-preset-applier {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* Fixed 2 columns like TranslatePress */
+    gap: 16px;
+}
+
+/* Make cards larger to match TranslatePress style */
+.lsep-preset-card {
+    border: 1px solid var(--lsep-border);
+    border-radius: 8px;
+    overflow: hidden;
+    transition: all 0.2s ease;
+    min-height: 200px; /* Add minimum height */
+}
+
+.lsep-preview-rect {
+    padding: 40px 20px; /* More padding for better spacing */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 180px; /* Taller preview area */
+}
+
+.lsep-switcher-preview {
+    width: 100%;
+    max-width: 180px; /* Wider preview */
+}
+
+.lsep-switcher-preview .lsep-language-item {
+    padding: 8px 12px; /* Slightly more padding */
+    font-size: 13px;
+}
+
+.lsep-switcher-preview .lsep-flag-image {
+    width: 16px; /* Slightly larger flags */
+}
+
+.lsep-apply-btn {
+    width: 100%;
+    padding: 10px;
+    border: none;
+    background: #f0f0f1;
+    color: var(--lsep-text-primary);
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.2s ease;
+}
+
+.lsep-apply-btn:hover {
+    background: var(--lsep-primary);
+    color: #fff;
+}
+
+/* Dropdown preview styling for preset cards */
+.lsep-dropdown-preview {
+    display: flex;
+    flex-direction: column;
+    background: var(--bg, #fff);
+    border: 1px solid var(--border-color, #ddd);
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.lsep-dropdown-preview .lsep-language-item {
+    width: 100%;
+    justify-content: flex-start;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.lsep-dropdown-preview .lsep-language-item:last-child {
+    border-bottom: none;
+}
+
+.lsep-dropdown-preview .lsep-language-item:hover {
+    background: var(--bg-hover, #f5f5f5);
+}
+
+/* ============================================
+   Side-by-Side (Inline) Mode
+   ============================================ */
+
+/* Main preview - inline mode */
+.lsep-language-switcher-preview-box .lsep-ls-inline .lsep-language-switcher-inner {
+    flex-direction: row !important;
+    gap: 0;
+}
+
+.lsep-language-switcher-preview-box .lsep-ls-inline .lsep-language-item {
+    flex: 0 0 auto;
+    border-right: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.lsep-language-switcher-preview-box .lsep-ls-inline .lsep-language-item:last-child {
+    border-right: none;
+}
+
+.lsep-language-switcher-preview-box .lsep-ls-inline .lsep-language-item:hover {
+    background: var(--bg-hover, #444) !important;
+}
+
+/* Preset cards - inline mode */
+.lsep-preset-switcher-preview.lsep-ls-inline .lsep-language-switcher-inner {
+    flex-direction: row !important;
+    gap: 0;
+}
+
+.lsep-preset-switcher-preview.lsep-ls-inline .lsep-language-item {
+    flex: 0 0 auto;
+    border-right: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.lsep-preset-switcher-preview.lsep-ls-inline .lsep-language-item:last-child {
+    border-right: none;
+}
+
+.lsep-preset-switcher-preview.lsep-ls-inline .lsep-language-item:hover {
+    background: var(--bg-hover, #444) !important;
+}
+
+/* Make the preview container more compact */
+.lsep-switcher-preview {
+    width: 100%;
+    max-width: 160px;
+    margin: 0 auto;
+}
+
+.lsep-switcher-preview .lsep-language-item {
+    padding: 10px 14px;
+    font-size: 13px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+    transition: background 0.2s ease;
+}
+
+.lsep-switcher-preview .lsep-flag-image {
+    width: 18px;
+    height: auto;
+    flex-shrink: 0;
+}
+
+.lsep-switcher-preview .lsep-language-item-name {
+    font-size: 13px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* ============================================
+   Checkbox Settings
+   ============================================ */
+.lsep-settings-checkbox {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+}
+
+.lsep-settings-checkbox input[type="checkbox"] {
+    margin-top: 2px;
+    width: 18px;
+    height: 18px;
+    cursor: pointer;
+}
+
+.lsep-checkbox-label {
+    display: flex;
+    gap: 12px;
+    cursor: pointer;
+    flex: 1;
+}
+
+.lsep-checkbox-content {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.lsep-settings-options-item {
+    padding: 12px 0;
+}
+
+.lsep-settings-options-item:not(:last-child) {
+    border-bottom: 1px solid var(--lsep-border);
+}
+
+/* ============================================
+   Layout Customizer
+   ============================================ */
+.lsep-layout-customizer-field {
+    width: 100%;
+}
+
+.lsep-lc-mode-toggle {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 20px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--lsep-border);
+}
+
+.lsep-lc-mode-button {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 10px 16px;
+    border: 1px solid var(--lsep-border);
+    border-radius: 6px;
+    background: transparent;
+    color: var(--lsep-text-primary);
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.lsep-lc-mode-button:hover {
+    border-color: var(--lsep-primary);
+    color: var(--lsep-primary);
+}
+
+.lsep-lc-mode-button.active {
+    background: var(--lsep-primary);
+    border-color: var(--lsep-primary);
+    color: #fff;
+}
+
+.lsep-lc-mode-button svg {
+    width: 20px;
+    height: 20px;
+}
+
+.lsep-lc-settings-panel {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+/* Language Switcher Tab Content */
+#language-switcher.lsep-tab-content {
+    padding: 0;
+    background: #f0f0f1;
+}
+
+#language-switcher .lsep-settings-header {
+    margin-left: -20px;
+    margin-right: -20px;
+}
+
+.lsep-lc-section {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+/* ============================================
+   Improved Layout Customizer Spacing
+   ============================================ */
+
+/* Add spacing between layout sections */
+.lsep-lc-section {
+    display: flex;
+    flex-direction: column;
+    gap: 20px; /* Increased from 16px */
+}
+
+/* Add more space for layout subfields */
+.lsep-lc-subfield {
+    margin-bottom: 16px;
+}
+
+.lsep-lc-subfield:last-child {
+    margin-bottom: 0;
+}
+
+/* Better spacing for radio groups inside layout */
+.lsep-layout-customizer-field .lsep-radio-group {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* 2 columns for position options */
+    gap: 12px; /* Space between items */
+    width: 100%;
+    padding: 8px 0;
+}
+
+/* Better spacing for radio options */
+.lsep-layout-customizer-field .lsep-radio-option {
+    display: flex;
+    align-items: center;
+    padding: 8px 12px;
+    background: #f9f9f9;
+    border: 1px solid var(--lsep-border);
+    border-radius: 6px;
+    transition: all 0.2s ease;
+}
+
+.lsep-layout-customizer-field .lsep-radio-option:hover {
+    background: #f0f0f0;
+    border-color: var(--lsep-primary);
+}
+
+/* Highlight selected radio option */
+.lsep-layout-customizer-field .lsep-radio-option:has(input:checked) {
+    background: #e8f4fd;
+    border-color: var(--lsep-primary);
+}
+
+/* Better label spacing */
+.lsep-layout-customizer-field .lsep-radio-label {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+    font-size: 14px;
+    color: var(--lsep-text-primary);
+    width: 100%;
+}
+
+/* Add more vertical space between different field types */
+.lsep-layout-customizer-field > .lsep-field {
+    margin-bottom: 20px;
+}
+
+.lsep-layout-customizer-field > .lsep-field:last-child {
+    margin-bottom: 0;
+}
+
+/* Ensure field labels have proper spacing */
+.lsep-layout-customizer-field .lsep-field__label {
+    margin-bottom: 12px;
+    display: block;
+}
+
+/* ============================================
+   Custom CSS Editor
+   ============================================ */
+.lsep-custom-css-editor {
+    width: 100%;
+}
+
+.lsep-custom-css-editor textarea {
+    width: 100%;
+    min-height: 200px;
+    padding: 12px;
+    border: 1px solid var(--lsep-border);
+    border-radius: 4px;
+    font-family: 'Courier New', Consolas, monospace;
+    font-size: 13px;
+    line-height: 1.6;
+    resize: vertical;
+}
+
+.lsep-custom-css-editor textarea:focus {
+    outline: none;
+    border-color: var(--lsep-primary);
+    box-shadow: 0 0 0 1px var(--lsep-primary);
+}
+
+/* ============================================
+   Responsive Design
+   ============================================ */
+@media screen and (max-width: 1280px) {
+    .lsep-floater-settings__wrapper {
+        flex-direction: column;
+    }
+    
+    .lsep-floater-settings__left {
+        flex: 1;
+        max-width: 100%;
+    }
+    
+    .lsep-sticky-box {
+        position: relative;
+        top: 0;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .lsep-preset-applier {
+        grid-template-columns: 1fr 1fr;
+    }
+    
+    .lsep-field--row {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    
+    .lsep-floater-settings__left {
+        min-width: 100%;
+    }
+}

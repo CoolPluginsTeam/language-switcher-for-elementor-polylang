@@ -1,0 +1,519 @@
+/**
+ * Floating Language Switcher - Frontend Styles
+ * Handles the actual floating switcher display on the website
+ */
+
+/* ============================================
+   Base Floating Switcher
+   ============================================ */
+   .lsep-floating-switcher {
+    display: flex;
+    flex-direction: column-reverse;
+    position: fixed;
+    z-index: 99999;
+    overflow: hidden;
+    padding: var(--switcher-padding, 10px 0);
+    border: var(--border-width, 1px) solid var(--border-color, transparent);
+    border-radius: var(--border-radius, 8px);
+    background: var(--bg, #fff);
+    width: var(--switcher-width, auto);
+    top: var(--top, unset);
+    right: var(--right, unset);
+    bottom: var(--bottom, unset);
+    left: var(--left, unset);
+    box-shadow: 0 10px 20px 0 rgba(0, 0, 0, 0.08);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+}
+
+/* Position adjustments for top placement */
+.lsep-switcher-position-top.lsep-floating-switcher {
+    flex-direction: column;
+    top: var(--wp-admin--admin-bar--height, 0);
+}
+
+.lsep-floating-switcher.lsep-switcher-position-top:not(.lsep-ls-inline) .lsep-language-switcher-inner,
+.lsep-floating-switcher.lsep-switcher-position-top .lsep-switcher-dropdown-list {
+    flex-direction: column;
+}
+
+/* ============================================
+   Switcher Inner Container
+   ============================================ */
+
+.lsep-language-switcher-inner{
+    padding: 10px 0px 10px 0px !important;
+}
+.lsep-floating-switcher .lsep-language-switcher-inner {
+    display: flex;
+    flex-direction: column-reverse;
+}
+
+.lsep-ls-inline .lsep-language-switcher-inner {
+    flex-direction: row;
+}
+
+.lsep-ls-inline.lsep-opposite-language .lsep-language-item {
+    width: 100%;
+}
+
+/* ============================================
+   Side-by-Side (Inline) Mode Styles
+   ============================================ */
+   
+/* Inline mode - all items in a row */
+.lsep-ls-inline .lsep-language-switcher-inner {
+    flex-direction: row !important;
+    gap: 0;
+}
+
+/* Inline mode language items */
+.lsep-ls-inline .lsep-language-item {
+    flex: 0 0 auto;
+    /* border-right: 1px solid rgba(255, 255, 255, 0.1); */
+}
+
+/* Remove border from last item */
+.lsep-ls-inline .lsep-language-item:last-child {
+    border-right: none;
+}
+
+/* Hover effect for inline items */
+.lsep-ls-inline .lsep-language-item:hover {
+    background: var(--bg-hover, #444) !important;
+}
+
+/* Hover text color for inline items */
+.lsep-ls-inline .lsep-language-item:hover .lsep-language-item-name {
+    color: var(--text-hover, #eee) !important;
+}
+
+/* Current language in inline mode should not have hover effect */
+.lsep-ls-inline .lsep-language-item__current:hover,
+.lsep-ls-inline .lsep-language-item__default:hover {
+    background: transparent !important;
+}
+
+/* ============================================
+   Dropdown List
+   ============================================ */
+.lsep-switcher-dropdown-list {
+    display: flex;
+    flex-direction: column-reverse;
+    overflow-y: hidden;
+    transition: max-height var(--transition-duration, 0.2s) ease-in-out;
+    max-height: 0;
+}
+
+/* Open state */
+.lsep-ls-dropdown.is-open .lsep-switcher-dropdown-list,
+.lsep-ls-dropdown[aria-expanded="true"] .lsep-switcher-dropdown-list {
+    overflow-y: auto;
+    max-height: min(350px, 70vh);
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: thin;
+    scrollbar-color: var(--text) transparent;
+}
+
+/* Transitioning state */
+.lsep-ls-dropdown.is-transitioning .lsep-switcher-dropdown-list {
+    overflow-y: hidden !important;
+}
+
+/* Webkit scrollbar styling */
+.lsep-switcher-dropdown-list::-webkit-scrollbar {
+    width: 6px;
+}
+
+.lsep-switcher-dropdown-list::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.lsep-switcher-dropdown-list::-webkit-scrollbar-thumb {
+    background: var(--text, #888);
+    border-radius: 3px;
+}
+
+.lsep-switcher-dropdown-list::-webkit-scrollbar-thumb:hover {
+    background: var(--text-hover, #555);
+}
+
+/* ============================================
+   Language Items
+   ============================================ */
+   /* ============================================
+   Remove WordPress/Browser Default Pseudo-elements
+   ============================================ */
+.lsep-language-item::before,
+.lsep-language-item::after,
+.lsep-language-item__current::before,
+.lsep-language-item__current::after,
+.lsep-language-item__default::before,
+.lsep-language-item__default::after {
+    content: none !important;
+    display: none !important;
+}
+
+/* Remove any checkbox/button styling */
+.lsep-language-item[role="button"]::before,
+.lsep-language-item[role="button"]::after {
+    content: none !important;
+    display: none !important;
+}
+
+   .lsep-language-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 7px 16px;
+    text-decoration: none;
+    min-height: 19px;
+    box-sizing: content-box;
+    color: var(--text, #000);
+    font-size: var(--font-size, 14px);
+    line-height: 1.2;
+    font-weight: 400;
+    transition: all var(--transition-duration, 0.2s) ease;
+    cursor: pointer;
+    user-select: none;
+}
+
+/* Dropdown items - apply background and text color from variables */
+.lsep-switcher-dropdown-list .lsep-language-item {
+    background: var(--bg, #fff) !important;
+    color: var(--text, #000) !important;
+}
+
+/* Dropdown items hover - background AND text color */
+.lsep-switcher-dropdown-list .lsep-language-item:hover {
+    background: var(--bg-hover, #f3f3f3) !important;
+    color: var(--text-hover, #000) !important;
+}
+
+/* Make sure text span inherits the hover color */
+.lsep-switcher-dropdown-list .lsep-language-item:hover .lsep-language-item-name {
+    color: var(--text-hover, #000) !important;
+}
+
+/* Current language (non-clickable) */
+.lsep-language-item__current {
+    pointer-events: none;
+    cursor: default;
+}
+
+.lsep-language-item__default {
+    pointer-events: none;
+    cursor: default;
+}
+
+/* When current language is a button control (for dropdown) */
+.lsep-language-item__current[role="button"] {
+    pointer-events: all;
+    cursor: pointer;
+}
+
+/* Current/default should NOT have hover effects */
+.lsep-language-item__current:hover,
+.lsep-language-item__default:hover {
+    background: transparent !important;
+}
+/* Focus styles */
+.lsep-language-item:focus {
+    outline: none;
+}
+
+.lsep-language-item:focus-visible {
+    outline: 2px solid var(--text);
+    outline-offset: -2px;
+}
+
+/* ============================================
+   Language Names
+   ============================================ */
+.lsep-language-item-name {
+    display: inline-block;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    color: inherit;
+}
+
+/* ============================================
+   Flag Images
+   ============================================ */
+.lsep-flag-image {
+    width: var(--flag-size, 18px);
+    height: auto;
+    border-radius: var(--flag-radius, 2px);
+    aspect-ratio: var(--aspect-ratio, 4/3);
+    object-fit: cover;
+    flex-shrink: 0;
+    display: block;
+}
+
+.lsep-flag-square {
+    aspect-ratio: 1;
+}
+
+.lsep-flag-rounded {
+    border-radius: 50%;
+}
+
+/* ============================================
+   Powered By Section
+   ============================================ */
+#lsep-floater-powered-by {
+    color: var(--text, #b3b3b3);
+    font-size: 11px;
+    text-align: center;
+    padding: 0 5px;
+    opacity: 0.7;
+}
+
+#lsep-floater-powered-by a {
+    color: inherit;
+    text-decoration: none;
+}
+
+#lsep-floater-powered-by a:hover {
+    text-decoration: underline;
+}
+
+.lsep-switcher-position-bottom #lsep-floater-powered-by {
+    border-top: 1px solid var(--text, #74747440);
+    padding-top: 5px;
+    margin-top: 5px;
+}
+
+.lsep-switcher-position-top #lsep-floater-powered-by {
+    border-bottom: 1px solid var(--text, #74747440);
+    padding-bottom: 5px;
+    margin-bottom: 5px;
+}
+
+/* ============================================
+   Opposite Language Mode
+   ============================================ */
+.lsep-opposite-language .lsep-language-item {
+    justify-content: center;
+}
+
+/* ============================================
+   Accessibility
+   ============================================ */
+/* Hidden but accessible */
+[hidden] {
+    display: none !important;
+}
+
+/* Inert elements */
+[inert] {
+    pointer-events: none;
+    cursor: default;
+    user-select: none;
+}
+
+[inert] * {
+    pointer-events: none;
+    cursor: default;
+    user-select: none;
+}
+
+/* Skip translation attribute */
+[data-no-translation] {
+    /* Marker for translation plugins to skip */
+}
+
+/* ============================================
+   Animations & Transitions
+   ============================================ */
+@keyframes lsep-fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.lsep-floating-switcher {
+    animation: lsep-fadeIn 0.3s ease-out;
+}
+
+/* ============================================
+   Responsive Adjustments
+   ============================================ */
+@media screen and (max-width: 768px) {
+    .lsep-floating-switcher {
+        /* Adjust positioning for mobile */
+        --right: 5vw !important;
+        --left: 5vw !important;
+    }
+    
+    .lsep-language-item {
+        padding: 10px 16px;
+        min-height: 24px;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .lsep-floating-switcher {
+        /* Further adjustments for small screens */
+        font-size: 13px;
+    }
+}
+
+/* ============================================
+   Print Styles
+   ============================================ */
+@media print {
+    .lsep-floating-switcher {
+        display: none !important;
+    }
+}
+
+/* ============================================
+   High Contrast Mode Support
+   ============================================ */
+@media (prefers-contrast: high) {
+    .lsep-language-item {
+        border: 1px solid currentColor;
+    }
+    
+    .lsep-language-item:hover {
+        background: var(--text);
+        color: var(--bg);
+    }
+}
+
+/* ============================================
+   Reduced Motion Support
+   ============================================ */
+@media (prefers-reduced-motion: reduce) {
+    .lsep-floating-switcher,
+    .lsep-language-item,
+    .lsep-switcher-dropdown-list {
+        animation: none !important;
+        transition: none !important;
+    }
+}
+
+/* ============================================
+   Dark Mode Support (Optional)
+   ============================================ */
+@media (prefers-color-scheme: dark) {
+    /* Use CSS variables, so theme colors will apply automatically */
+    /* Only add overrides if needed */
+}
+
+/* ============================================
+   RTL Support
+   ============================================ */
+[dir="rtl"] .lsep-language-item {
+    text-align: right;
+}
+
+[dir="rtl"] .lsep-flag-image {
+    order: 2;
+}
+
+/* ============================================
+   Admin Bar Adjustment
+   ============================================ */
+body.admin-bar .lsep-switcher-position-top.lsep-floating-switcher {
+    top: 32px;
+}
+
+@media screen and (max-width: 782px) {
+    body.admin-bar .lsep-switcher-position-top.lsep-floating-switcher {
+        top: 46px;
+    }
+}
+
+/* ============================================
+   Z-Index Management
+   ============================================ */
+/* Ensure switcher appears above most elements but below modals */
+.lsep-floating-switcher {
+    z-index: 99999;
+}
+
+/* If you need to adjust for specific themes, add here */
+/* Example: */
+/* body.some-theme .lsep-floating-switcher {
+    z-index: 999999;
+} */
+
+/* ============================================
+   Custom Hover Effects
+   ============================================ */
+.lsep-language-item {
+    position: relative;
+    overflow: hidden;
+}
+
+.lsep-language-item::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: var(--bg-hover, rgba(0, 0, 0, 0.05));
+    transition: left var(--transition-duration, 0.2s) ease;
+    pointer-events: none;
+}
+
+.lsep-language-item:hover::before {
+    left: 0;
+}
+
+/* Disable hover effect on current language */
+.lsep-language-item__default::before,
+.lsep-language-item__current:not([role="button"])::before {
+    display: none;
+}
+
+/* ============================================
+   Loading State (Optional)
+   ============================================ */
+.lsep-floating-switcher.is-loading {
+    opacity: 0.6;
+    pointer-events: none;
+}
+
+/* ============================================
+   Error State (Optional)
+   ============================================ */
+.lsep-floating-switcher.has-error {
+    border: 2px solid #d63638;
+}
+
+/* ============================================
+   Compatibility Fixes
+   ============================================ */
+/* Reset any theme overrides */
+.lsep-floating-switcher * {
+    box-sizing: border-box;
+}
+
+.lsep-language-item {
+    font-family: inherit;
+    font-style: normal;
+    font-variant: normal;
+    text-transform: none;
+    letter-spacing: normal;
+    word-spacing: normal;
+}
+
+/* Ensure flags don't inherit weird image styles from themes */
+.lsep-flag-image {
+    max-width: none;
+    height: auto;
+    vertical-align: middle;
+    border: none;
+    box-shadow: none;
+    margin: 0;
+    padding: 0;
+}

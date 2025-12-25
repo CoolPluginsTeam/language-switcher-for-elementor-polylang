@@ -155,6 +155,7 @@ if (!defined('ABSPATH')) {
                 echo '<h1>'.esc_html__('Welcome to Language Switcher for Elementor & Polylang', 'language-switcher-for-elementor-polylang').'</h1>';
                 echo '<h2 class="nav-tab-wrapper lsep-nav-tab-wrapper">';
                 echo '<a href="#lsep-getting-started" class="nav-tab nav-tab-active lsep-nav-tab lsep-nav-tab-active">'.esc_html__('Get Started', 'language-switcher-for-elementor-polylang').'</a>';
+                echo '<a href="' . esc_url(admin_url('admin.php?page=lsep-floating-switcher')) . '" class="nav-tab lsep-nav-tab">'.esc_html__('Floating Switcher', 'language-switcher-for-elementor-polylang').'</a>';
                 echo '<a href="#lsep-more-addons" class="nav-tab lsep-nav-tab">'.esc_html__('More Addons', 'language-switcher-for-elementor-polylang').'</a>';
                 echo '</h2>';
                 echo '<div id="lsep-getting-started" class="lsep-tab-content active">';

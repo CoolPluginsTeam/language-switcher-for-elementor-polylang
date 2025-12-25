@@ -108,14 +108,22 @@ if ( ! class_exists( 'LSEP_LanguageSwitcher' ) ) {
          * @since 1.0.0
          */
         public function lsep_init() {
+            // Load helpers first - needed by both admin and frontend
+            require_once LSEP_PLUGIN_DIR . 'helpers/lsep-helpers.php';
+            
             require_once LSEP_PLUGIN_DIR . 'includes/lsep-manager.php';
             require_once LSEP_PLUGIN_DIR . 'includes/lsep-register-widget.php';
             
             if ( is_admin() ) {
                 /** Feedback form after deactivation */
+                require_once plugin_dir_path(__FILE__) . 'admin/class-lsep-floating-switcher-settings.php';
+                \LSEP_Floating_Switcher_Settings::get_instance();
                 require_once __DIR__ . '/admin/feedback/admin-feedback-form.php';
                 require_once LSEP_PLUGIN_DIR . 'admin/dashboard/lsep-dashboard.php';
                 cool_plugins_lsep_polylang_addon_settings_page( 'polylang-addons', 'cool-plugins-polylang-addons', 'Polylang Addons' );
+            }
+            if (!is_admin()) {
+                require_once plugin_dir_path(__FILE__) . 'includes/class-lsep-floating-switcher-frontend.php';
             }
         }
 
