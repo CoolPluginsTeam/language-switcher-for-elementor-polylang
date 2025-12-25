@@ -52,9 +52,6 @@
     flex-direction: row;
 }
 
-.lsep-ls-inline.lsep-opposite-language .lsep-language-item {
-    width: 100%;
-}
 
 /* ============================================
    Side-by-Side (Inline) Mode Styles
@@ -256,45 +253,6 @@
 
 .lsep-flag-rounded {
     border-radius: 50%;
-}
-
-/* ============================================
-   Powered By Section
-   ============================================ */
-#lsep-floater-powered-by {
-    color: var(--text, #b3b3b3);
-    font-size: 11px;
-    text-align: center;
-    padding: 0 5px;
-    opacity: 0.7;
-}
-
-#lsep-floater-powered-by a {
-    color: inherit;
-    text-decoration: none;
-}
-
-#lsep-floater-powered-by a:hover {
-    text-decoration: underline;
-}
-
-.lsep-switcher-position-bottom #lsep-floater-powered-by {
-    border-top: 1px solid var(--text, #74747440);
-    padding-top: 5px;
-    margin-top: 5px;
-}
-
-.lsep-switcher-position-top #lsep-floater-powered-by {
-    border-bottom: 1px solid var(--text, #74747440);
-    padding-bottom: 5px;
-    margin-bottom: 5px;
-}
-
-/* ============================================
-   Opposite Language Mode
-   ============================================ */
-.lsep-opposite-language .lsep-language-item {
-    justify-content: center;
 }
 
 /* ============================================

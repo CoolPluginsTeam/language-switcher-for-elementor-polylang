@@ -262,8 +262,6 @@ private function get_default_languages() {
             'flagRadius' => 2,
             'enableCustomCss' => false,
             'customCss' => '',
-            'oppositeLanguage' => false,
-            'showPoweredBy' => false,
             'layoutCustomizer' => $layout_defaults,
             'enableTransitions' => true,
         ];

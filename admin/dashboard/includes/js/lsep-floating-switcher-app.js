@@ -45,8 +45,6 @@
                 flagRadius: 2,
                 enableCustomCss: false,
                 customCss: '',
-                oppositeLanguage: false,
-                showPoweredBy: false,
                 enableTransitions: true,
                 layoutCustomizer: {
                     desktop: {

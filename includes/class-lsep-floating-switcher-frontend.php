@@ -92,7 +92,6 @@ class LSEP_Floating_Switcher_Frontend {
         }
         
         $is_dropdown = $config['type'] === 'dropdown';
-        $is_opposite = !empty($config['oppositeLanguage']);
         
         // Build styles
         $styles = $this->build_switcher_styles($config, $layout);
@@ -103,7 +102,7 @@ class LSEP_Floating_Switcher_Frontend {
             : 'lsep-switcher-position-bottom';
         
         // Render the switcher
-        $this->render_switcher_html($languages, $config, $layout, $styles, $position_class, $is_dropdown, $is_opposite);
+        $this->render_switcher_html($languages, $config, $layout, $styles, $position_class, $is_dropdown);
         
         // Output custom CSS if enabled
         if (!empty($config['enableCustomCss']) && !empty($config['customCss'])) {
@@ -144,15 +143,6 @@ class LSEP_Floating_Switcher_Frontend {
             } else {
                 $languages[] = $lang_data;
             }
-        }
-        
-        // Handle opposite language mode
-        if (!empty($config['oppositeLanguage']) && count($languages) === 2) {
-            // Show only the non-current language
-            $languages = array_filter($languages, function($lang) {
-                return !$lang['is_current'];
-            });
-            $languages = array_values($languages); // Re-index
         }
         
         return $languages;
@@ -255,7 +245,7 @@ private function get_plugin_flag_url($polylang_flag_url) {
     /**
      * Render the switcher HTML
      */
-    private function render_switcher_html($languages, $config, $layout, $styles, $position_class, $is_dropdown, $is_opposite) {
+    private function render_switcher_html($languages, $config, $layout, $styles, $position_class, $is_dropdown) {
         $current = $languages[0] ?? null;
         $others = array_slice($languages, 1);
         
@@ -265,28 +255,18 @@ private function get_plugin_flag_url($polylang_flag_url) {
         
         $flag_position = $layout['flagIconPosition'];
         ?>
-        <nav class="lsep-language-switcher lsep-floating-switcher <?php echo $is_dropdown ? 'lsep-ls-dropdown ' : 'lsep-ls-inline '; echo esc_attr($position_class); echo $is_opposite ? ' lsep-opposite-language' : ''; ?>"
+        <nav class="lsep-language-switcher lsep-floating-switcher <?php echo $is_dropdown ? 'lsep-ls-dropdown ' : 'lsep-ls-inline '; echo esc_attr($position_class); ?>"
              style="<?php echo esc_attr($styles); ?>"
              role="navigation"
              aria-label="<?php esc_attr_e('Website language selector', 'language-switcher-for-elementor-polylang'); ?>"
              data-no-translation>
             
-            <?php if (!empty($config['showPoweredBy'])) : ?>
-                <div id="lsep-floater-powered-by">
-                    <?php esc_html_e('Powered by', 'language-switcher-for-elementor-polylang'); ?>
-                    <a href="<?php echo esc_url(home_url('/')); ?>" 
-                       rel="nofollow"
-                       target="_blank">
-                        <?php bloginfo('name'); ?>
-                    </a>
-                </div>
-            <?php endif; ?>
             
             <?php if ($is_dropdown) : ?>
                 <div class="lsep-language-switcher-inner">
                     <?php 
                     // Current language (as control if not opposite mode)
-                    $this->render_language_item($current, !$is_opposite, $flag_position, $config); 
+                    $this->render_language_item($current, true, $flag_position, $config); 
                     ?>
                     
                     <?php if (!empty($others)) : ?>
@@ -306,7 +286,7 @@ private function get_plugin_flag_url($polylang_flag_url) {
         <?php 
         // Show ALL languages side by side
         foreach ($languages as $lang) :
-            $this->render_language_item($lang, false, $flag_position, $config, $lang['is_current']);
+            $this->render_language_item($lang, true, $flag_position, $config, $lang['is_current']);
         endforeach;
         ?>
     </div>
