@@ -133,31 +133,53 @@ if (isset($_GET['page']) && sanitize_text_field(wp_unslash($_GET['page'])) === '
     }
     
     /**
-     * Get Polylang languages
-     */
-    private function get_polylang_languages() {
-        if (!function_exists('pll_languages_list')) {
-            return [];
-        }
-        
-        $languages = [];
-        $pll_languages = pll_languages_list(['fields' => false]);
-        
-        if (empty($pll_languages)) {
-            return [];
-        }
-        
-        foreach ($pll_languages as $lang) {
-            $languages[] = [
-                'code' => $lang->slug,
-                'name' => $lang->name,
-                'flag' => $this->get_plugin_flag_url($lang->flag_url ?? ''),
-                'locale' => $lang->locale,
-            ];
-        }
-        
-        return $languages;
+ * Get Polylang languages
+ */
+private function get_polylang_languages() {
+    if (!function_exists('pll_languages_list')) {
+        return $this->get_default_languages();
     }
+    
+    $languages = [];
+    $pll_languages = pll_languages_list(['fields' => false]);
+    
+    if (empty($pll_languages)) {
+        return $this->get_default_languages();
+    }
+    
+    foreach ($pll_languages as $lang) {
+        $languages[] = [
+            'code' => $lang->slug,
+            'name' => $lang->name,
+            'flag' => $this->get_plugin_flag_url($lang->flag_url ?? ''),
+            'locale' => $lang->locale,
+        ];
+    }
+    
+    return $languages;
+}
+
+/**
+ * Get default languages (English and French) when Polylang is not configured
+ */
+private function get_default_languages() {
+    $plugin_url = plugin_dir_url(dirname(__FILE__));
+    
+    return [
+        [
+            'code' => 'en',
+            'name' => 'English',
+            'flag' => $plugin_url . 'assets/flags/us.svg',
+            'locale' => 'en_US',
+        ],
+        [
+            'code' => 'fr',
+            'name' => 'Français',
+            'flag' => $plugin_url . 'assets/flags/fr.svg',
+            'locale' => 'fr_FR',
+        ],
+    ];
+}
     
     /**
      * Convert Polylang PNG flag URL to plugin's SVG flag URL
