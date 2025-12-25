@@ -31,7 +31,7 @@
 
         getDefaultConfig() {
             return {
-                enabled: true,
+                enabled: false,
                 type: 'dropdown',
                 bgColor: '#ffffff',
                 bgHoverColor: '#0000000d',
@@ -151,6 +151,16 @@
 
         applyPreset(preset) {
             this.updateConfig(preset.config);
+        }
+
+        isPresetActive(preset) {
+            const { config } = this.state;
+            const presetConfig = preset.config;
+            
+            // Check if all preset config values match current config
+            return Object.keys(presetConfig).every(key => {
+                return config[key] === presetConfig[key];
+            });
         }
 
         revertChanges() {
@@ -575,7 +585,7 @@
                     )
                 ),
                 h('button', {
-                    className: 'lsep-apply-btn',
+                    className: `lsep-apply-btn${this.isPresetActive(preset) ? ' lsep-apply-btn-active' : ''}`,
                     onClick: () => this.applyPreset(preset)
                 }, `Apply ${preset.name} preset`)
             );

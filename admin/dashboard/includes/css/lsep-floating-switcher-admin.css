@@ -672,7 +672,15 @@
     transition: all 0.2s ease;
     min-height: 200px; /* Add minimum height */
 }
+.lsep-apply-btn.lsep-apply-btn-active {
+    background: var(--lsep-primary);
+    color: #fff;
+    font-weight: 600;
+}
 
+.lsep-apply-btn.lsep-apply-btn-active:hover {
+    background: var(--lsep-primary-hover);
+}
 .lsep-preview-rect {
     padding: 40px 20px; /* More padding for better spacing */
     display: flex;

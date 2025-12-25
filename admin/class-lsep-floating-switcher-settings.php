@@ -248,7 +248,7 @@ private function get_default_languages() {
         ];
         
         return [
-            'enabled' => true,
+            'enabled' => false,
             'type' => 'dropdown',
             'bgColor' => '#ffffff',
             'bgHoverColor' => '#0000000d',
