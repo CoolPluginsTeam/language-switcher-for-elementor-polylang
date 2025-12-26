@@ -85,8 +85,8 @@
 }
 
 /* Current language in inline mode should not have hover effect */
-.lsep-ls-inline .lsep-language-item__current:hover,
-.lsep-ls-inline .lsep-language-item__default:hover {
+.lsep-ls-dropdown .lsep-language-item__current:hover,
+.lsep-ls-dropdown .lsep-language-item__default:hover {
     background: transparent !important;
 }
 
@@ -192,12 +192,12 @@
 }
 
 /* Current language (non-clickable) */
-.lsep-language-item__current {
+.lsep-ls-dropdown .lsep-language-item__current {
     pointer-events: none;
     cursor: default;
 }
 
-.lsep-language-item__default {
+.lsep-ls-dropdown .lsep-language-item__default {
     pointer-events: none;
     cursor: default;
 }
@@ -209,8 +209,8 @@
 }
 
 /* Current/default should NOT have hover effects */
-.lsep-language-item__current:hover,
-.lsep-language-item__default:hover {
+.lsep-ls-dropdown .lsep-language-item__current:hover,
+.lsep-ls-dropdown .lsep-language-item__default:hover {
     background: transparent !important;
 }
 /* Focus styles */
