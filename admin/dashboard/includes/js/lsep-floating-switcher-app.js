@@ -565,87 +565,89 @@
         
             return h('div', { 
                 className: 'lsep-preset-card',
-                style: presetStyles
+                style: { ...presetStyles, position: 'relative' }
             },
+                // Confirmation overlay covering ENTIRE card
+                isConfirming && h('div', { 
+                    className: 'lsep-preset-confirm-overlay'
+                },
+                    h('div', { className: 'lsep-preset-confirm-content' },
+                        h('p', { className: 'lsep-preset-confirm-title' },
+                            'Are you sure you want to apply the ',
+                            h('strong', null, preset.name),
+                            ' preset?'
+                        ),
+                        h('p', { className: 'lsep-preset-confirm-warning' }, 
+                            'It will override your current settings.'
+                        ),
+                        h('div', { className: 'lsep-preset-confirm-actions' },
+                            h('button', {
+                                className: 'lsep-preset-confirm-btn lsep-preset-confirm-btn-primary',
+                                onClick: () => this.applyPreset(preset)
+                            }, 'Apply preset'),
+                            h('button', {
+                                className: 'lsep-preset-confirm-btn lsep-preset-confirm-btn-secondary',
+                                onClick: () => this.cancelPresetConfirmation()
+                            }, 'Cancel')
+                        )
+                    )
+                ),
+                
+                // Preview rect and button (always rendered)
                 h('div', { 
                     className: 'lsep-preview-rect',
-                    style: { background: preset.background, position: 'relative' }
+                    style: { background: preset.background }
                 },
-                    // Show confirmation overlay if this preset is being confirmed
-                    isConfirming ? h('div', { className: 'lsep-preset-confirm-overlay' },
-                        h('div', { className: 'lsep-preset-confirm-content' },
-                            h('p', { className: 'lsep-preset-confirm-title' },
-                                'Are you sure you want to apply the ',
-                                h('strong', null, preset.name),
-                                ' preset?'
-                            ),
-                            h('p', { className: 'lsep-preset-confirm-warning' }, 
-                                'It will override your current settings.'
-                            ),
-                            h('div', { className: 'lsep-preset-confirm-actions' },
-                                h('button', {
-                                    className: 'lsep-preset-confirm-btn lsep-preset-confirm-btn-primary',
-                                    onClick: () => this.applyPreset(preset)
-                                }, 'Apply preset'),
-                                h('button', {
-                                    className: 'lsep-preset-confirm-btn lsep-preset-confirm-btn-secondary',
-                                    onClick: () => this.cancelPresetConfirmation()
-                                }, 'Cancel')
-                            )
-                        )
-                    ) : (
-                        // Show preview normally
-                        h('div', { 
-                            className: `lsep-preset-switcher-preview lsep-language-switcher lsep-floating-switcher lsep-ls-${isDropdown ? 'dropdown' : 'inline'} lsep-switcher-position-bottom`
-                        },
-                            h('div', { className: 'lsep-language-switcher-inner' },
-                                isSideBySide ? (
-                                    sampleLangs.map((lang, index) => 
-                                        h('a', { 
-                                            className: `lsep-language-item ${index === 0 ? 'lsep-language-item__current' : ''}`,
-                                            onClick: (e) => e.preventDefault()
-                                        },
-                                            h('img', {
-                                                src: lang.flag || `${window.lsepFloaterData.flagsPath}${lang.code}.png`,
-                                                className: 'lsep-flag-image',
-                                                loading: 'lazy',
-                                                alt: lang.name
-                                            }),
-                                            h('span', { className: 'lsep-language-item-name' }, lang.name)
-                                        )
+                    h('div', { 
+                        className: `lsep-preset-switcher-preview lsep-language-switcher lsep-floating-switcher lsep-ls-${isDropdown ? 'dropdown' : 'inline'} lsep-switcher-position-bottom`
+                    },
+                        h('div', { className: 'lsep-language-switcher-inner' },
+                            isSideBySide ? (
+                                sampleLangs.map((lang, index) => 
+                                    h('a', { 
+                                        className: `lsep-language-item ${index === 0 ? 'lsep-language-item__current' : ''}`,
+                                        onClick: (e) => e.preventDefault()
+                                    },
+                                        h('img', {
+                                            src: lang.flag || `${window.lsepFloaterData.flagsPath}${lang.code}.png`,
+                                            className: 'lsep-flag-image',
+                                            loading: 'lazy',
+                                            alt: lang.name
+                                        }),
+                                        h('span', { className: 'lsep-language-item-name' }, lang.name)
                                     )
-                                ) : (
-                                    [
-                                        h('a', { 
-                                            className: 'lsep-language-item lsep-language-item__default',
-                                            onClick: (e) => e.preventDefault()
-                                        },
-                                            h('img', {
-                                                src: current.flag || `${window.lsepFloaterData.flagsPath}${current.code}.png`,
-                                                className: 'lsep-flag-image',
-                                                loading: 'lazy',
-                                                alt: current.name
-                                            }),
-                                            h('span', { className: 'lsep-language-item-name' }, current.name)
-                                        ),
-                                        others.length > 0 && h('div', { className: 'lsep-switcher-dropdown-list' },
-                                            others.map(lang => 
-                                                h('a', { 
-                                                    className: 'lsep-language-item',
-                                                    onClick: (e) => e.preventDefault()
-                                                },
-                                                    h('img', {
-                                                        src: lang.flag || `${window.lsepFloaterData.flagsPath}${lang.code}.png`,
-                                                        className: 'lsep-flag-image',
-                                                        loading: 'lazy',
-                                                        alt: lang.name
-                                                    }),
-                                                    h('span', { className: 'lsep-language-item-name' }, lang.name)
-                                                )
+                                )
+                            ) : (
+                                [
+                                    h('a', { 
+                                        className: 'lsep-language-item lsep-language-item__default',
+                                        onClick: (e) => e.preventDefault()
+                                    },
+                                        h('img', {
+                                            src: current.flag || `${window.lsepFloaterData.flagsPath}${current.code}.png`,
+                                            className: 'lsep-flag-image',
+                                            loading: 'lazy',
+                                            alt: current.name
+                                        }),
+                                        h('span', { className: 'lsep-language-item-name' }, current.name)
+                                    ),
+                                    others.length > 0 && h('div', { className: 'lsep-switcher-dropdown-list' },
+                                        others.map(lang => 
+                                            h('a', { 
+                                                className: 'lsep-language-item',
+                                                onClick: (e) => e.preventDefault()
+                                            },
+                                                h('img', {
+                                                    src: lang.flag || `${window.lsepFloaterData.flagsPath}${lang.code}.png`,
+                                                    className: 'lsep-flag-image',
+                                                    loading: 'lazy',
+                                                    alt: lang.name
+                                                }),
+                                                h('span', { className: 'lsep-language-item-name' }, lang.name)
                                             )
                                         )
-                                    ]
-                                )
+                                    )
+                                ]
                             )
                         )
                     )

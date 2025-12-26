@@ -1074,7 +1074,8 @@
     align-items: center;
     justify-content: center;
     padding: 20px;
-    z-index: 10;
+    z-index: 100;
+    border-radius: 8px;
 }
 
 .lsep-preset-confirm-content {
