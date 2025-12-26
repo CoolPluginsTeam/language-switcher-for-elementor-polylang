@@ -286,7 +286,7 @@ private function get_plugin_flag_url($polylang_flag_url) {
         <?php 
         // Show ALL languages side by side
         foreach ($languages as $lang) :
-            $this->render_language_item($lang, true, $flag_position, $config, $lang['is_current']);
+            $this->render_language_item($lang, false, $flag_position, $config, $lang['is_current']);
         endforeach;
         ?>
     </div>

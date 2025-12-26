@@ -24,6 +24,7 @@
                 hasChanges: false,
                 originalConfig: JSON.stringify(data.config || this.getDefaultConfig()),
                 showColorPicker: null, // Track which color picker is open
+                showPresetConfirm: null, // Track which preset needs confirmation
             };
             
             this.presets = this.getPresets();
@@ -147,8 +148,17 @@
             });
         }
 
+        showPresetConfirmation(preset) {
+            this.setState({ showPresetConfirm: preset });
+        }
+        
         applyPreset(preset) {
             this.updateConfig(preset.config);
+            this.setState({ showPresetConfirm: null });
+        }
+        
+        cancelPresetConfirmation() {
+            this.setState({ showPresetConfirm: null });
         }
 
         isPresetActive(preset) {
@@ -360,6 +370,38 @@
                 })
             );
         }
+        renderPresetConfirmModal() {
+            const { showPresetConfirm } = this.state;
+            
+            if (!showPresetConfirm) return null;
+            
+            return h('div', { className: 'lsep-modal-overlay', onClick: () => this.cancelPresetConfirmation() },
+                h('div', { 
+                    className: 'lsep-modal-content',
+                    onClick: (e) => e.stopPropagation()
+                },
+                    h('h3', { className: 'lsep-modal-title' }, 'Apply a preset'),
+                    h('p', { className: 'lsep-modal-message' },
+                        `Are you sure you want to apply the `,
+                        h('strong', null, showPresetConfirm.name),
+                        ` preset?`
+                    ),
+                    h('p', { className: 'lsep-modal-warning' }, 
+                        'It will override your current settings.'
+                    ),
+                    h('div', { className: 'lsep-modal-actions' },
+                        h('button', {
+                            className: 'lsep-modal-btn lsep-modal-btn-primary',
+                            onClick: () => this.applyPreset(showPresetConfirm)
+                        }, 'Apply preset'),
+                        h('button', {
+                            className: 'lsep-modal-btn lsep-modal-btn-secondary',
+                            onClick: () => this.cancelPresetConfirmation()
+                        }, 'Cancel')
+                    )
+                )
+            );
+        }
 
         buildPreviewStyles() {
             const { config, currentDevice } = this.state;
@@ -382,7 +424,7 @@
                 '--aspect-ratio': config.flagShape === 'rect' ? '4/3' : '1',
                 '--transition-duration': config.enableTransitions ? '0.2s' : '0s',
                 '--switcher-width': layoutConfig.width === 'custom' ? layoutConfig.customWidth + 'px' : 'auto',
-                '--switcher-padding': layoutConfig.padding === 'custom' ? layoutConfig.customPadding + 'px' : '10px 0',
+                '--switcher-padding': layoutConfig.padding === 'custom' ? layoutConfig.customPadding + 'px' : '0px 0px',
                 '--border-width': config.borderWidth + 'px', // Simple value, not multi-side
                 // Dynamic positioning based on layout config
                 '--bottom': vertical === 'bottom' ? '0px' : 'auto',
@@ -443,25 +485,25 @@
         }
 
         renderEnableToggle() {
-            const { config } = this.state;
+    const { config } = this.state;
 
-            return h('div', { 
-                className: 'lsep-settings-box',
-                style: { flexDirection: 'row', gap: '75px' }
-            },
-                h('header', { className: 'lsep-header' },
-                    h('span', { className: 'lsep-title' }, 'Enable Floating Switcher')
-                ),
-                h('section', { className: 'lsep-body' },
-                    this.renderToggleField(
-                        'enabled',
-                        config.enabled,
-                        'Switcher is enabled',
-                        null
-                    )
-                )
-            );
-        }
+    return h('div', { 
+        className: 'lsep-settings-box',
+        style: { flexDirection: 'row', gap: '75px' }
+    },
+        h('header', { className: 'lsep-header' },
+            h('span', { className: 'lsep-title' }, 'Enable Floating Switcher')
+        ),
+        h('section', { className: 'lsep-body' },
+            this.renderToggleField(
+                'enabled',
+                config.enabled,
+                config.enabled ? 'Switcher is enabled' : 'Switcher is disabled',
+                null
+            )
+        )
+    );
+}
 
         renderSwitcherType() {
             const { config } = this.state;
@@ -493,7 +535,11 @@
         }
 
         renderPresetCard(preset) {
-            const { languages } = this.state;
+            const { languages, showPresetConfirm } = this.state;
+            const { config } = this.state;
+            const isDropdown = config.type === 'dropdown';
+            const isSideBySide = config.type === 'side-by-side';
+            
             const sampleLangs = languages.length > 0 ? languages : [
                 { code: 'en', name: 'English', flag: '' },
                 { code: 'ar', name: 'Arabic', flag: '' }
@@ -513,10 +559,9 @@
                 '--transition-duration': '0.2s'
             };
         
-            const isDropdown = preset.config.type === 'dropdown';
-            const isSideBySide = preset.config.type === 'side-by-side';
             const current = sampleLangs[0];
             const others = sampleLangs.slice(1);
+            const isConfirming = showPresetConfirm && showPresetConfirm.name === preset.name;
         
             return h('div', { 
                 className: 'lsep-preset-card',
@@ -524,67 +569,90 @@
             },
                 h('div', { 
                     className: 'lsep-preview-rect',
-                    style: { background: preset.background }
+                    style: { background: preset.background, position: 'relative' }
                 },
-                    h('div', { 
-                        className: `lsep-preset-switcher-preview lsep-language-switcher lsep-floating-switcher lsep-ls-${isDropdown ? 'dropdown' : 'inline'} lsep-switcher-position-bottom`
-                    },
-                        h('div', { className: 'lsep-language-switcher-inner' },
-                            isSideBySide ? (
-                                // Side-by-side: Show ALL languages in a row
-                                sampleLangs.map((lang, index) => 
-                                    h('a', { 
-                                        className: `lsep-language-item ${index === 0 ? 'lsep-language-item__current' : ''}`,
-                                        onClick: (e) => e.preventDefault()
-                                    },
-                                        h('img', {
-                                            src: lang.flag || `${window.lsepFloaterData.flagsPath}${lang.code}.png`,
-                                            className: 'lsep-flag-image',
-                                            loading: 'lazy',
-                                            alt: lang.name
-                                        }),
-                                        h('span', { className: 'lsep-language-item-name' }, lang.name)
-                                    )
-                                )
-                            ) : (
-                                // Dropdown: current + dropdown list
-                                [
-                                    h('a', { 
-                                        className: 'lsep-language-item lsep-language-item__default',
-                                        onClick: (e) => e.preventDefault()
-                                    },
-                                        h('img', {
-                                            src: current.flag || `${window.lsepFloaterData.flagsPath}${current.code}.png`,
-                                            className: 'lsep-flag-image',
-                                            loading: 'lazy',
-                                            alt: current.name
-                                        }),
-                                        h('span', { className: 'lsep-language-item-name' }, current.name)
-                                    ),
-                                    others.length > 0 && h('div', { className: 'lsep-switcher-dropdown-list' },
-                                        others.map(lang => 
-                                            h('a', { 
-                                                className: 'lsep-language-item',
-                                                onClick: (e) => e.preventDefault()
-                                            },
-                                                h('img', {
-                                                    src: lang.flag || `${window.lsepFloaterData.flagsPath}${lang.code}.png`,
-                                                    className: 'lsep-flag-image',
-                                                    loading: 'lazy',
-                                                    alt: lang.name
-                                                }),
-                                                h('span', { className: 'lsep-language-item-name' }, lang.name)
-                                            )
+                    // Show confirmation overlay if this preset is being confirmed
+                    isConfirming ? h('div', { className: 'lsep-preset-confirm-overlay' },
+                        h('div', { className: 'lsep-preset-confirm-content' },
+                            h('p', { className: 'lsep-preset-confirm-title' },
+                                'Are you sure you want to apply the ',
+                                h('strong', null, preset.name),
+                                ' preset?'
+                            ),
+                            h('p', { className: 'lsep-preset-confirm-warning' }, 
+                                'It will override your current settings.'
+                            ),
+                            h('div', { className: 'lsep-preset-confirm-actions' },
+                                h('button', {
+                                    className: 'lsep-preset-confirm-btn lsep-preset-confirm-btn-primary',
+                                    onClick: () => this.applyPreset(preset)
+                                }, 'Apply preset'),
+                                h('button', {
+                                    className: 'lsep-preset-confirm-btn lsep-preset-confirm-btn-secondary',
+                                    onClick: () => this.cancelPresetConfirmation()
+                                }, 'Cancel')
+                            )
+                        )
+                    ) : (
+                        // Show preview normally
+                        h('div', { 
+                            className: `lsep-preset-switcher-preview lsep-language-switcher lsep-floating-switcher lsep-ls-${isDropdown ? 'dropdown' : 'inline'} lsep-switcher-position-bottom`
+                        },
+                            h('div', { className: 'lsep-language-switcher-inner' },
+                                isSideBySide ? (
+                                    sampleLangs.map((lang, index) => 
+                                        h('a', { 
+                                            className: `lsep-language-item ${index === 0 ? 'lsep-language-item__current' : ''}`,
+                                            onClick: (e) => e.preventDefault()
+                                        },
+                                            h('img', {
+                                                src: lang.flag || `${window.lsepFloaterData.flagsPath}${lang.code}.png`,
+                                                className: 'lsep-flag-image',
+                                                loading: 'lazy',
+                                                alt: lang.name
+                                            }),
+                                            h('span', { className: 'lsep-language-item-name' }, lang.name)
                                         )
                                     )
-                                ]
+                                ) : (
+                                    [
+                                        h('a', { 
+                                            className: 'lsep-language-item lsep-language-item__default',
+                                            onClick: (e) => e.preventDefault()
+                                        },
+                                            h('img', {
+                                                src: current.flag || `${window.lsepFloaterData.flagsPath}${current.code}.png`,
+                                                className: 'lsep-flag-image',
+                                                loading: 'lazy',
+                                                alt: current.name
+                                            }),
+                                            h('span', { className: 'lsep-language-item-name' }, current.name)
+                                        ),
+                                        others.length > 0 && h('div', { className: 'lsep-switcher-dropdown-list' },
+                                            others.map(lang => 
+                                                h('a', { 
+                                                    className: 'lsep-language-item',
+                                                    onClick: (e) => e.preventDefault()
+                                                },
+                                                    h('img', {
+                                                        src: lang.flag || `${window.lsepFloaterData.flagsPath}${lang.code}.png`,
+                                                        className: 'lsep-flag-image',
+                                                        loading: 'lazy',
+                                                        alt: lang.name
+                                                    }),
+                                                    h('span', { className: 'lsep-language-item-name' }, lang.name)
+                                                )
+                                            )
+                                        )
+                                    ]
+                                )
                             )
                         )
                     )
                 ),
                 h('button', {
                     className: `lsep-apply-btn${this.isPresetActive(preset) ? ' lsep-apply-btn-active' : ''}`,
-                    onClick: () => this.applyPreset(preset)
+                    onClick: () => this.showPresetConfirmation(preset)
                 }, `Apply ${preset.name} preset`)
             );
         }
@@ -593,7 +661,7 @@
             const { config } = this.state;
 
             return h('div', { 
-                className: 'lsep-settings-box lsep-collapsible open',
+                className: 'lsep-settings-box lsep-collapsible',
                 style: { '--lsep-field-label-width': '190px' }
             },
                 h('header', { 
@@ -656,7 +724,7 @@
             const { config, currentDevice } = this.state;
             const layoutConfig = config.layoutCustomizer[currentDevice];
 
-            return h('div', { className: 'lsep-settings-box lsep-collapsible open' },
+            return h('div', { className: 'lsep-settings-box lsep-collapsible' },
                 h('header', { 
                     className: 'lsep-header',
                     onClick: (e) => this.toggleCollapsible(e)
@@ -753,6 +821,7 @@
         // Field rendering helpers
         renderToggleField(key, value, label, description) {
             return h('div', { className: 'lsep-toggle-status-field lsep-field lsep-field--row' },
+                h('span', { className: 'lsep-primary-text' }, label),
                 h('div', { className: 'lsep-toggle-wrapper' },
                     h('div', { className: 'lsep-toggle-inner' },
                         h('input', {
@@ -763,8 +832,7 @@
                         }),
                         h('span', { className: 'lsep-toggle-slider' })
                     )
-                ),
-                h('span', { className: 'lsep-primary-text' }, label)
+                )
             );
         }
 
