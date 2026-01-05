@@ -28,15 +28,10 @@ class LSEP_Register_Widget {
 	 * Initialize the class and set up hooks.
 	 */
 	public function __construct() {
-		// Check if Elementor is active
-		global $polylang;
-        if ( ! isset( $polylang ) ) {
-            return;
-        }
-
-        if(! is_plugin_active( 'elementor/elementor.php' )){
-            return;
-        }
+		// Check if required dependencies are active
+		if ( ! \LSEP_HELPERS::is_dependencies_active() ) {
+			return;
+		}
 		add_action( 'elementor/widgets/register', array( $this, 'lsep_register_widgets' ) );
 		add_action( 'elementor/editor/before_enqueue_scripts', array( $this, 'add_editor_js' ) );
 		add_action( 'wp_ajax_lsep_elementor_review_notice', array( $this, 'lsep_elementor_review_notice' ) );

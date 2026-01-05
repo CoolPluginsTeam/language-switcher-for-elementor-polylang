@@ -77,12 +77,7 @@ if ( ! class_exists( 'LSEP_LanguageSwitcher' ) ) {
          * @since 1.0.0
          */
         public function lsep_redirect_to_settings() {
-            global $polylang;
-            if ( ! isset( $polylang ) ) {
-                return;
-            }
-
-            if(! is_plugin_active( 'elementor/elementor.php' )){
+            if ( ! \LSEP_HELPERS::is_dependencies_active() ) {
                 return;
             }
             if ( get_option( 'lsep_plugin_activation_redirect', false ) ) {

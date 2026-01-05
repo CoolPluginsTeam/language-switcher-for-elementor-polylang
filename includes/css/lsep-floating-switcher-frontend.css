@@ -16,7 +16,7 @@
     border: var(--border-width, 1px) solid var(--border-color, transparent);
     border-radius: var(--border-radius, 8px);
     background: var(--bg, #fff);
-    width: var(--switcher-width, auto);
+    width: var(--switcher-width, 115px);
     top: var(--top, unset);
     right: var(--right, unset);
     bottom: var(--bottom, unset);
@@ -89,6 +89,11 @@
 .lsep-ls-dropdown .lsep-language-item__default:hover {
     background: transparent !important;
 }
+.lsep-floating-switcher .lsep-language-switcher-inner& {
+    width: auto !important;
+    overflow: visible !important;
+    min-width: unset !important;
+}
 
 /* ============================================
    Dropdown List
@@ -98,7 +103,7 @@
     flex-direction: column-reverse;
     overflow-y: hidden;
     transition: max-height var(--transition-duration, 0.2s) ease-in-out;
-    max-height: 0;
+    gap: 7px; 
 }
 
 /* Open state */

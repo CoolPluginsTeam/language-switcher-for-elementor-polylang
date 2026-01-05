@@ -310,6 +310,7 @@
 .lsep-switcher-dropdown-list {
     display: flex;
     flex-direction: column-reverse;
+    gap: 7px; 
 }
 
 .lsep-switcher-position-bottom {
@@ -684,10 +685,24 @@
     transition: all 0.2s ease;
     min-height: 200px; /* Add minimum height */
 }
+
+/* Active/Selected preset card */
+.lsep-preset-card-active {
+    border: 2px solid var(--lsep-primary);
+    box-shadow: 0 0 0 3px rgba(45, 108, 223, 0.1);
+    background: rgba(45, 108, 223, 0.02);
+}
 .lsep-apply-btn.lsep-apply-btn-active {
     background: var(--lsep-primary);
     color: #fff;
     font-weight: 600;
+}
+
+.lsep-apply-btn:disabled,
+.lsep-apply-btn-active:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    pointer-events: none;
 }
 
 .lsep-apply-btn.lsep-apply-btn-active:hover {
@@ -917,6 +932,7 @@
     font-weight: 500;
     cursor: pointer;
     transition: all 0.2s ease;
+    width: 111px;
 }
 
 .lsep-lc-mode-button:hover {
