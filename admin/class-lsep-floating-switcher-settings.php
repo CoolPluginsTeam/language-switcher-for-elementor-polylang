@@ -289,9 +289,9 @@ private function sanitize_config( $config ) {
     $sanitized['enableTransitions'] = ! empty( $config['enableTransitions'] );
     
     // Type field (must be dropdown or inline)
-    $sanitized['type'] = in_array( $config['type'] ?? '', [ 'dropdown', 'inline' ], true ) 
-        ? $config['type'] 
-        : 'dropdown';
+    $sanitized['type'] = in_array( $config['type'] ?? '', [ 'dropdown', 'inline', 'side-by-side' ], true ) 
+    ? $config['type'] 
+    : 'dropdown';
     
     // Color fields (hex colors with alpha)
     $color_fields = [ 'bgColor', 'bgHoverColor', 'textColor', 'textHoverColor', 'borderColor' ];
