@@ -529,6 +529,10 @@ if ( ! empty( $config['customCss'] ) ) {
 private function sanitize_color( $color ) {
     // Remove whitespace from color value
     $color = trim( $color );
+     // Allow 'transparent' keyword
+     if ( strtolower( $color ) === 'transparent' ) {
+        return 'transparent';
+    }
     
     // Validate hex colors (#RGB, #RRGGBB, or #RRGGBBAA with alpha)
     if ( preg_match( '/^#([A-Fa-f0-9]{3}|[A-Fa-f0-9]{6}|[A-Fa-f0-9]{8})$/', $color ) ) {
