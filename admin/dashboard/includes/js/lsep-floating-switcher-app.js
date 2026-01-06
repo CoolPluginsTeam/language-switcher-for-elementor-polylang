@@ -408,18 +408,25 @@
      * @return {Object} React element
      */
     render() {
-      return h(
-        "main",
-        { className: "lsep-ls-view" },
+        return h(
+        "div",
+        { className: "lsep-floater-app-container" },
+        // Action buttons at the top
+        this.renderActionButtons(),
+        // Main content below
         h(
-          "div",
-          { className: "lsep-floater-settings__wrapper" },
-          // Left Column - Settings panels
-          this.renderLeftColumn(),
-          // Right Column - Preview and action buttons
-          this.renderRightColumn()
+            "main",
+            { className: "lsep-ls-view" },
+            h(
+            "div",
+            { className: "lsep-floater-settings__wrapper" },
+            // Left Column - Settings panels
+            this.renderLeftColumn(),
+            // Right Column - Preview only (without action buttons)
+            this.renderRightColumn()
+            )
         )
-      );
+        );
     }
 
     /**
@@ -440,8 +447,6 @@
           { className: "lsep-sticky-box" },
           // Live preview of the switcher
           this.renderPreviewBox(),
-          // Save and revert buttons
-          this.renderActionButtons()
         )
       );
     }

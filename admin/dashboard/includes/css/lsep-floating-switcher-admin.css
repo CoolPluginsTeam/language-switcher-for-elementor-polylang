@@ -322,10 +322,8 @@
    ============================================ */
 .lsep-settings-actions {
     display: flex;
+    justify-content: flex-end;
     gap: 12px;
-    padding: 16px 20px;
-    background: #fff;
-    border: 1px solid var(--lsep-border);
     border-radius: 8px;
     margin-top: 20px;
 }
