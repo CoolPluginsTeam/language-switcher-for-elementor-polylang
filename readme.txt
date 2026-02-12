@@ -60,6 +60,8 @@ This plugin connects the Polylang multilingual plugin with Elementor, making it 
 
 - **[Polylang Duplicate Content ](https://wordpress.org/plugins/duplicate-content-addon-for-polylang/)** addon effortlessly duplicate your original or default language post content into other languages of the same post, making translation process easier.
 
+**Use of 3rd Party Services:** This plugin connects to the Cool Plugins API to display information about related plugins inside the dashboard. It also offers optional usage tracking and optional feedback submission on deactivation. Data is sent only after explicit user consent. No hidden tracking is performed, and no frontend visitor or site user data is collected. For more details, please review our [Data Usage Policy](https://my.coolplugins.net/terms/usage-tracking/), [TOS](https://my.coolplugins.net/terms/), and [Privacy Policy](https://my.coolplugins.net/terms/privacy-policy/).
+
 ### How to Add the Language Switcher
 
 1. Go to your WordPress Dashboard.
