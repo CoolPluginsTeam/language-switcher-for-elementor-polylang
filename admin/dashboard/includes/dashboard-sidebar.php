@@ -11,7 +11,7 @@ if (!defined('ABSPATH')) {
     return false;
  endif;
 
- $polylang_support = esc_url("https://my.coolplugins.net/account/support-tickets/");
+ $lsep_polylang_support = esc_url("https://my.coolplugins.net/account/support-tickets/");
 ?>
 
 <div class="cool-body-right">
@@ -21,7 +21,7 @@ if (!defined('ABSPATH')) {
       <li>Duplicate Content Addon for Polylang.</li>
       </ul>    
       <br/>
-      <a href="<?php echo esc_url($polylang_support); ?>" target="_blank" class="button button-primary">👉 Plugin Support</a>
+      <a href="<?php echo esc_url($lsep_polylang_support); ?>" target="_blank" class="button button-primary">👉 Plugin Support</a>
       <br/><br/>
 </div>
 

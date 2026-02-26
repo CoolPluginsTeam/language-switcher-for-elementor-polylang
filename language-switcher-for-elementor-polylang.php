@@ -87,7 +87,7 @@ if ( ! class_exists( 'LSEP_LanguageSwitcher' ) ) {
             }
             if ( get_option( 'lsep_plugin_activation_redirect', false ) ) {
                 delete_option( 'lsep_plugin_activation_redirect' );
-                wp_redirect( admin_url( 'admin.php?page=lsep-get-started' ) );
+                wp_safe_redirect( admin_url( 'admin.php?page=lsep-get-started' ) );
                 exit;
             }
         }
