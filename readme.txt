@@ -126,7 +126,7 @@ You can report security bugs through the Patchstack Vulnerability Disclosure Pro
 == Changelog ==
 
 = Version 1.2.4 | 26 February 2026 =
-- **Fixed:** PCP error fixed.
+- **Fixed:** Issues reported by “Plugin Check” plugin.
 
 = Version 1.2.3 | 19 November 2025 =
 - **Integrated:** Get Started Dashboard.
