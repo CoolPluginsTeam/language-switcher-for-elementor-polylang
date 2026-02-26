@@ -1,3 +1,8 @@
+<?php
+if (!defined('ABSPATH')) {
+    exit;
+} 
+?>
 <div class="lsep-get-started-content">
     <div class="lsep-content-wrapper">
         <div class="lsep-content-left">

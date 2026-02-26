@@ -63,7 +63,7 @@ if (!defined('ABSPATH')) {
             function cool_plugins_activate(){
                 if(current_user_can('upload_plugins')){
                    
-                $plugin_slug= isset($_POST["polylang_activate_slug"])?sanitize_text_field($_POST["polylang_activate_slug"]):'';
+                $plugin_slug= isset($_POST["polylang_activate_slug"])?sanitize_text_field(wp_unslash($_POST["polylang_activate_slug"])):'';
                 
                 $wp_nonce = 'polylang-plugins-activate-' . $plugin_slug ;
                 if(!empty( $plugin_slug)){
@@ -71,7 +71,7 @@ if (!defined('ABSPATH')) {
                         wp_send_json_error( 'Invalid security token sent.' );
                         wp_die();
                     }
-                $pluginBase = ( isset( $_POST['polylang_activate_pluginbase'] ) && !empty( $_POST['polylang_activate_pluginbase'] ) )? sanitize_text_field($_POST['polylang_activate_pluginbase']) : null;
+                $pluginBase = ( isset( $_POST['polylang_activate_pluginbase'] ) && !empty( $_POST['polylang_activate_pluginbase'] ) )? sanitize_text_field(wp_unslash($_POST['polylang_activate_pluginbase'])) : null;
                 
                 $plugin_base_arr=explode("/",$pluginBase);
                 if( isset($plugin_base_arr[0]) && $plugin_base_arr[0]==$plugin_slug ){
@@ -97,7 +97,7 @@ if (!defined('ABSPATH')) {
              */
             function cool_plugins_install(){
             if(current_user_can('upload_plugins')){
-                $plugin_slug= isset($_POST['polylang_slug'])?sanitize_text_field($_POST['polylang_slug']):'';
+                $plugin_slug= isset($_POST['polylang_slug'])?sanitize_text_field(wp_unslash($_POST['polylang_slug'])):'';
                 $wp_nonce = wp_create_nonce('polylang-plugins-download-' . $plugin_slug );
                 if(!empty( $plugin_slug)){
                     if ( ! check_ajax_referer( 'polylang-plugins-download-' . $plugin_slug,'wp_nonce', false ) ) {
@@ -258,8 +258,8 @@ if (!defined('ABSPATH')) {
              */
             function enqueue_required_scripts(){
                 // A common CSS file will be enqueued for admin panel
-                wp_enqueue_style('cool-lsep-plugins-polylang-addon', plugin_dir_url(__FILE__) .'assets/css/styles.css', null, null, 'all');
-                wp_enqueue_script( 'cool-lsep-plugins-polylang-addon', plugin_dir_url(__FILE__) .'assets/js/script.js', array('jquery'), null, true);
+                wp_enqueue_style('cool-lsep-plugins-polylang-addon', plugin_dir_url(__FILE__) .'assets/css/styles.css', null, LSEP_VERSION, 'all');
+                wp_enqueue_script( 'cool-lsep-plugins-polylang-addon', plugin_dir_url(__FILE__) .'assets/js/script.js', array('jquery'), LSEP_VERSION, true);
                 wp_localize_script( 'cool-lsep-plugins-polylang-addon', 'lsep_polylang', array('ajax_url'=> admin_url('admin-ajax.php')));
                 
             }
