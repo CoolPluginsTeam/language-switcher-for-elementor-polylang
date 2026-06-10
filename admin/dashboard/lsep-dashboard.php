@@ -112,7 +112,7 @@ if (!defined('ABSPATH')) {
                         $plugins = $this->request_wp_plugins_data($this->plugin_tag);
                        
                         if(isset($plugins[$plugin_slug])){
-                            $url=$plugins[$plugin_slug]['download_link'];
+                            $url=esc_url_raw($plugins[$plugin_slug]['download_link']);
                             return  $downloader->install( filter_var($url, FILTER_SANITIZE_URL), 'install' );
                         
                         }
