@@ -297,11 +297,17 @@ if (!defined('ABSPATH')) {
             $url = $this->plugin_api . 'pro/' . $this->plugin_tag;
 
             $pro_api = esc_url($url);
-            $response = wp_remote_get($pro_api, array('timeout' => 300));
+            $response = wp_remote_get($pro_api, array('timeout' => 30));
             if (is_wp_error($response)) {
                 return;
             }
-            $plugin_info = (array) json_decode($response['body']);
+            if (200 !== wp_remote_retrieve_response_code($response)) {
+                return;
+            }
+            $plugin_info = json_decode(wp_remote_retrieve_body($response));
+            if (!is_array($plugin_info)) {
+                return;
+            }
 
             foreach ($plugin_info as $plugin) {
               if ($plugin->name) {
@@ -353,7 +359,13 @@ if (!defined('ABSPATH')) {
             if (is_wp_error($response)) {
                 return;
             }
-            $plugin_info = json_decode($response['body'],true);
+            if (200 !== wp_remote_retrieve_response_code($response)) {
+                return;
+            }
+            $plugin_info = json_decode(wp_remote_retrieve_body($response), true);
+            if (!is_array($plugin_info)) {
+                return;
+            }
             $all_plugins = array();
             foreach ($plugin_info as $plugin) {
                 $plugins_data['name'] = $plugin['name'];

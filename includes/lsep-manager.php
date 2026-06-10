@@ -99,7 +99,7 @@ class LSEP_Manager {
             // Else fallback is original post_id (in case no default exists either)
         }
     
-        $this->template_id = $post_id; // Save for later use
+        $this->current_template_id = $post_id; // Save for later use
     
         return $post_id;
     }
