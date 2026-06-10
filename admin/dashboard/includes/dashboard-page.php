@@ -19,6 +19,7 @@ $lsep_available_version = null;
 $lsep_update_available = false;
 $lsep_update_stats = '';
 $lsep_pro_already_installed = false;
+$lsep_plugin_version = isset( $plugin_version ) ? $plugin_version : null;
 
 // Let's see if a pro version is already installed
 if( isset( $this->disable_plugins[ $plugin_slug ] ) ){

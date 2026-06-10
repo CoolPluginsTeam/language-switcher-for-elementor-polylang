@@ -53,6 +53,10 @@ class LSEP_HELPERS {
 			return $flag_html;
 		}
 
+		if ( ! class_exists( 'PLL_Language' ) || ! method_exists( 'PLL_Language', 'get_flag_html' ) ) {
+			return '<img src="' . esc_url( $flag_url ) . '" alt="' . esc_attr( $lang ) . '" />';
+		}
+
 		$flag['src'] = $flag_url;
 		$flag_html   = \PLL_Language::get_flag_html( $flag, '', $lang );
 		return $flag_html;
