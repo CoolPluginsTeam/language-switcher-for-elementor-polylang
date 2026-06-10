@@ -108,7 +108,7 @@ if (!defined('ABSPATH')) {
              * This function use the core wordpress functionality of installing a plugin through URL
              */
             function cool_plugins_install(){
-            if(current_user_can('upload_plugins')){
+            if(current_user_can('install_plugins')){
                 $plugin_slug= isset($_POST['polylang_slug'])?sanitize_text_field(wp_unslash($_POST['polylang_slug'])):'';
                 $wp_nonce = wp_create_nonce('polylang-plugins-download-' . $plugin_slug );
                 if(!empty( $plugin_slug)){
