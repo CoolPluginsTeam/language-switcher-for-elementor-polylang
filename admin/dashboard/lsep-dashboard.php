@@ -61,7 +61,7 @@ if (!defined('ABSPATH')) {
              * handle ajax request for activating plugin from dashboard
              */
             function cool_plugins_activate(){
-                if(current_user_can('upload_plugins')){
+                if(current_user_can('activate_plugins')){
                    
                 $plugin_slug= isset($_POST["polylang_activate_slug"])?sanitize_text_field(wp_unslash($_POST["polylang_activate_slug"])):'';
                 
@@ -75,6 +75,18 @@ if (!defined('ABSPATH')) {
                 
                 $plugin_base_arr=explode("/",$pluginBase);
                 if( isset($plugin_base_arr[0]) && $plugin_base_arr[0]==$plugin_slug ){
+                    if ( ! function_exists( 'get_plugins' ) ) {
+                        require_once ABSPATH . 'wp-admin/includes/plugin.php';
+                    }
+                    if ( 0 !== validate_plugin( $pluginBase ) ) {
+                        wp_send_json_error( 'Something wrong with plugin path.' );
+                        wp_die();
+                    }
+                    $installed_plugins = get_plugins();
+                    if ( ! isset( $installed_plugins[ $pluginBase ] ) ) {
+                        wp_send_json_error( 'Something wrong with plugin path.' );
+                        wp_die();
+                    }
                     activate_plugin( $pluginBase );
                   
                 }else{

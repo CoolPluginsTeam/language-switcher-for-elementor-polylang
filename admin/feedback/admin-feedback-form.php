@@ -190,6 +190,10 @@ class lsep_feedback {
 	 */
 
 	public function submit_deactivation_response() {
+		if ( ! current_user_can( 'activate_plugins' ) && ! current_user_can( 'manage_options' ) ) {
+			wp_send_json_error();
+		}
+
 		if ( ! isset( $_POST['_wpnonce'] ) || ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['_wpnonce'] ) ), '_cool-plugins_deactivate_feedback_nonce' ) ) {
 			wp_send_json_error();
 		} else {
