@@ -235,8 +235,8 @@ class lsep_feedback {
 				array(
                     'timeout' => 30,
                         'body'    => array(
-                        'server_info' => serialize($this->lsep_get_user_info()['server_info']),
-                        'extra_details' => serialize($this->lsep_get_user_info()['extra_details']),
+                        'server_info' => wp_json_encode($this->lsep_get_user_info()['server_info']),
+                        'extra_details' => wp_json_encode($this->lsep_get_user_info()['extra_details']),
                         'plugin_version' => $this->plugin_version,
                         'plugin_name'    => $this->plugin_name,
 						'plugin_initial'  => isset($plugin_initial) ? sanitize_text_field($plugin_initial) : 'N/A',
