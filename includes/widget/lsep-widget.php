@@ -188,9 +188,9 @@ public function lsep_language_switcher_icon_css() {
             $review_nonce = wp_create_nonce( 'lsep_elementor_review' );
             $url          = admin_url( 'admin-ajax.php' );
             $html         = '<div class="lsep_elementor_review_wrapper">';
-            $html        .= '<div id="lsep_elementor_review_dismiss" data-url="' . esc_url( $url ) . '" data-nonce="' . esc_attr( $review_nonce ) . '">Close Notice X</div>
-                            <div class="lsep_elementor_review_msg">' . esc_html__( 'Hope this language switcher solved your problem!', 'language-switcher-for-elementor-polylang' ) . '<br><a href="https://wordpress.org/support/plugin/language-switcher-for-elementor-polylang/reviews/#new-post" target="_blank">Share the love with a ⭐⭐⭐⭐⭐ rating.</a><br><br></div>
-                            <div class="lsep_elementor_demo_btn"><a href="https://wordpress.org/support/plugin/language-switcher-for-elementor-polylang/reviews/#new-post" target="_blank">Submit Review</a></div>
+            $html        .= '<div id="lsep_elementor_review_dismiss" data-url="' . esc_url( $url ) . '" data-nonce="' . esc_attr( $review_nonce ) . '">' . esc_html__( 'Close Notice X', 'language-switcher-for-elementor-polylang' ) . '</div>
+                            <div class="lsep_elementor_review_msg">' . esc_html__( 'Hope this language switcher solved your problem!', 'language-switcher-for-elementor-polylang' ) . '<br><a href="https://wordpress.org/support/plugin/language-switcher-for-elementor-polylang/reviews/#new-post" target="_blank">' . esc_html__( 'Share the love with a ⭐⭐⭐⭐⭐ rating.', 'language-switcher-for-elementor-polylang' ) . '</a><br><br></div>
+                            <div class="lsep_elementor_demo_btn"><a href="https://wordpress.org/support/plugin/language-switcher-for-elementor-polylang/reviews/#new-post" target="_blank">' . esc_html__( 'Submit Review', 'language-switcher-for-elementor-polylang' ) . '</a></div>
                             </div>';
 
             $this->add_control(

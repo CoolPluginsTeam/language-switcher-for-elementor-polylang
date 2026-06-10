@@ -204,7 +204,7 @@ if (!defined('ABSPATH')) {
                     require $this->addon_dir . '/includes/dashboard-header.php';
 
                     echo '<div class="cool-body-left">
-                    <div class="plugins-list installed-addons" data-empty-message="You have not installed any addon at the moment"><h3>Currently Installed Addons</h3>';
+                    <div class="plugins-list installed-addons" data-empty-message="' . esc_attr__( 'You have not installed any addon at the moment', 'language-switcher-for-elementor-polylang' ) . '"><h3>' . esc_html__( 'Currently Installed Addons', 'language-switcher-for-elementor-polylang' ) . '</h3>';
 
                     foreach($plugins as $plugin ){
 
@@ -222,7 +222,7 @@ if (!defined('ABSPATH')) {
                     }
                     echo "</div>";
 
-                    echo "<div class='plugins-list more-addons' data-empty-message='No more free addons available at the moment'><h3>More Addons</h3>";
+                    echo "<div class='plugins-list more-addons' data-empty-message='" . esc_attr__( 'No more free addons available at the moment', 'language-switcher-for-elementor-polylang' ) . "'><h3>" . esc_html__( 'More Addons', 'language-switcher-for-elementor-polylang' ) . '</h3>';
                     foreach($plugins as $plugin ){
 
                         if( $plugin['download_link'] == null ){
@@ -245,7 +245,7 @@ if (!defined('ABSPATH')) {
                         /**
                          * Load this Pro Plugin container only if there are any pro plugins available
                          */
-                    echo "<div class='plugins-list pro-addons' data-empty-message='No more Pro plugins available at the moment'><h3>Pro Addons</h3>";
+                    echo "<div class='plugins-list pro-addons' data-empty-message='" . esc_attr__( 'No more Pro plugins available at the moment', 'language-switcher-for-elementor-polylang' ) . "'><h3>" . esc_html__( 'Pro Addons', 'language-switcher-for-elementor-polylang' ) . '</h3>';
                         foreach($this->pro_plugins as $plugin ){
                              $plugin_name = $plugin['name'];
                             $plugin_desc = $plugin['desc'];
