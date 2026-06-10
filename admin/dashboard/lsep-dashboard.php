@@ -124,7 +124,10 @@ if (!defined('ABSPATH')) {
                         $plugins = $this->request_wp_plugins_data($this->plugin_tag);
                        
                         if(isset($plugins[$plugin_slug])){
-                            $url=esc_url_raw($plugins[$plugin_slug]['download_link']);
+                            $url = esc_url_raw( $plugins[ $plugin_slug ]['download_link'] );
+                            if ( 0 !== strpos( $url, 'https://downloads.wordpress.org/plugin/' ) ) {
+                                wp_send_json_error( 'Invalid package URL.' );
+                            }
                             return  $downloader->install( filter_var($url, FILTER_SANITIZE_URL), 'install' );
                         
                         }
@@ -163,6 +166,9 @@ if (!defined('ABSPATH')) {
              * Avoid using any HTML here or use nominal HTML tags inside this function.
              */
             function displayPluginAdminDashboard(){
+                if ( ! current_user_can( 'manage_options' ) ) {
+                    return;
+                }
                 echo '<div class="wrap lsep-get-started">';
                 echo '<h1>'.esc_html__('Welcome to Language Switcher for Elementor & Polylang', 'language-switcher-for-elementor-polylang').'</h1>';
                 echo '<h2 class="nav-tab-wrapper lsep-nav-tab-wrapper">';

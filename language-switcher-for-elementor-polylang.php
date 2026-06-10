@@ -98,7 +98,7 @@ if ( ! class_exists( 'LSEP_LanguageSwitcher' ) ) {
          * @param array $links  The Links you want to add.
          */
         public function lsep_settings_page( $links ) {
-            $links[] = '<a style="font-weight:bold" href="' . esc_url( admin_url( 'admin.php?page=lsep-get-started' ) ) . '">' . __( 'Get Started', 'language-switcher-for-elementor-polylang' ) . '</a>';
+            $links[] = '<a style="font-weight:bold" href="' . esc_url( admin_url( 'admin.php?page=lsep-get-started' ) ) . '">' . esc_html__( 'Get Started', 'language-switcher-for-elementor-polylang' ) . '</a>';
             return $links;
         }
 

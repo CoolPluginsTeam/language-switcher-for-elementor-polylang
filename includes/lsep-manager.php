@@ -152,7 +152,8 @@ class LSEP_Manager {
 
         $output = '';
         foreach ($attrs as $key => $value) {
-            $output .= " $key=\"" . esc_attr($value) . "\"";
+            $key = sanitize_key( $key );
+            $output .= sprintf( ' %s="%s"', $key, esc_attr( $value ) );
         }
 
         return do_shortcode('[elementor-template' . $output . ']');
