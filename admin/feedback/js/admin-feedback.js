@@ -58,7 +58,7 @@
             let message = '';
             if( $("." + plugin_slug + " textarea[name='reason_"+reason+"']").length>0 ){
                 if( $("." + plugin_slug + " textarea[name='reason_"+reason+"']").val() == '' ){
-                    alert('Please provide some extra information!');
+                    alert(lsep_feedback.extra_info_required);
                     return;
                 }else{
                     message=$("." + plugin_slug + " textarea[name='reason_"+reason+"']").val();
@@ -75,7 +75,7 @@
                     'message':message,
                 },
                 beforeSend:function(data){
-                    $("." + plugin_slug + " #cool-plugin-submitNdeactivate").text('Deactivating...');
+                    $("." + plugin_slug + " #cool-plugin-submitNdeactivate").text(lsep_feedback.deactivating);
                     $("." + plugin_slug + " #cool-plugin-submitNdeactivate").attr('id','deactivating-plugin');
                     $("." + plugin_slug + " #cool-plugins-loader-wrapper").show();
                     $("." + plugin_slug + " #cool-plugin-skipNdeactivate").remove();
@@ -83,7 +83,7 @@
                 success:function(res){
                     $("." + plugin_slug + " #cool-plugins-loader-wrapper").hide();
                     window.location = plugin_deactivate_link;
-                    $("." + plugin_slug + " #deactivating-plugin").text('Deactivated');
+                    $("." + plugin_slug + " #deactivating-plugin").text(lsep_feedback.deactivated);
                 }
             })
 

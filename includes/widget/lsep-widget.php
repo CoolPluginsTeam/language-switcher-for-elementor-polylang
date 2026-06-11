@@ -39,7 +39,7 @@ class LSEP_Widget extends Widget_Base {
 
     wp_register_style(
         'lsep-style',
-        LSEP_PLUGIN_URL . '/includes/css/language-switcher-style.css',
+        LSEP_PLUGIN_URL . 'includes/css/language-switcher-style.css',
         [],
         LSEP_VERSION
     );
@@ -55,7 +55,7 @@ public function lsep_language_switcher_icon_css() {
             display: inline-block;
             width: 25px;
             height: 25px;
-            background-image: url('" . esc_url(LSEP_PLUGIN_URL . '/assets/images/lang_switcher.svg') . "');
+            background-image: url('" . esc_url(LSEP_PLUGIN_URL . 'assets/images/lang_switcher.svg') . "');
             background-size: contain;
             background-repeat: no-repeat;
             background-position: center;
@@ -731,7 +731,7 @@ public function lsep_language_switcher_icon_css() {
             $switcher_html .= '</div>';
         }else{
             $switcher_html .= '<div class="lsep-wrapper ' . esc_attr($settings['lsep_language_switcher_type']) . '">';
-            $switcher_html .= $this->lsep_render_switcher($settings, $lsep_data);
+            $switcher_html .= '<ul class="lsep-language-list">' . $this->lsep_render_switcher($settings, $lsep_data) . '</ul>';
             $switcher_html .= '</div>';
         }
         $switcher_html .= '</div>';

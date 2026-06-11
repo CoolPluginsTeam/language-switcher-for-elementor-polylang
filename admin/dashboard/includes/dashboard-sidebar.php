@@ -16,12 +16,12 @@ if (!defined('ABSPATH')) {
 
 <div class="cool-body-right">
 <ul>
-      <li>Add the Language Switcher for Elementor or Divi Sites.</li>
-      <li>Automatic Translations of Site Content in Multiple Languages.</li>
-      <li>Duplicate Content Addon for Polylang.</li>
+      <li><?php echo esc_html__( 'Add the Language Switcher for Elementor or Divi Sites.', 'language-switcher-for-elementor-polylang' ); ?></li>
+      <li><?php echo esc_html__( 'Automatic Translations of Site Content in Multiple Languages.', 'language-switcher-for-elementor-polylang' ); ?></li>
+      <li><?php echo esc_html__( 'Duplicate Content Addon for Polylang.', 'language-switcher-for-elementor-polylang' ); ?></li>
       </ul>    
       <br/>
-      <a href="<?php echo esc_url($lsep_polylang_support); ?>" target="_blank" class="button button-primary">👉 Plugin Support</a>
+      <a href="<?php echo esc_url($lsep_polylang_support); ?>" target="_blank" class="button button-primary"><?php echo esc_html__( '👉 Plugin Support', 'language-switcher-for-elementor-polylang' ); ?></a>
       <br/><br/>
 </div>
 

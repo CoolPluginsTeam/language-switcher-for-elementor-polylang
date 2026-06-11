@@ -64,7 +64,17 @@ class lsep_feedback {
 	public function enqueue_feedback_scripts() {
 		$screen = get_current_screen();
 		if ( isset( $screen ) && $screen->id == 'plugins' ) {
-			wp_enqueue_script( __NAMESPACE__ . 'feedback-script', $this->plugin_url . '/js/admin-feedback.js', array( 'jquery' ), $this->plugin_version, true );
+			$script_handle = __NAMESPACE__ . 'feedback-script';
+			wp_enqueue_script( $script_handle, $this->plugin_url . '/js/admin-feedback.js', array( 'jquery' ), $this->plugin_version, true );
+			wp_localize_script(
+				$script_handle,
+				'lsep_feedback',
+				array(
+					'extra_info_required' => __( 'Please provide some extra information!', 'language-switcher-for-elementor-polylang' ),
+					'deactivating'        => __( 'Deactivating...', 'language-switcher-for-elementor-polylang' ),
+					'deactivated'         => __( 'Deactivated', 'language-switcher-for-elementor-polylang' ),
+				)
+			);
 			wp_enqueue_style( 'cool-plugins-feedback-style', $this->plugin_url . '/css/admin-feedback.css', null, $this->plugin_version );
 		}
 	}
@@ -135,8 +145,8 @@ class lsep_feedback {
 					<input class="cool-plugins-GDPR-data-notice" id="cool-plugins-GDPR-data-notice" type="checkbox"><label for="cool-plugins-GDPR-data-notice"><?php echo esc_html__( 'I agree to share anonymous usage data and basic site details (such as server, PHP, and WordPress versions) to support Language Switcher for Elementor & Polylang improvement efforts. Additionally, I allow Cool Plugins to store all information provided through this form and to respond to my inquiry.', 'language-switcher-for-elementor-polylang' ); ?></label>
 				</div>
 				<div class="cool-plugin-popup-button-wrapper">
-					<a class="cool-plugins-button button-deactivate" id="cool-plugin-submitNdeactivate">Submit and Deactivate</a>
-					<a class="cool-plugins-button" id="cool-plugin-skipNdeactivate">Skip and Deactivate</a>
+					<a class="cool-plugins-button button-deactivate" id="cool-plugin-submitNdeactivate"><?php echo esc_html__( 'Submit and Deactivate', 'language-switcher-for-elementor-polylang' ); ?></a>
+					<a class="cool-plugins-button" id="cool-plugin-skipNdeactivate"><?php echo esc_html__( 'Skip and Deactivate', 'language-switcher-for-elementor-polylang' ); ?></a>
 				</div>
 			</form>
 			</div>

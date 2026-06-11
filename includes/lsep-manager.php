@@ -147,6 +147,10 @@ class LSEP_Manager {
             return $false;
         }
 
+        if ( empty( $attrs['id'] ) ) {
+            return $false;
+        }
+
         $attrs['id'] = pll_get_post(absint($attrs['id'])) ?: $attrs['id'];
         $attrs['skip'] = 1;
 

@@ -20,7 +20,6 @@ jQuery(document).ready(function($) {
     $('button.cool-plugins-addon').on('click', function() {
         if ($(this).hasClass('plugin-downloader')) {
             let nonce = $(this).attr('data-action-nonce');
-            let nonceName = $(this).attr('data-action-name');
             let pluginTag = $(this).attr('data-plugin-tag');
             let pluginSlug = $(this).attr('data-plugin-slug');
             let btn = $(this);
@@ -28,7 +27,7 @@ jQuery(document).ready(function($) {
             $.ajax({
                     type: 'POST',
                     url: lsep_polylang.ajax_url,
-                    data: { 'action': 'cool_plugins_install_' + pluginTag, 'wp_nonce': nonce, 'nonce_name': nonceName, 'polylang_slug': pluginSlug  },
+                    data: { 'action': 'cool_plugins_install_' + pluginTag, 'wp_nonce': nonce, 'polylang_slug': pluginSlug  },
                     beforeSend: function(res) {
                         btn.text('Installing...');
                     }
@@ -43,7 +42,6 @@ jQuery(document).ready(function($) {
         }
         if ($(this).hasClass('plugin-activator')) {
             let nonce = $(this).attr('data-action-nonce');
-            let nonceName = $(this).attr('data-action-name');
             let pluginFile = $(this).attr('data-plugin-id');
             let pluginTag = $(this).attr('data-plugin-tag');
             let pluginSlug = $(this).attr('data-plugin-slug');
@@ -52,7 +50,7 @@ jQuery(document).ready(function($) {
             $.ajax({
                     type: 'POST',
                     url: lsep_polylang.ajax_url,
-                    data: { 'action': 'cool_plugins_activate_' + pluginTag, 'polylang_activate_pluginbase': pluginFile, 'wp_nonce': nonce, 'nonce_name': nonceName, 'polylang_activate_slug': pluginSlug },
+                    data: { 'action': 'cool_plugins_activate_' + pluginTag, 'polylang_activate_pluginbase': pluginFile, 'wp_nonce': nonce, 'polylang_activate_slug': pluginSlug },
                     beforeSend: function(res) {
                         btn.text('Activating...');
                     }
