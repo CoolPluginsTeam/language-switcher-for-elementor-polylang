@@ -99,7 +99,7 @@ class LSEP_Manager {
             // Else fallback is original post_id (in case no default exists either)
         }
     
-        $this->template_id = $post_id; // Save for later use
+        $this->current_template_id = $post_id; // Save for later use
     
         return $post_id;
     }
@@ -147,12 +147,17 @@ class LSEP_Manager {
             return $false;
         }
 
+        if ( empty( $attrs['id'] ) ) {
+            return $false;
+        }
+
         $attrs['id'] = pll_get_post(absint($attrs['id'])) ?: $attrs['id'];
         $attrs['skip'] = 1;
 
         $output = '';
         foreach ($attrs as $key => $value) {
-            $output .= " $key=\"" . esc_attr($value) . "\"";
+            $key = sanitize_key( $key );
+            $output .= sprintf( ' %s="%s"', $key, esc_attr( $value ) );
         }
 
         return do_shortcode('[elementor-template' . $output . ']');

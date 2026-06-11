@@ -61,7 +61,7 @@ if (!defined('ABSPATH')) {
              * handle ajax request for activating plugin from dashboard
              */
             function cool_plugins_activate(){
-                if(current_user_can('upload_plugins')){
+                if(current_user_can('activate_plugins')){
                    
                 $plugin_slug= isset($_POST["polylang_activate_slug"])?sanitize_text_field(wp_unslash($_POST["polylang_activate_slug"])):'';
                 
@@ -75,6 +75,18 @@ if (!defined('ABSPATH')) {
                 
                 $plugin_base_arr=explode("/",$pluginBase);
                 if( isset($plugin_base_arr[0]) && $plugin_base_arr[0]==$plugin_slug ){
+                    if ( ! function_exists( 'get_plugins' ) ) {
+                        require_once ABSPATH . 'wp-admin/includes/plugin.php';
+                    }
+                    if ( 0 !== validate_plugin( $pluginBase ) ) {
+                        wp_send_json_error( 'Something wrong with plugin path.' );
+                        wp_die();
+                    }
+                    $installed_plugins = get_plugins();
+                    if ( ! isset( $installed_plugins[ $pluginBase ] ) ) {
+                        wp_send_json_error( 'Something wrong with plugin path.' );
+                        wp_die();
+                    }
                     activate_plugin( $pluginBase );
                   
                 }else{
@@ -96,9 +108,8 @@ if (!defined('ABSPATH')) {
              * This function use the core wordpress functionality of installing a plugin through URL
              */
             function cool_plugins_install(){
-            if(current_user_can('upload_plugins')){
+            if(current_user_can('install_plugins')){
                 $plugin_slug= isset($_POST['polylang_slug'])?sanitize_text_field(wp_unslash($_POST['polylang_slug'])):'';
-                $wp_nonce = wp_create_nonce('polylang-plugins-download-' . $plugin_slug );
                 if(!empty( $plugin_slug)){
                     if ( ! check_ajax_referer( 'polylang-plugins-download-' . $plugin_slug,'wp_nonce', false ) ) {
                   
@@ -106,13 +117,16 @@ if (!defined('ABSPATH')) {
                         wp_die();
                     }
                   
-                    require_once 'includes/cool_plugins_downloader.php';
+                    require_once $this->addon_dir . '/includes/cool_plugins_downloader.php';
                         $downloader = new cool_plugins_downloader();
                       
                         $plugins = $this->request_wp_plugins_data($this->plugin_tag);
                        
                         if(isset($plugins[$plugin_slug])){
-                            $url=$plugins[$plugin_slug]['download_link'];
+                            $url = esc_url_raw( $plugins[ $plugin_slug ]['download_link'] );
+                            if ( 0 !== strpos( $url, 'https://downloads.wordpress.org/plugin/' ) ) {
+                                wp_send_json_error( 'Invalid package URL.' );
+                            }
                             return  $downloader->install( filter_var($url, FILTER_SANITIZE_URL), 'install' );
                         
                         }
@@ -151,6 +165,9 @@ if (!defined('ABSPATH')) {
              * Avoid using any HTML here or use nominal HTML tags inside this function.
              */
             function displayPluginAdminDashboard(){
+                if ( ! current_user_can( 'manage_options' ) ) {
+                    return;
+                }
                 echo '<div class="wrap lsep-get-started">';
                 echo '<h1>'.esc_html__('Welcome to Language Switcher for Elementor & Polylang', 'language-switcher-for-elementor-polylang').'</h1>';
                 echo '<h2 class="nav-tab-wrapper lsep-nav-tab-wrapper">';
@@ -186,7 +203,7 @@ if (!defined('ABSPATH')) {
                     require $this->addon_dir . '/includes/dashboard-header.php';
 
                     echo '<div class="cool-body-left">
-                    <div class="plugins-list installed-addons" data-empty-message="You have not installed any addon at the moment"><h3>Currently Installed Addons</h3>';
+                    <div class="plugins-list installed-addons" data-empty-message="' . esc_attr__( 'You have not installed any addon at the moment', 'language-switcher-for-elementor-polylang' ) . '"><h3>' . esc_html__( 'Currently Installed Addons', 'language-switcher-for-elementor-polylang' ) . '</h3>';
 
                     foreach($plugins as $plugin ){
 
@@ -204,7 +221,7 @@ if (!defined('ABSPATH')) {
                     }
                     echo "</div>";
 
-                    echo "<div class='plugins-list more-addons' data-empty-message='No more free addons available at the moment'><h3>More Addons</h3>";
+                    echo "<div class='plugins-list more-addons' data-empty-message='" . esc_attr__( 'No more free addons available at the moment', 'language-switcher-for-elementor-polylang' ) . "'><h3>" . esc_html__( 'More Addons', 'language-switcher-for-elementor-polylang' ) . '</h3>';
                     foreach($plugins as $plugin ){
 
                         if( $plugin['download_link'] == null ){
@@ -227,7 +244,7 @@ if (!defined('ABSPATH')) {
                         /**
                          * Load this Pro Plugin container only if there are any pro plugins available
                          */
-                    echo "<div class='plugins-list pro-addons' data-empty-message='No more Pro plugins available at the moment'><h3>Pro Addons</h3>";
+                    echo "<div class='plugins-list pro-addons' data-empty-message='" . esc_attr__( 'No more Pro plugins available at the moment', 'language-switcher-for-elementor-polylang' ) . "'><h3>" . esc_html__( 'Pro Addons', 'language-switcher-for-elementor-polylang' ) . '</h3>';
                         foreach($this->pro_plugins as $plugin ){
                              $plugin_name = $plugin['name'];
                             $plugin_desc = $plugin['desc'];
@@ -279,11 +296,17 @@ if (!defined('ABSPATH')) {
             $url = $this->plugin_api . 'pro/' . $this->plugin_tag;
 
             $pro_api = esc_url($url);
-            $response = wp_remote_get($pro_api, array('timeout' => 300));
+            $response = wp_remote_get($pro_api, array('timeout' => 30));
             if (is_wp_error($response)) {
                 return;
             }
-            $plugin_info = (array) json_decode($response['body']);
+            if (200 !== wp_remote_retrieve_response_code($response)) {
+                return;
+            }
+            $plugin_info = json_decode(wp_remote_retrieve_body($response));
+            if (!is_array($plugin_info)) {
+                return;
+            }
 
             foreach ($plugin_info as $plugin) {
               if ($plugin->name) {
@@ -297,7 +320,6 @@ if (!defined('ABSPATH')) {
                         'version' => $plugin->version,
                         'download_link' => null,
                         'incompatible' => $plugin->free_version,
-                        'buyLink' => $plugin->buy_url,
                     );
                     if (property_exists($plugin, 'free_version') && $plugin->free_version != null) {
                         $this->disable_plugins[$plugin->free_version] = array('pro' => $plugin->slug);
@@ -335,7 +357,13 @@ if (!defined('ABSPATH')) {
             if (is_wp_error($response)) {
                 return;
             }
-            $plugin_info = json_decode($response['body'],true);
+            if (200 !== wp_remote_retrieve_response_code($response)) {
+                return;
+            }
+            $plugin_info = json_decode(wp_remote_retrieve_body($response), true);
+            if (!is_array($plugin_info)) {
+                return;
+            }
             $all_plugins = array();
             foreach ($plugin_info as $plugin) {
                 $plugins_data['name'] = $plugin['name'];

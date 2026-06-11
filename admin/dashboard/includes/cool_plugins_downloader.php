@@ -14,6 +14,7 @@
     require_once( ABSPATH . 'wp-admin/includes/class-wp-upgrader.php' );
  }
 
+if ( ! class_exists( 'cool_plugins_downloader' ) ) {
  class cool_plugins_downloader extends Plugin_Upgrader{
 
     public function rollback($url = null,$action='install'){
@@ -43,3 +44,4 @@
         return 'Polylang Addons rollback successful!';
     }
  }
+}

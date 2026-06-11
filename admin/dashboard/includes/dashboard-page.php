@@ -19,6 +19,7 @@ $lsep_available_version = null;
 $lsep_update_available = false;
 $lsep_update_stats = '';
 $lsep_pro_already_installed = false;
+$lsep_plugin_version = isset( $plugin_version ) ? $plugin_version : null;
 
 // Let's see if a pro version is already installed
 if( isset( $this->disable_plugins[ $plugin_slug ] ) ){
@@ -44,7 +45,7 @@ if (file_exists(WP_PLUGIN_DIR . '/' . $plugin_slug)) {
           if( isset($lsep_plugin_version) && version_compare( $lsep_plugin_version, $lsep_data['Version'] ) >0 ){
             $lsep_available_version = $lsep_plugin_version ;
             $lsep_plugin_version =  $lsep_data['Version'];
-            $lsep_update_stats = '<span class="plugin-update-available">Update Available: v '.wp_kses_post($lsep_available_version).'</span>';
+            $lsep_update_stats = '<span class="plugin-update-available">' . sprintf( esc_html__( 'Update Available: v %s', 'language-switcher-for-elementor-polylang' ), esc_html( $lsep_available_version ) ) . '</span>';
           }
 
           if( is_plugin_active($plugin) ){
@@ -59,27 +60,27 @@ if (file_exists(WP_PLUGIN_DIR . '/' . $plugin_slug)) {
         }
     }
     if( $lsep_is_active ){
-        $lsep_button = '<button class="button button-disabled">Active</button>';
+        $lsep_button = '<button class="button button-disabled">' . esc_html__( 'Active', 'language-switcher-for-elementor-polylang' ) . '</button>';
     }else{
         $lsep_wp_nonce = wp_create_nonce( 'polylang-plugins-activate-' . $plugin_slug );
         $lsep_button .= '<button class="button activate-now cool-plugins-addon plugin-activator" data-plugin-tag="'.esc_attr($tag).'" data-plugin-id="'.esc_attr($lsep_plugin_file).'" 
-        data-action-nonce="'.esc_attr($lsep_wp_nonce).'" data-plugin-slug="'.esc_attr($plugin_slug).'">Activate</button>';
+        data-action-nonce="'.esc_attr($lsep_wp_nonce).'" data-plugin-slug="'.esc_attr($plugin_slug).'">' . esc_html__( 'Activate', 'language-switcher-for-elementor-polylang' ) . '</button>';
     }
 } else {
     $lsep_wp_nonce = wp_create_nonce('polylang-plugins-download-' . $plugin_slug );
     $lsep_classes .= ' available-plugin';
     if( $plugin_url !=null ){
-      $lsep_button = '<button class="button install-now cool-plugins-addon plugin-downloader" data-plugin-tag="'.esc_attr($tag).'"  data-action-nonce="' .esc_attr($lsep_wp_nonce) . '" data-plugin-slug="'.esc_attr($plugin_slug).'">Install</button>';
+      $lsep_button = '<button class="button install-now cool-plugins-addon plugin-downloader" data-plugin-tag="'.esc_attr($tag).'"  data-action-nonce="' .esc_attr($lsep_wp_nonce) . '" data-plugin-slug="'.esc_attr($plugin_slug).'">' . esc_html__( 'Install', 'language-switcher-for-elementor-polylang' ) . '</button>';
     
     }elseif( isset($plugin_pro_url) ){
-      $lsep_button = '<a class="button install-now cool-plugins-addon pro-plugin-downloader" href="'.esc_url($plugin_pro_url).'" target="_new">Buy Pro</a>';
+      $lsep_button = '<a class="button install-now cool-plugins-addon pro-plugin-downloader" href="'.esc_url($plugin_pro_url).'" target="_new">' . esc_html__( 'Buy Pro', 'language-switcher-for-elementor-polylang' ) . '</a>';
     }
 }
 
 // Remove install / activate button if pro version is already installed
 if( $lsep_pro_already_installed === true ){
   $lsep_pro_ver = $this->disable_plugins[ $plugin_slug ] ;
-  $lsep_button = '<button class="button button-disabled" title="This plugin is no more required as you already have '.esc_attr($lsep_pro_ver['pro']).'">Pro Installed</button>';
+  $lsep_button = '<button class="button button-disabled" title="' . esc_attr( sprintf( __( 'This plugin is no more required as you already have %s', 'language-switcher-for-elementor-polylang' ), $lsep_pro_ver['pro'] ) ) . '">' . esc_html__( 'Pro Installed', 'language-switcher-for-elementor-polylang' ) . '</button>';
 }
 
     // All php condition formation is over here
