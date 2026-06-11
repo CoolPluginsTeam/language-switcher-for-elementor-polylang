@@ -60,12 +60,10 @@ class LSEP_Register_Widget {
 	public function lsep_elementor_review_notice() {
 		if ( ! current_user_can( 'manage_options' ) ) {
 			wp_send_json_error( __( 'You have no permission to do this action.', 'language-switcher-for-elementor-polylang' ) );
-			wp_die( '0', 403 );
 		}
 
 		if ( ! check_ajax_referer( 'lsep_elementor_review', 'nonce', false ) ) {
 			wp_send_json_error( __( 'Invalid security token sent.', 'language-switcher-for-elementor-polylang' ) );
-			wp_die( '0', 400 );
 		}
 
 		if ( isset( $_POST['lsep_notice_dismiss'] ) && 'true' === sanitize_text_field(wp_unslash($_POST['lsep_notice_dismiss'])) ) {

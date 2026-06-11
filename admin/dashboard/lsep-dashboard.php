@@ -110,7 +110,6 @@ if (!defined('ABSPATH')) {
             function cool_plugins_install(){
             if(current_user_can('install_plugins')){
                 $plugin_slug= isset($_POST['polylang_slug'])?sanitize_text_field(wp_unslash($_POST['polylang_slug'])):'';
-                $wp_nonce = wp_create_nonce('polylang-plugins-download-' . $plugin_slug );
                 if(!empty( $plugin_slug)){
                     if ( ! check_ajax_referer( 'polylang-plugins-download-' . $plugin_slug,'wp_nonce', false ) ) {
                   
@@ -118,7 +117,7 @@ if (!defined('ABSPATH')) {
                         wp_die();
                     }
                   
-                    require_once 'includes/cool_plugins_downloader.php';
+                    require_once $this->addon_dir . '/includes/cool_plugins_downloader.php';
                         $downloader = new cool_plugins_downloader();
                       
                         $plugins = $this->request_wp_plugins_data($this->plugin_tag);
@@ -321,7 +320,6 @@ if (!defined('ABSPATH')) {
                         'version' => $plugin->version,
                         'download_link' => null,
                         'incompatible' => $plugin->free_version,
-                        'buyLink' => $plugin->buy_url,
                     );
                     if (property_exists($plugin, 'free_version') && $plugin->free_version != null) {
                         $this->disable_plugins[$plugin->free_version] = array('pro' => $plugin->slug);
