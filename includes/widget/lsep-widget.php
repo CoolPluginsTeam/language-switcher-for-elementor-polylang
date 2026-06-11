@@ -731,7 +731,7 @@ public function lsep_language_switcher_icon_css() {
             $switcher_html .= '</div>';
         }else{
             $switcher_html .= '<div class="lsep-wrapper ' . esc_attr($settings['lsep_language_switcher_type']) . '">';
-            $switcher_html .= '<ul class="lsep-language-list">' . $this->lsep_render_switcher($settings, $lsep_data) . '</ul>';
+            $switcher_html .= $this->lsep_render_switcher($settings, $lsep_data);
             $switcher_html .= '</div>';
         }
         $switcher_html .= '</div>';
