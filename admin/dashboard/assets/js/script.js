@@ -1,20 +1,31 @@
 jQuery(document).ready(function($) {
     // Tab functionality
-    $('.lsep-nav-tab').on('click', function(e) {
-        e.preventDefault();
-        
-        // Remove active class from all tabs
-        $('.lsep-nav-tab').removeClass('nav-tab-active');
-        
-        // Add active class to clicked tab
-        $(this).addClass('nav-tab-active');
-        
-        // Hide all content sections
-        $('.lsep-tab-content').removeClass('active');
-        
-        // Show corresponding content based on href
-        var target = $(this).attr('href');
-        $(target).addClass('active');
+    jQuery(document).ready(function($) {
+        // Tab functionality
+        $('.lsep-nav-tab').on('click', function(e) {
+            var href = $(this).attr('href');
+            
+            // Check if it's a hash (tab) or full URL (external page)
+            if (href && href.indexOf('#') === 0) {
+                // It's a hash - handle as tab
+                e.preventDefault();
+                
+                // Remove active class from all tabs
+                $('.lsep-nav-tab').removeClass('nav-tab-active');
+                
+                // Add active class to clicked tab
+                $(this).addClass('nav-tab-active');
+                
+                // Hide all content sections
+                $('.lsep-tab-content').removeClass('active');
+                
+                // Show corresponding content based on href
+                $(href).addClass('active');
+            } else {
+                // It's a full URL - let it navigate normally (don't prevent default)
+                // The browser will navigate to the standalone page
+            }
+        });
     });
 
     $('button.cool-plugins-addon').on('click', function() {

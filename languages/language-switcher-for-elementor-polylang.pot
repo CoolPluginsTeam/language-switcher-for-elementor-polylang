@@ -1,0 +1,637 @@
+# Copyright (C) 2026 satindersingh
+# This file is distributed under the GPL2.
+msgid ""
+msgstr ""
+"Project-Id-Version: Language Switcher for Elementor & Polylang 1.2.3\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/language-switcher-for-elementor-polylang\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: 2026-01-05T11:30:10+00:00\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"X-Generator: WP-CLI 2.12.0\n"
+"X-Domain: language-switcher-for-elementor-polylang\n"
+
+#. Plugin Name of the plugin
+#: language-switcher-for-elementor-polylang.php
+msgid "Language Switcher for Elementor & Polylang"
+msgstr ""
+
+#. Description of the plugin
+#: language-switcher-for-elementor-polylang.php
+msgid "Language Switcher for Elementor & Polylang to use language switcher in your page or Elementor header menu"
+msgstr ""
+
+#. Author of the plugin
+#: language-switcher-for-elementor-polylang.php
+msgid "satindersingh"
+msgstr ""
+
+#. Author URI of the plugin
+#: language-switcher-for-elementor-polylang.php
+msgid "https://profiles.wordpress.org/satindersingh/"
+msgstr ""
+
+#: admin/class-lsep-floating-switcher-settings.php:34
+#: admin/class-lsep-floating-switcher-settings.php:35
+#: admin/dashboard/lsep-dashboard.php:158
+msgid "Floating Switcher"
+msgstr ""
+
+#: admin/class-lsep-floating-switcher-settings.php:158
+msgid "English"
+msgstr ""
+
+#: admin/class-lsep-floating-switcher-settings.php:164
+msgid "Français"
+msgstr ""
+
+#: admin/class-lsep-floating-switcher-settings.php:260
+msgid "Permission denied."
+msgstr ""
+
+#: admin/class-lsep-floating-switcher-settings.php:265
+msgid "Invalid nonce."
+msgstr ""
+
+#: admin/class-lsep-floating-switcher-settings.php:272
+msgid "Invalid data."
+msgstr ""
+
+#: admin/class-lsep-floating-switcher-settings.php:278
+msgid "Settings saved successfully."
+msgstr ""
+
+#: admin/dashboard/includes/get-started-content.php:4
+msgid "Quick Start Guide"
+msgstr ""
+
+#: admin/dashboard/includes/get-started-content.php:5
+msgid "Thank you for installing Language Switcher for Elementor & Polylang. This Plugin helps you create and manage your Elementor Multilingual Website."
+msgstr ""
+
+#: admin/dashboard/includes/get-started-content.php:7
+msgid "1. Add Language Switcher Widget"
+msgstr ""
+
+#: admin/dashboard/includes/get-started-content.php:9
+msgid "Open a page using Elementor."
+msgstr ""
+
+#: admin/dashboard/includes/get-started-content.php:10
+msgid "Search for \"Language Switcher\" from the Elementor widget panel."
+msgstr ""
+
+#: admin/dashboard/includes/get-started-content.php:11
+msgid "Drag and drop the widget where you want to show the switcher."
+msgstr ""
+
+#: admin/dashboard/includes/get-started-content.php:12
+msgid "Customize the style, layout, and language display of Language Switcher from widget settings."
+msgstr ""
+
+#: admin/dashboard/includes/get-started-content.php:15
+msgid "2. Translate Elementor Templates"
+msgstr ""
+
+#: admin/dashboard/includes/get-started-content.php:17
+msgid "From your WordPress dashboard, go to Templates > Saved Templates."
+msgstr ""
+
+#: admin/dashboard/includes/get-started-content.php:18
+msgid "Create a new template in Elementor."
+msgstr ""
+
+#: admin/dashboard/includes/get-started-content.php:19
+msgid "Translate your Elementor templates via Polylang."
+msgstr ""
+
+#: admin/dashboard/includes/get-started-content.php:22
+msgid "3. Translations Control Panel"
+msgstr ""
+
+#: admin/dashboard/includes/get-started-content.php:23
+msgid "Manage and edit translated versions of your pages using the Translations Control Panel."
+msgstr ""
+
+#: admin/dashboard/includes/get-started-content.php:25
+msgid "Click the \"Edit\" icon to modify an existing translation."
+msgstr ""
+
+#: admin/dashboard/includes/get-started-content.php:26
+msgid "Click the \"Create\" icon to quickly start translation."
+msgstr ""
+
+#: admin/dashboard/includes/get-started-content.php:37
+msgid "Language Switcher for Elementor & Polylang Tutorial"
+msgstr ""
+
+#: admin/dashboard/lsep-dashboard.php:140
+#: admin/dashboard/lsep-dashboard.php:141
+#: admin/dashboard/lsep-dashboard.php:157
+#: language-switcher-for-elementor-polylang.php:96
+msgid "Get Started"
+msgstr ""
+
+#: admin/dashboard/lsep-dashboard.php:155
+msgid "Welcome to Language Switcher for Elementor & Polylang"
+msgstr ""
+
+#: admin/dashboard/lsep-dashboard.php:159
+msgid "More Addons"
+msgstr ""
+
+#: admin/dashboard/partials/floating-switcher-page.php:13
+msgid "Floating Language Switcher"
+msgstr ""
+
+#: admin/dashboard/partials/floating-switcher-page.php:23
+msgid "No languages configured!"
+msgstr ""
+
+#: admin/dashboard/partials/floating-switcher-page.php:24
+msgid "Please configure at least two languages in Polylang settings."
+msgstr ""
+
+#: includes/class-lsep-floating-switcher-frontend.php:284
+msgid "Website language selector"
+msgstr ""
+
+#: includes/class-lsep-floating-switcher-frontend.php:298
+msgid "Available languages"
+msgstr ""
+
+#: includes/class-lsep-floating-switcher-frontend.php:348
+msgid "Change language"
+msgstr ""
+
+#: includes/lsep-manager.php:213
+msgid "Translations"
+msgstr ""
+
+#. translators: %s: Language name
+#: includes/lsep-manager.php:258
+#, php-format
+msgid "Add translation — %s"
+msgstr ""
+
+#: includes/lsep-register-widget.php:57
+msgid "Invalid security token sent."
+msgstr ""
+
+#: includes/widget/lsep-widget.php:85
+#: includes/widget/lsep-widget.php:122
+msgid "Language Switcher"
+msgstr ""
+
+#: includes/widget/lsep-widget.php:130
+msgid "Language Switcher Type"
+msgstr ""
+
+#: includes/widget/lsep-widget.php:133
+#: admin/dashboard/includes/js/lsep-floating-switcher-app.js:634
+msgid "Dropdown"
+msgstr ""
+
+#: includes/widget/lsep-widget.php:134
+msgid "Vertical"
+msgstr ""
+
+#: includes/widget/lsep-widget.php:135
+msgid "Horizontal"
+msgstr ""
+
+#: includes/widget/lsep-widget.php:144
+msgid "Show Flags"
+msgstr ""
+
+#: includes/widget/lsep-widget.php:153
+msgid "Show Language Names"
+msgstr ""
+
+#: includes/widget/lsep-widget.php:162
+msgid "Show Language Codes"
+msgstr ""
+
+#: includes/widget/lsep-widget.php:172
+msgid "Hide Current Language"
+msgstr ""
+
+#: includes/widget/lsep-widget.php:181
+msgid "Hide Untranslated Languages"
+msgstr ""
+
+#: includes/widget/lsep-widget.php:192
+msgid "Hope this language switcher solved your problem!"
+msgstr ""
+
+#: includes/widget/lsep-widget.php:212
+msgid "Language Switcher Style"
+msgstr ""
+
+#: includes/widget/lsep-widget.php:220
+msgid "Switcher Alignment"
+msgstr ""
+
+#: includes/widget/lsep-widget.php:224
+msgid "Left"
+msgstr ""
+
+#: includes/widget/lsep-widget.php:228
+msgid "Center"
+msgstr ""
+
+#: includes/widget/lsep-widget.php:232
+msgid "Right"
+msgstr ""
+
+#: includes/widget/lsep-widget.php:249
+msgid "Flag Ratio"
+msgstr ""
+
+#: includes/widget/lsep-widget.php:252
+msgid "1/1"
+msgstr ""
+
+#: includes/widget/lsep-widget.php:253
+msgid "4/3"
+msgstr ""
+
+#: includes/widget/lsep-widget.php:269
+msgid "Flag Width"
+msgstr ""
+
+#: includes/widget/lsep-widget.php:289
+msgid "Flag Radius"
+msgstr ""
+
+#: includes/widget/lsep-widget.php:320
+msgid "Margin"
+msgstr ""
+
+#: includes/widget/lsep-widget.php:341
+msgid "Padding"
+msgstr ""
+
+#: includes/widget/lsep-widget.php:363
+#: admin/dashboard/includes/js/lsep-floating-switcher-app.js:99
+msgid "Border"
+msgstr ""
+
+#: includes/widget/lsep-widget.php:371
+msgid "Border Radius"
+msgstr ""
+
+#: includes/widget/lsep-widget.php:393
+#: admin/dashboard/includes/js/lsep-floating-switcher-app.js:947
+msgid "Normal"
+msgstr ""
+
+#: includes/widget/lsep-widget.php:400
+#: includes/widget/lsep-widget.php:440
+msgid "Typography"
+msgstr ""
+
+#: includes/widget/lsep-widget.php:407
+#: includes/widget/lsep-widget.php:447
+msgid "Switcher Background Color"
+msgstr ""
+
+#: includes/widget/lsep-widget.php:421
+#: includes/widget/lsep-widget.php:461
+msgid "Switcher Text Color"
+msgstr ""
+
+#: includes/widget/lsep-widget.php:433
+msgid "Hover"
+msgstr ""
+
+#: includes/widget/lsep-widget.php:477
+msgid "Dropdown Style"
+msgstr ""
+
+#: includes/widget/lsep-widget.php:488
+msgid "Dropdown Direction"
+msgstr ""
+
+#: includes/widget/lsep-widget.php:491
+msgid "Up"
+msgstr ""
+
+#: includes/widget/lsep-widget.php:492
+msgid "Down"
+msgstr ""
+
+#: includes/widget/lsep-widget.php:505
+msgid "Switcher Icon"
+msgstr ""
+
+#: includes/widget/lsep-widget.php:524
+msgid "Icon Size"
+msgstr ""
+
+#: includes/widget/lsep-widget.php:551
+msgid "Icon Color"
+msgstr ""
+
+#: includes/widget/lsep-widget.php:565
+msgid "Icon Spacing"
+msgstr ""
+
+#: includes/widget/lsep-widget.php:587
+msgid "Dropdown Spacing"
+msgstr ""
+
+#: includes/widget/lsep-widget.php:612
+#: includes/widget/lsep-widget.php:617
+msgid "Dropdown List Border"
+msgstr ""
+
+#: includes/widget/lsep-widget.php:620
+msgid "Border Width"
+msgstr ""
+
+#: includes/widget/lsep-widget.php:623
+msgid "Border Color"
+msgstr ""
+
+#: includes/widget/lsep-widget.php:632
+msgid "Language Item Separator"
+msgstr ""
+
+#: includes/widget/lsep-widget.php:651
+msgid "Separator Color"
+msgstr ""
+
+#: admin/dashboard/includes/js/lsep-floating-switcher-app.js:77
+#: admin/dashboard/includes/js/lsep-floating-switcher-app.js:1090
+#: admin/dashboard/includes/js/lsep-floating-switcher-app.js:1119
+msgid "Default"
+msgstr ""
+
+#: admin/dashboard/includes/js/lsep-floating-switcher-app.js:88
+msgid "Dark"
+msgstr ""
+
+#: admin/dashboard/includes/js/lsep-floating-switcher-app.js:110
+msgid "Transparent"
+msgstr ""
+
+#: admin/dashboard/includes/js/lsep-floating-switcher-app.js:206
+msgid "Settings saved successfully!"
+msgstr ""
+
+#: admin/dashboard/includes/js/lsep-floating-switcher-app.js:208
+#: admin/dashboard/includes/js/lsep-floating-switcher-app.js:212
+msgid "Failed to save settings"
+msgstr ""
+
+#: admin/dashboard/includes/js/lsep-floating-switcher-app.js:276
+msgid "Switcher Preview"
+msgstr ""
+
+#: admin/dashboard/includes/js/lsep-floating-switcher-app.js:302
+msgid "Hover over the language switcher to see it in action!"
+msgstr ""
+
+#: admin/dashboard/includes/js/lsep-floating-switcher-app.js:431
+#: admin/dashboard/includes/js/lsep-floating-switcher-app.js:660
+msgid "Apply a preset"
+msgstr ""
+
+#: admin/dashboard/includes/js/lsep-floating-switcher-app.js:435
+#: admin/dashboard/includes/js/lsep-floating-switcher-app.js:727
+msgid "Are you sure you want to apply the "
+msgstr ""
+
+#: admin/dashboard/includes/js/lsep-floating-switcher-app.js:437
+#: admin/dashboard/includes/js/lsep-floating-switcher-app.js:729
+msgid " preset?"
+msgstr ""
+
+#: admin/dashboard/includes/js/lsep-floating-switcher-app.js:442
+#: admin/dashboard/includes/js/lsep-floating-switcher-app.js:734
+msgid "It will override your current settings."
+msgstr ""
+
+#: admin/dashboard/includes/js/lsep-floating-switcher-app.js:453
+#: admin/dashboard/includes/js/lsep-floating-switcher-app.js:746
+msgid "Apply preset"
+msgstr ""
+
+#: admin/dashboard/includes/js/lsep-floating-switcher-app.js:461
+#: admin/dashboard/includes/js/lsep-floating-switcher-app.js:755
+msgid "Cancel"
+msgstr ""
+
+#: admin/dashboard/includes/js/lsep-floating-switcher-app.js:520
+msgid "Saving..."
+msgstr ""
+
+#: admin/dashboard/includes/js/lsep-floating-switcher-app.js:521
+msgid "Save changes"
+msgstr ""
+
+#: admin/dashboard/includes/js/lsep-floating-switcher-app.js:530
+msgid "Revert to last saved values"
+msgstr ""
+
+#: admin/dashboard/includes/js/lsep-floating-switcher-app.js:547
+msgid "Revert changes"
+msgstr ""
+
+#: admin/dashboard/includes/js/lsep-floating-switcher-app.js:579
+msgid "Floating Switcher Settings"
+msgstr ""
+
+#: admin/dashboard/includes/js/lsep-floating-switcher-app.js:595
+msgid "Enable Floating Switcher"
+msgstr ""
+
+#: admin/dashboard/includes/js/lsep-floating-switcher-app.js:601
+msgid "Switcher is enabled"
+msgstr ""
+
+#: admin/dashboard/includes/js/lsep-floating-switcher-app.js:602
+msgid "Switcher is disabled"
+msgstr ""
+
+#: admin/dashboard/includes/js/lsep-floating-switcher-app.js:620
+msgid "Switcher Type"
+msgstr ""
+
+#: admin/dashboard/includes/js/lsep-floating-switcher-app.js:645
+msgid "Side by Side"
+msgstr ""
+
+#: admin/dashboard/includes/js/lsep-floating-switcher-app.js:866
+msgid "Applied"
+msgstr ""
+
+#: admin/dashboard/includes/js/lsep-floating-switcher-app.js:867
+#, js-format
+msgid "Apply %s Preset"
+msgstr ""
+
+#: admin/dashboard/includes/js/lsep-floating-switcher-app.js:887
+msgid "Customize Design"
+msgstr ""
+
+#: admin/dashboard/includes/js/lsep-floating-switcher-app.js:896
+msgid "Background color"
+msgstr ""
+
+#: admin/dashboard/includes/js/lsep-floating-switcher-app.js:901
+msgid "Background hover color"
+msgstr ""
+
+#: admin/dashboard/includes/js/lsep-floating-switcher-app.js:906
+msgid "Text color"
+msgstr ""
+
+#: admin/dashboard/includes/js/lsep-floating-switcher-app.js:911
+msgid "Text hover color"
+msgstr ""
+
+#: admin/dashboard/includes/js/lsep-floating-switcher-app.js:916
+msgid "Switcher border color"
+msgstr ""
+
+#: admin/dashboard/includes/js/lsep-floating-switcher-app.js:923
+msgid "Switcher border width"
+msgstr ""
+
+#: admin/dashboard/includes/js/lsep-floating-switcher-app.js:936
+msgid "Switcher animations"
+msgstr ""
+
+#: admin/dashboard/includes/js/lsep-floating-switcher-app.js:948
+msgid "Large"
+msgstr ""
+
+#: admin/dashboard/includes/js/lsep-floating-switcher-app.js:950
+msgid "Flag and text size"
+msgstr ""
+
+#: admin/dashboard/includes/js/lsep-floating-switcher-app.js:961
+msgid "Rectangle (4:3)"
+msgstr ""
+
+#: admin/dashboard/includes/js/lsep-floating-switcher-app.js:962
+msgid "Square (1:1)"
+msgstr ""
+
+#: admin/dashboard/includes/js/lsep-floating-switcher-app.js:964
+msgid "Flag icons shape"
+msgstr ""
+
+#: admin/dashboard/includes/js/lsep-floating-switcher-app.js:971
+msgid "Flag icons border radius"
+msgstr ""
+
+#: admin/dashboard/includes/js/lsep-floating-switcher-app.js:981
+msgid "Enable custom CSS"
+msgstr ""
+
+#: admin/dashboard/includes/js/lsep-floating-switcher-app.js:1004
+msgid "Customize Layout"
+msgstr ""
+
+#: admin/dashboard/includes/js/lsep-floating-switcher-app.js:1030
+msgid "Desktop"
+msgstr ""
+
+#: admin/dashboard/includes/js/lsep-floating-switcher-app.js:1042
+msgid "Mobile"
+msgstr ""
+
+#: admin/dashboard/includes/js/lsep-floating-switcher-app.js:1062
+#: admin/dashboard/includes/js/lsep-floating-switcher-app.js:1376
+msgid "Bottom Right"
+msgstr ""
+
+#: admin/dashboard/includes/js/lsep-floating-switcher-app.js:1066
+#: admin/dashboard/includes/js/lsep-floating-switcher-app.js:1377
+msgid "Bottom Left"
+msgstr ""
+
+#: admin/dashboard/includes/js/lsep-floating-switcher-app.js:1070
+#: admin/dashboard/includes/js/lsep-floating-switcher-app.js:1375
+msgid "Top Right"
+msgstr ""
+
+#: admin/dashboard/includes/js/lsep-floating-switcher-app.js:1074
+#: admin/dashboard/includes/js/lsep-floating-switcher-app.js:1374
+msgid "Top Left"
+msgstr ""
+
+#: admin/dashboard/includes/js/lsep-floating-switcher-app.js:1077
+msgid "Switcher Position"
+msgstr ""
+
+#: admin/dashboard/includes/js/lsep-floating-switcher-app.js:1092
+#: admin/dashboard/includes/js/lsep-floating-switcher-app.js:1121
+msgid "Custom"
+msgstr ""
+
+#: admin/dashboard/includes/js/lsep-floating-switcher-app.js:1094
+msgid "Switcher Width"
+msgstr ""
+
+#: admin/dashboard/includes/js/lsep-floating-switcher-app.js:1105
+msgid "Custom Width"
+msgstr ""
+
+#: admin/dashboard/includes/js/lsep-floating-switcher-app.js:1123
+msgid "Switcher Padding"
+msgstr ""
+
+#: admin/dashboard/includes/js/lsep-floating-switcher-app.js:1134
+msgid "Custom Padding"
+msgstr ""
+
+#: admin/dashboard/includes/js/lsep-floating-switcher-app.js:1148
+msgid "Before Language"
+msgstr ""
+
+#: admin/dashboard/includes/js/lsep-floating-switcher-app.js:1152
+msgid "After Language"
+msgstr ""
+
+#: admin/dashboard/includes/js/lsep-floating-switcher-app.js:1156
+msgid "Hide Icons"
+msgstr ""
+
+#: admin/dashboard/includes/js/lsep-floating-switcher-app.js:1159
+msgid "Flag Icons Position"
+msgstr ""
+
+#: admin/dashboard/includes/js/lsep-floating-switcher-app.js:1172
+msgid "Full Names"
+msgstr ""
+
+#: admin/dashboard/includes/js/lsep-floating-switcher-app.js:1176
+msgid "Short Names"
+msgstr ""
+
+#: admin/dashboard/includes/js/lsep-floating-switcher-app.js:1180
+msgid "No Names"
+msgstr ""
+
+#: admin/dashboard/includes/js/lsep-floating-switcher-app.js:1183
+msgid "Language Names"
+msgstr ""
+
+#: admin/dashboard/includes/js/lsep-floating-switcher-app.js:1307
+msgid "Pick a color"
+msgstr ""
+
+#: admin/dashboard/includes/js/lsep-floating-switcher-app.js:1386
+msgid "Switcher border radius"
+msgstr ""
+
+#: admin/dashboard/includes/js/lsep-floating-switcher-app.js:1464
+msgid "Write custom CSS here..."
+msgstr ""

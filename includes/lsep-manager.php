@@ -35,13 +35,8 @@ class LSEP_Manager {
      * @since 1.0.0
      */
     public function __construct() {
-        // Check if Polylang is active
-        global $polylang;
-        if ( ! isset( $polylang ) ) {
-            return;
-        }
-
-        if(! is_plugin_active( 'elementor/elementor.php' )){
+        // Check if required dependencies are active
+        if ( ! \LSEP_HELPERS::is_dependencies_active() ) {
             return;
         }
         add_filter('pll_get_post_types', [$this, 'lsep_register_supported_post_types'], 10, 2);
