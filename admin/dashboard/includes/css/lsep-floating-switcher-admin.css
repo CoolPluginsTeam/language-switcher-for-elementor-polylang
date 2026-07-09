@@ -533,6 +533,10 @@
 /* ============================================
    Radio Groups
    ============================================ */
+.lsep-radio-group__wrapper > .lsep-radio-group {
+    margin-top: 12px; /* Adjust this value if you want a larger or smaller gap */
+}
+
 .lsep-radio-group {
     display: grid;
     grid-template-columns: repeat(2, minmax(150px, 1fr));

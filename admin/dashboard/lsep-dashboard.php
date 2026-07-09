@@ -51,6 +51,32 @@ if (!defined('ABSPATH')) {
                 add_action('wp_ajax_cool_plugins_install_'. $this->plugin_tag, array($this, 'cool_plugins_install'));
                 add_action('wp_ajax_cool_plugins_activate_'. $this->plugin_tag, array($this, 'cool_plugins_activate'));
                 add_action('admin_enqueue_scripts', array($this,'enqueue_required_scripts') );
+                add_action( 'in_admin_header', array( $this, 'suppress_foreign_admin_notices' ), 1000 );
+            }
+
+            /**
+             * Whether the current request is rendering this plugin dashboard.
+             *
+             * @return bool
+             */
+            private function is_dashboard_page() {
+                // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- GET used only for page detection.
+                $page = isset( $_GET['page'] ) ? sanitize_key( wp_unslash( $_GET['page'] ) ) : '';
+
+                return 'lsep-get-started' === $page;
+            }
+
+            /**
+             * Remove third-party plugin and theme admin notices on this dashboard.
+             */
+            public function suppress_foreign_admin_notices() {
+                if ( ! $this->is_dashboard_page() ) {
+                    return;
+                }
+
+                remove_all_actions( 'admin_notices' );
+                remove_all_actions( 'all_admin_notices' );
+                remove_all_actions( 'user_admin_notices' );
             }
 
             /**
