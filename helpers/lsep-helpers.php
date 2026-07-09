@@ -273,6 +273,31 @@ class LSEP_HELPERS {
 
 		return $options;
 	}
+
+	/**
+	 * Load plugin API functions when running outside wp-admin.
+	 *
+	 * @since 1.2.5
+	 */
+	private static function ensure_plugin_api_loaded() {
+		if ( ! function_exists( 'is_plugin_active' ) ) {
+			require_once ABSPATH . 'wp-admin/includes/plugin.php';
+		}
+	}
+
+	/**
+	 * Check whether a plugin is active (safe on frontend requests).
+	 *
+	 * @since 1.2.5
+	 * @param string $plugin_file Plugin basename.
+	 * @return bool
+	 */
+	public static function lsep_is_plugin_active( $plugin_file ) {
+		self::ensure_plugin_api_loaded();
+
+		return is_plugin_active( $plugin_file );
+	}
+
 	/**
 	 * Check if required plugin dependencies are active.
 	 * Consolidated check to avoid repetition.
@@ -290,7 +315,7 @@ class LSEP_HELPERS {
 		}
 		
 		// Check if Elementor is active
-		if ( ! is_plugin_active( 'elementor/elementor.php' ) ) {
+		if ( ! self::lsep_is_plugin_active( 'elementor/elementor.php' ) ) {
 			return false;
 		}
 		
@@ -336,16 +361,14 @@ class LSEP_HELPERS {
 	 * @return array Status with 'installed' and 'active' booleans.
 	 */
 	public static function get_autopoly_status() {
-		if ( ! function_exists( 'get_plugins' ) ) {
-			require_once ABSPATH . 'wp-admin/includes/plugin.php';
-		}
+		self::ensure_plugin_api_loaded();
 
 		$plugin_file = self::get_autopoly_plugin_file();
 		$all_plugins = get_plugins();
 
 		return array(
 			'installed' => isset( $all_plugins[ $plugin_file ] ),
-			'active'    => is_plugin_active( $plugin_file ),
+			'active'    => self::lsep_is_plugin_active( $plugin_file ),
 		);
 	}
 }

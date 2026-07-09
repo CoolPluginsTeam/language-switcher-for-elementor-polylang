@@ -46,7 +46,7 @@ class LSEP_Manager {
         add_action('elementor/frontend/widget/before_render', [$this, 'lsep_translate_widget_template_id']);
         add_action('elementor/documents/register_controls', [$this, 'lsep_add_language_panel_controls']);
 
-        if (is_plugin_active('elementor-pro/elementor-pro.php')) {
+        if ( \LSEP_HELPERS::lsep_is_plugin_active( 'elementor-pro/elementor-pro.php' ) ) {
             add_action('set_object_terms', [$this, 'lsep_update_conditions_on_translation_change'], 10, 4);
         }
     }
@@ -94,7 +94,7 @@ class LSEP_Manager {
             // Else fallback is original post_id (in case no default exists either)
         }
     
-        $this->template_id = $post_id; // Save for later use
+        $this->current_template_id = $post_id;
     
         return $post_id;
     }

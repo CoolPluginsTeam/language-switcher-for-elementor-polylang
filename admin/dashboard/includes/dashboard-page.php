@@ -47,7 +47,7 @@ if (file_exists(WP_PLUGIN_DIR . '/' . $plugin_slug)) {
             $lsep_update_stats = '<span class="plugin-update-available">Update Available: v '.wp_kses_post($lsep_available_version).'</span>';
           }
 
-          if( is_plugin_active($plugin) ){
+          if( \LSEP_HELPERS::lsep_is_plugin_active( $plugin ) ){
             $lsep_is_active = true;
             $lsep_classes .= ' active-plugin';
             break;

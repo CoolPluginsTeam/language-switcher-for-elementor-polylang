@@ -701,7 +701,7 @@ public function lsep_language_switcher_icon_css() {
 
                         $data['lsepGlobalObj'] = $custom_data_json;
                     }
-                } catch ( Exception $e ) {
+                } catch ( \Exception $e ) {
                     // Handle exception if needed
                 }
         }
