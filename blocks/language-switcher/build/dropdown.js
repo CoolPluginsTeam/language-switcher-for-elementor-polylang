@@ -1,53 +1,31 @@
 ﻿/**
  * Custom Dropdown functionality for Language Switcher Block
- * Handles dropdown interactions and accessibility
  */
 (function() {
     'use strict';
-    
-    /**
-     * Detect if we are in the editor context
-     *
-     * @return {boolean} True if in editor context
-     */
-    function isInEditor() {
-        try {
-            if (window.self !== window.top) {
-                return true;
-            }
-            if (document.body.classList.contains('block-editor-page') ||
-                document.body.classList.contains('wp-admin')) {
-                return true;
-            }
-            if (document.querySelector('.block-editor') || 
-                document.querySelector('.edit-post-visual-editor')) {
-                return true;
-            }
-        } catch (e) {
-            return true;
-        }
-        return false;
+
+    function isInEditor(doc) {
+        return doc.body && (
+            doc.body.classList.contains('block-editor-iframe__body') ||
+            doc.body.classList.contains('block-editor-page') ||
+            doc.body.classList.contains('wp-admin')
+        );
     }
-    
-    /**
-     * Calculate and set dropdown width from current button content.
-     * Mirrors floating switcher setFixedWidth() behavior.
-     *
-     * @param {HTMLElement} container - Dropdown container element
-     */
+
     function setFixedWidth(container) {
         var button = container.querySelector('.lsep-dropdown-button');
+        var doc = container.ownerDocument;
 
-        if (!button) {
+        if (!button || !doc || !doc.body) {
             return;
         }
 
         try {
-            var measurer = document.createElement('div');
+            var measurer = doc.createElement('div');
             measurer.style.cssText = 'position:absolute;visibility:hidden;white-space:nowrap;display:flex;align-items:center;';
-            document.body.appendChild(measurer);
+            doc.body.appendChild(measurer);
 
-            var buttonStyles = window.getComputedStyle(button);
+            var buttonStyles = doc.defaultView.getComputedStyle(button);
             measurer.style.fontSize = buttonStyles.fontSize;
             measurer.style.fontFamily = buttonStyles.fontFamily;
             measurer.style.fontWeight = buttonStyles.fontWeight;
@@ -61,9 +39,9 @@
             }
 
             var calculatedWidth = measurer.offsetWidth + 11.5;
-            document.body.removeChild(measurer);
+            doc.body.removeChild(measurer);
 
-            var containerStyles = window.getComputedStyle(container);
+            var containerStyles = doc.defaultView.getComputedStyle(container);
             var horizontalExtras =
                 (parseFloat(containerStyles.paddingLeft) || 0) +
                 (parseFloat(containerStyles.paddingRight) || 0) +
@@ -81,62 +59,37 @@
         }
     }
 
-    /**
-     * Initialize dropdown functionality
-     *
-     * @param {HTMLElement} container - Dropdown container element
-     */
     function initDropdown(container) {
         var button = container.querySelector('.lsep-dropdown-button');
         var menu = container.querySelector('.lsep-dropdown-menu');
-        
-        if (!button || !menu) {
+        var doc = container.ownerDocument;
+
+        if (!button || !menu || !doc) {
             return;
         }
 
-        container.querySelectorAll('img').forEach(function(img) {
-            if (!img.complete) {
-                img.addEventListener('load', function() {
-                    setFixedWidth(container);
-                });
-            }
-        });
-        
-        var inEditor = isInEditor();
-        
+        var inEditor = isInEditor(doc);
+
         function closeDropdown() {
             button.setAttribute('aria-expanded', 'false');
             menu.style.display = 'none';
         }
-        
+
         function openDropdown() {
             button.setAttribute('aria-expanded', 'true');
             menu.style.display = 'block';
         }
-        
-        function toggleDropdown() {
-            var isExpanded = button.getAttribute('aria-expanded') === 'true';
-            isExpanded ? closeDropdown() : openDropdown();
-        }
-        
-        // Button click handler
+
         button.addEventListener('click', function(e) {
             e.preventDefault();
             e.stopPropagation();
-            toggleDropdown();
+            var isExpanded = button.getAttribute('aria-expanded') === 'true';
+            isExpanded ? closeDropdown() : openDropdown();
         });
-        
-        // Hover functionality - open on hover
-        container.addEventListener('mouseenter', function() {
-            openDropdown();
-        });
-        
-        // Close on mouse leave
-        container.addEventListener('mouseleave', function() {
-            closeDropdown();
-        });
-        
-        // Keyboard navigation
+
+        container.addEventListener('mouseenter', openDropdown);
+        container.addEventListener('mouseleave', closeDropdown);
+
         button.addEventListener('keydown', function(e) {
             if (e.key === 'Enter' || e.key === ' ' || e.key === 'ArrowDown') {
                 e.preventDefault();
@@ -145,8 +98,7 @@
                 closeDropdown();
             }
         });
-        
-        // Menu keyboard navigation
+
         menu.addEventListener('keydown', function(e) {
             if (e.key === 'Escape') {
                 e.preventDefault();
@@ -156,8 +108,7 @@
                 closeDropdown();
             }
         });
-        
-        // Prevent link navigation in editor
+
         if (inEditor) {
             menu.querySelectorAll('a').forEach(function(link) {
                 link.addEventListener('click', function(e) {
@@ -167,25 +118,22 @@
                 });
             });
         }
-        
-        // Close dropdown when clicking outside
-        document.addEventListener('click', function(e) {
+
+        doc.addEventListener('click', function(e) {
             if (!container.contains(e.target)) {
                 closeDropdown();
             }
         });
-        
-        // Prevent menu from closing when clicking inside
+
         menu.addEventListener('click', function(e) {
             e.stopPropagation();
         });
     }
-    
-    /**
-     * Initialize all dropdowns on the page
-     */
-    function initAllDropdowns() {
-        document.querySelectorAll('.lsep-dropdown-container').forEach(function(dropdown) {
+
+    function initAllDropdowns(doc) {
+        doc = doc || document;
+
+        doc.querySelectorAll('.lsep-dropdown-container').forEach(function(dropdown) {
             setFixedWidth(dropdown);
 
             if (!dropdown.hasAttribute('data-lsep-initialized')) {
@@ -195,46 +143,13 @@
         });
     }
 
-    var resizeTimer;
-    window.addEventListener('resize', function() {
-        clearTimeout(resizeTimer);
-        resizeTimer = setTimeout(function() {
-            document.querySelectorAll('.lsep-dropdown-container').forEach(setFixedWidth);
-        }, 100);
-    });
-    
-    // Initialize on DOM ready
-    if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', initAllDropdowns);
-    } else {
-        initAllDropdowns();
-    }
-    
-    // Re-initialize for editor (ServerSideRender updates)
-    if (document.body.classList.contains('block-editor-page') || 
-        document.body.classList.contains('wp-admin')) {
-        
-        var observer = new MutationObserver(function(mutations) {
-            var shouldInit = false;
-            mutations.forEach(function(mutation) {
-                mutation.addedNodes.forEach(function(node) {
-                    if (node.nodeType === 1 && 
-                        (node.classList.contains('lsep-dropdown-container') || 
-                         node.querySelector('.lsep-dropdown-container'))) {
-                        shouldInit = true;
-                    }
-                });
-            });
-            if (shouldInit) {
-                setTimeout(initAllDropdowns, 100);
-            }
-        });
-        
-        observer.observe(document.body, {
-            childList: true,
-            subtree: true
-        });
-    }
-    
-})();
+    window.lsepInitDropdowns = initAllDropdowns;
 
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', function() {
+            initAllDropdowns(document);
+        });
+    } else {
+        initAllDropdowns(document);
+    }
+})();

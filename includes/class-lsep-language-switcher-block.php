@@ -89,6 +89,7 @@ class LSEP_Language_Switcher_Block {
 		register_block_type(
 			'lsep/language-switcher',
 			array(
+				'api_version'     => 3,
 				'attributes'      => $attributes,
 				'editor_script'   => 'lsep-language-switcher-block',
 				'editor_style'    => 'lsep-language-switcher-block-editor',
@@ -526,14 +527,26 @@ class LSEP_Language_Switcher_Block {
 		}
 
 		$justify = ( 'center' === $style_context['alignment'] ) ? 'center' : 'flex-end';
-		$items   = ( 'center' === $style_context['alignment'] ) ? 'center' : 'flex-end';
 		$text    = $style_context['alignment'];
 
-		return array(
+		$rules = array(
 			$this->build_css_rule( array( '.' . $block_class . '.lsep-layout-horizontal' ), array( 'justify-content: ' . $justify . ';' ) ),
-			$this->build_css_rule( array( '.' . $block_class . '.lsep-layout-vertical' ), array( 'align-items: ' . $items . ';' ) ),
 			$this->build_css_rule( array( '.' . $block_class . '.lsep-layout-dropdown' ), array( 'text-align: ' . $text . ';' ) ),
 		);
+
+		if ( 'center' === $style_context['alignment'] ) {
+			$rules[] = $this->build_css_rule(
+				array( '.' . $block_class . '.lsep-layout-vertical' ),
+				array( 'margin-left: auto;', 'margin-right: auto;' )
+			);
+		} elseif ( 'right' === $style_context['alignment'] ) {
+			$rules[] = $this->build_css_rule(
+				array( '.' . $block_class . '.lsep-layout-vertical' ),
+				array( 'margin-left: auto;' )
+			);
+		}
+
+		return $rules;
 	}
 
 	/**

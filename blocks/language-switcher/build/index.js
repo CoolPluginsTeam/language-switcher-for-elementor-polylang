@@ -1,11 +1,13 @@
-﻿(function (blocks, element, blockEditor, components, i18n, serverSideRender) {
+﻿(function (blocks, element, blockEditor, components, compose, i18n, serverSideRender) {
     'use strict';
 
     var el = element.createElement;
     var registerBlockType = blocks.registerBlockType;
     var InspectorControls = blockEditor.InspectorControls;
     var BlockControls = blockEditor.BlockControls;
-    var AlignmentToolbar = blockEditor.AlignmentToolbar;
+    var AlignmentControl = blockEditor.AlignmentControl;
+    var useBlockProps = blockEditor.useBlockProps;
+    var useRefEffect = compose.useRefEffect;
     var PanelBody = components.PanelBody;
     var ToggleControl = components.ToggleControl;
     var SelectControl = components.SelectControl;
@@ -19,12 +21,12 @@
     var ServerSideRender = serverSideRender;
     var __ = i18n.__;
     var useState = element.useState;
-    var useEffect = element.useEffect;
 
     // Get settings from localized script
     var settings = window.lsepBlockSettings || { options: {}, languages: [], polylangActive: false };
 
     registerBlockType('lsep/language-switcher', {
+        apiVersion: 3,
         title: __('Language Switcher block', 'language-switcher-for-elementor-polylang'),
         description: __('Display a language switcher block', 'language-switcher-for-elementor-polylang'),
         category: 'widgets',
@@ -650,19 +652,39 @@
 
             // Set initial tab
             var initialTab = settings.polylangActive ? 'language-source' : 'default';
+            var attributesKey = JSON.stringify(attributes);
+            var dropdownRef = useRefEffect(function (element) {
+                if (!element || attributes.dropdown !== 'dropdown') {
+                    return undefined;
+                }
+
+                function initDropdowns() {
+                    if (typeof window.lsepInitDropdowns === 'function') {
+                        window.lsepInitDropdowns(element.ownerDocument);
+                    }
+                }
+
+                initDropdowns();
+
+                var observer = new MutationObserver(initDropdowns);
+                observer.observe(element, { childList: true, subtree: true });
+
+                return function () {
+                    observer.disconnect();
+                };
+            }, [attributesKey]);
+            var blockProps = useBlockProps({ ref: dropdownRef });
 
             return el(
                 'div',
-                {},
+                blockProps,
                 el(
                     BlockControls,
                     {},
-                    AlignmentToolbar ? el(AlignmentToolbar, {
+                    AlignmentControl ? el(AlignmentControl, {
                         value: attributes.alignment || 'left',
                         onChange: function (nextAlign) {
-                            // AlignmentToolbar can return undefined when cleared.
                             var value = nextAlign || 'left';
-                            // Allow only left/center/right for this block.
                             if (value !== 'left' && value !== 'center' && value !== 'right') {
                                 value = 'left';
                             }
@@ -928,36 +950,8 @@
     window.wp.element,
     window.wp.blockEditor,
     window.wp.components,
+    window.wp.compose,
     window.wp.i18n,
     window.wp.serverSideRender
 );
-
-// Prevent link clicks in the editor
-(function() {
-    'use strict';
-    
-    // Use event delegation to handle clicks on links within the language switcher block
-    document.addEventListener('click', function(e) {
-        // Check if we're in the block editor
-        var isEditor = document.body.classList.contains('block-editor-page') || 
-                       document.body.classList.contains('wp-admin');
-        
-        if (!isEditor) {
-            return;
-        }
-        
-        // Check if the clicked element is a link within the language switcher block
-        var target = e.target;
-        var link = target.closest('a');
-        
-        if (link) {
-            var languageSwitcher = link.closest('.wp-block-lsep-language-switcher');
-            if (languageSwitcher) {
-                e.preventDefault();
-                e.stopPropagation();
-                return false;
-            }
-        }
-    }, true);
-})();
 

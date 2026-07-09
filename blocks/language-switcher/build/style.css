@@ -34,10 +34,26 @@ ul.wp-block-lsep-language-switcher li {
     align-items: center;
 }
 
-.lsep-layout-vertical {
-    display: flex;
+.lsep-layout-vertical,
+.wp-block-lsep-language-switcher ul.lsep-layout-vertical,
+ul.wp-block-lsep-language-switcher.lsep-layout-vertical {
+    display: inline-flex;
     flex-direction: column;
-    align-items: flex-start;
+    flex-wrap: nowrap;
+    align-items: stretch;
+    width: max-content;
+    max-width: 100%;
+}
+
+.lsep-layout-vertical > .lsep-lang-item,
+.wp-block-lsep-language-switcher ul.lsep-layout-vertical > li,
+ul.wp-block-lsep-language-switcher.lsep-layout-vertical > li {
+    width: 100%;
+}
+
+.lsep-layout-vertical .lsep-lang-item a {
+    width: 100%;
+    box-sizing: border-box;
 }
 
 /* Dropdown Layout Styles */
