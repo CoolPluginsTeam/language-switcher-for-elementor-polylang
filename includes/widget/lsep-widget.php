@@ -861,6 +861,11 @@ public function lsep_language_switcher_icon_css() {
             $html .= $anchor_close;
             $html .= '</li>';
         }
-        return $html;
+
+        if ( empty( $html ) ) {
+            return '';
+        }
+
+        return '<ul class="lsep-language-list">' . $html . '</ul>';
     }
 }

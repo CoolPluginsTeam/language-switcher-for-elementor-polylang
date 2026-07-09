@@ -57,8 +57,6 @@ class LSEP_Floating_Switcher_Settings {
      * @since 1.2.4
      */
     private function __construct() {
-        // Add admin menu page
-        add_action( 'admin_menu', [ $this, 'add_admin_menu' ], 25 );
         
         // Enqueue admin assets (CSS/JS)
         add_action( 'admin_enqueue_scripts', [ $this, 'enqueue_assets' ] );
@@ -68,25 +66,6 @@ class LSEP_Floating_Switcher_Settings {
 
         // Register AJAX handler for AutoPoly install/activate
         add_action( 'wp_ajax_lsep_install_autopoly', [ $this, 'ajax_install_autopoly' ] );
-    }
-    
-    /**
-     * Add Admin Menu Page
-     *
-     * Registers a submenu page under the main LSEP settings menu
-     * for configuring the floating language switcher.
-     *
-     * @since 1.2.4
-     */
-    public function add_admin_menu() {
-        add_submenu_page(
-            'lsep-settings', // Parent slug (main LSEP dashboard)
-            __( 'Floating Switcher', 'language-switcher-for-elementor-polylang' ), // Page title
-            __( 'Floating Switcher', 'language-switcher-for-elementor-polylang' ), // Menu title
-            'manage_options', // Capability required
-            'lsep-floating-switcher', // Menu slug
-            [ $this, 'render_page' ] // Callback function
-        );
     }
     
     /**

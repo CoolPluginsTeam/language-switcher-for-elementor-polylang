@@ -363,7 +363,7 @@ class LSEP_Language_Switcher_Block {
 	 */
 	private function get_unique_block_id( $attributes ) {
 		++$this->block_id;
-		$unique_hash = substr( md5( $this->block_id . microtime() . wp_json_encode( $attributes ) ), 0, 8 );
+		$unique_hash = substr( md5( $this->block_id . wp_json_encode( $attributes ) ), 0, 8 );
 		$unique_id   = 'lsep-block-' . $this->block_id . '-' . $unique_hash;
 		return $unique_id;
 	}
