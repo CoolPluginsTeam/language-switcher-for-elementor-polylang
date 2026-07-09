@@ -235,7 +235,9 @@
       showNotice(type, message) {
         const notice = document.createElement("div");
         notice.className = `notice notice-${type} is-dismissible`;
-        notice.innerHTML = `<p>${message}</p>`;
+        const paragraph = document.createElement("p");
+        paragraph.textContent = message;
+        notice.appendChild(paragraph);
   
         const wrap = document.querySelector(".wrap");
         if (wrap) {

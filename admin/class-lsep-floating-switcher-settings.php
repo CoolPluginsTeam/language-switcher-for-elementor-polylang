@@ -277,15 +277,15 @@ class LSEP_Floating_Switcher_Settings {
      * @since 1.2.4
      */
     public function ajax_save_settings() {
-        // Check user permissions
-        if ( ! current_user_can( 'manage_options' ) ) {
-            wp_send_json_error( __( 'Permission denied.', 'language-switcher-for-elementor-polylang' ), 403 );
-        }
-        
         // Verify nonce for security
         $nonce = isset( $_POST['nonce'] ) ? sanitize_text_field( wp_unslash( $_POST['nonce'] ) ) : '';
         if ( ! wp_verify_nonce( $nonce, 'lsep_floating_switcher_save' ) ) {
             wp_send_json_error( __( 'Invalid nonce.', 'language-switcher-for-elementor-polylang' ), 403 );
+        }
+
+        // Check user permissions
+        if ( ! current_user_can( 'manage_options' ) ) {
+            wp_send_json_error( __( 'Permission denied.', 'language-switcher-for-elementor-polylang' ), 403 );
         }
         
         // Get and decode configuration JSON
@@ -313,19 +313,19 @@ class LSEP_Floating_Switcher_Settings {
      * @since 1.2.4
      */
     public function ajax_install_autopoly() {
-        if ( ! current_user_can( 'install_plugins' ) ) {
-            wp_send_json_error(
-                array(
-                    'message' => __( 'Sorry, you are not allowed to install plugins on this site.', 'language-switcher-for-elementor-polylang' ),
-                )
-            );
-        }
-
         $nonce = isset( $_POST['nonce'] ) ? sanitize_text_field( wp_unslash( $_POST['nonce'] ) ) : '';
         if ( ! wp_verify_nonce( $nonce, 'lsep_install_autopoly' ) ) {
             wp_send_json_error(
                 array(
                     'message' => __( 'Invalid security token.', 'language-switcher-for-elementor-polylang' ),
+                )
+            );
+        }
+
+        if ( ! current_user_can( 'install_plugins' ) ) {
+            wp_send_json_error(
+                array(
+                    'message' => __( 'Sorry, you are not allowed to install plugins on this site.', 'language-switcher-for-elementor-polylang' ),
                 )
             );
         }
