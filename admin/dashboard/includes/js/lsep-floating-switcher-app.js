@@ -642,9 +642,11 @@
     messageDiv.className = `lsep-install-message lsep-install-message--${type}`;
     messageDiv.textContent = message;
     
-    const divider = promoBox.querySelector(".lsep-promo-divider");
-    if (divider) {
-      divider.insertAdjacentElement("afterend", messageDiv);
+    const actions = promoBox.querySelector(".lsep-promo-actions");
+    if (actions) {
+      actions.insertAdjacentElement("afterend", messageDiv);
+    } else {
+      promoBox.appendChild(messageDiv);
     }
   }
   

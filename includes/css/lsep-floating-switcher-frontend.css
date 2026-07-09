@@ -91,7 +91,7 @@
 .lsep-ls-dropdown .lsep-language-item__default:hover {
     background: transparent !important;
 }
-.lsep-floating-switcher .lsep-language-switcher-inner& {
+.lsep-floating-switcher .lsep-language-switcher-inner {
     width: auto !important;
     overflow: visible !important;
     min-width: unset !important;

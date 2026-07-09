@@ -39,7 +39,7 @@ class LSEP_Manager {
         if ( ! \LSEP_HELPERS::is_dependencies_active() ) {
             return;
         }
-        add_filter('pll_get_post_types', [$this, 'lsep_register_supported_post_types'], 10, 2);
+        add_filter( 'pll_get_post_types', [ $this, 'lsep_register_supported_post_types' ], 10, 1 );
         add_filter('elementor/theme/get_location_templates/template_id', [$this, 'lsep_translate_template_id']);
         add_filter('elementor/theme/get_location_templates/condition_sub_id', [$this, 'lsep_translate_condition_sub_id'], 10, 2);
         add_filter('pre_do_shortcode_tag', [$this, 'lsep_handle_shortcode_translation'], 10, 3);
@@ -56,11 +56,10 @@ class LSEP_Manager {
      *
      * @since 1.0.0
      *
-     * @param array $types        Array of post types.
-     * @param bool  $is_settings  Whether this is called from settings page.
+     * @param array $types Array of post types.
      * @return array Modified array of post types.
      */
-    public function lsep_register_supported_post_types($types, $is_settings) {
+    public function lsep_register_supported_post_types( $types ) {
         $custom_post_types = ['elementor_library'];
         return array_merge($types, array_combine($custom_post_types, $custom_post_types));
     }
@@ -199,8 +198,6 @@ class LSEP_Manager {
         if (!method_exists($document, 'get_main_id')) {
             return;
         }
-
-        require_once LSEP_PLUGIN_DIR . 'helpers/lsep-helpers.php';
 
         $post_id = $document->get_main_id();
         $languages = pll_languages_list(['fields' => '']);
