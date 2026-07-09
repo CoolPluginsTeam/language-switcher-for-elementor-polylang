@@ -365,242 +365,354 @@ class LSEP_Language_Switcher_Block {
 	}
 
 	/**
-	 * Generate custom spacing, border, flag, and typography CSS
+	 * Generate per-instance block CSS and enqueue it on the shared block handle.
 	 *
 	 * @param array  $attributes Block attributes.
 	 * @param string $block_class Block class name.
-	 * @return string Custom CSS.
+	 * @return void
 	 */
 	private function generate_spacing_css( $attributes, $block_class ) {
-		$css = '';
+		$style_context = $this->get_style_context( $attributes );
+		$css           = $this->build_instance_css( $style_context, $block_class );
 
+		if ( '' === $css ) {
+			return;
+		}
+
+		wp_enqueue_style( 'lsep-language-switcher-block' );
+		wp_add_inline_style( 'lsep-language-switcher-block', $css );
+	}
+
+	/**
+	 * Build normalized style context for an instance.
+	 *
+	 * @param array $attributes Block attributes.
+	 * @return array
+	 */
+	private function get_style_context( $attributes ) {
 		$margin  = lsep_get_block_spacing_values( $attributes, 'margin' );
 		$padding = lsep_get_block_spacing_values( $attributes, 'padding' );
 		$border  = lsep_get_block_border_values( $attributes );
 		$flag    = lsep_get_block_flag_values( $attributes );
 
-		$has_margin  = array_sum( $margin ) > 0;
-		$has_padding = array_sum( $padding ) > 0;
-		// Check if border has color and either unified width or individual widths
-		$has_border  = ! empty( $border['color'] ) && ( ! empty( $border['width'] ) || $border['has_individual_widths'] );
-		$has_border_radius = $border['has_border_radius'];
-		$show_flags  = ! empty( $attributes['show_flags'] );
-		
-		// Typography attributes
-		$has_font_size = ! empty( $attributes['fontSize'] );
-		$has_font_family = ! empty( $attributes['fontFamily'] );
-		$has_text_color = ! empty( $attributes['textColor'] );
-		$has_background_color = ! empty( $attributes['backgroundColor'] );
-		$has_text_transform = ! empty( $attributes['textTransform'] ) && $attributes['textTransform'] !== 'none';
-		$has_typography = $has_font_size || $has_font_family || $has_text_color || $has_background_color || $has_text_transform;
-		
-		// Alignment (left/center/right).
 		$alignment = isset( $attributes['alignment'] ) ? $attributes['alignment'] : 'left';
 		$alignment = in_array( $alignment, array( 'left', 'center', 'right' ), true ) ? $alignment : 'left';
-		$has_alignment = ( 'left' !== $alignment );
 
-		if ( ! $has_margin && ! $has_padding && ! $has_border && ! $has_border_radius && ! $show_flags && ! $has_typography && ! $has_alignment ) {
+		return array(
+			'margin'               => $margin,
+			'padding'              => $padding,
+			'border'               => $border,
+			'flag'                 => $flag,
+			'show_flags'           => ! empty( $attributes['show_flags'] ),
+			'font_size'            => $attributes['fontSize'] ?? '',
+			'font_family'          => $attributes['fontFamily'] ?? '',
+			'text_color'           => $attributes['textColor'] ?? '',
+			'background_color'     => $attributes['backgroundColor'] ?? '',
+			'text_transform'       => $attributes['textTransform'] ?? '',
+			'alignment'            => $alignment,
+			'has_margin'           => array_sum( $margin ) > 0,
+			'has_padding'          => array_sum( $padding ) > 0,
+			'has_border'           => ! empty( $border['color'] ) && ( ! empty( $border['width'] ) || $border['has_individual_widths'] ),
+			'has_border_radius'    => ! empty( $border['has_border_radius'] ),
+			'has_font_size'        => ! empty( $attributes['fontSize'] ),
+			'has_font_family'      => ! empty( $attributes['fontFamily'] ),
+			'has_text_color'       => ! empty( $attributes['textColor'] ),
+			'has_background_color' => ! empty( $attributes['backgroundColor'] ),
+			'has_text_transform'   => ! empty( $attributes['textTransform'] ) && 'none' !== $attributes['textTransform'],
+			'has_alignment'        => 'left' !== $alignment,
+		);
+	}
+
+	/**
+	 * Build all per-instance CSS rules.
+	 *
+	 * @param array  $style_context Normalized style context.
+	 * @param string $block_class Block class name.
+	 * @return string
+	 */
+	private function build_instance_css( $style_context, $block_class ) {
+		$has_typography = $style_context['has_font_size'] || $style_context['has_font_family'] || $style_context['has_text_color'] || $style_context['has_background_color'] || $style_context['has_text_transform'];
+
+		if ( ! $style_context['has_margin'] && ! $style_context['has_padding'] && ! $style_context['has_border'] && ! $style_context['has_border_radius'] && ! $style_context['show_flags'] && ! $has_typography && ! $style_context['has_alignment'] ) {
 			return '';
 		}
 
-		$css .= '<style>';
+		$rules = array();
 
-		// For horizontal/vertical layouts - list items
-		$css .= '.' . $block_class . '.lsep-layout-horizontal .lsep-lang-item,';
-		$css .= '.' . $block_class . '.lsep-layout-vertical .lsep-lang-item {';
-
-		if ( $has_margin ) {
-			$css .= 'margin: ' . implode( 'px ', $margin ) . 'px;';
+		$list_declarations = $this->build_list_item_declarations( $style_context );
+		if ( ! empty( $list_declarations ) ) {
+			$rules[] = $this->build_css_rule(
+				array(
+					'.' . $block_class . '.lsep-layout-horizontal .lsep-lang-item',
+					'.' . $block_class . '.lsep-layout-vertical .lsep-lang-item',
+				),
+				$list_declarations
+			);
 		}
 
-		if ( $has_padding ) {
-			$css .= 'padding: ' . implode( 'px ', $padding ) . 'px;';
+		$alignment_rules = $this->build_alignment_rules( $style_context, $block_class );
+		if ( ! empty( $alignment_rules ) ) {
+			$rules = array_merge( $rules, $alignment_rules );
 		}
 
-		if ( $has_border ) {
-			// Use individual border widths if available, otherwise use unified width
-			if ( $border['has_individual_widths'] ) {
-				$css .= 'border-color: ' . $border['color'] . ';';
-				$css .= 'border-style: ' . $border['style'] . ';';
-				$css .= 'border-width: ' . $border['top'] . 'px ' . $border['right'] . 'px ' . $border['bottom'] . 'px ' . $border['left'] . 'px;';
-			} else {
-				$css .= 'border: ' . $border['width'] . ' ' . $border['style'] . ' ' . $border['color'] . ';';
-			}
+		$dropdown_rules = $this->build_dropdown_rules( $style_context, $block_class );
+		if ( ! empty( $dropdown_rules ) ) {
+			$rules = array_merge( $rules, $dropdown_rules );
 		}
 
-		if ( $has_border_radius ) {
-			$css .= 'border-radius: ' . $border['radius_top_left'] . 'px ' . $border['radius_top_right'] . 'px ' . $border['radius_bottom_right'] . 'px ' . $border['radius_bottom_left'] . 'px;';
+		$flag_rules = $this->build_flag_rules( $style_context, $block_class );
+		if ( ! empty( $flag_rules ) ) {
+			$rules = array_merge( $rules, $flag_rules );
 		}
 
-		if ( $has_font_size ) {
-			$css .= 'font-size: ' . esc_attr( $attributes['fontSize'] ) . ';';
-		}
-
-		if ( $has_font_family ) {
-			$css .= 'font-family: ' . esc_attr( $attributes['fontFamily'] ) . ';';
-		}
-
-		if ( $has_text_color ) {
-			$css .= 'color: ' . esc_attr( $attributes['textColor'] ) . '!important;';
-		}
-
-		if ( $has_background_color ) {
-			$css .= 'background-color: ' . esc_attr( $attributes['backgroundColor'] ) . ';';
-		}
-
-		if ( $has_text_transform ) {
-			$css .= 'text-transform: ' . esc_attr( $attributes['textTransform'] ) . ';';
-		}
-
-		$css .= '}';
-		
-		// Alignment rules.
-		if ( $has_alignment ) {
-			$justify = ( 'center' === $alignment ) ? 'center' : 'flex-end';
-			$items   = ( 'center' === $alignment ) ? 'center' : 'flex-end';
-			$text    = $alignment;
-
-			// Horizontal: align the flex items across the row.
-			$css .= '.' . $block_class . '.lsep-layout-horizontal {';
-			$css .= 'justify-content: ' . $justify . ';';
-			$css .= '}';
-
-			// Vertical: align items horizontally within the column.
-			$css .= '.' . $block_class . '.lsep-layout-vertical {';
-			$css .= 'align-items: ' . $items . ';';
-			$css .= '}';
-
-			// Dropdown: align the inline-block dropdown container.
-			$css .= '.' . $block_class . '.lsep-layout-dropdown {';
-			$css .= 'text-align: ' . $text . ';';
-			$css .= '}';
-		}
-
-	// For dropdown container - apply margin, padding, border, background, radius
-	if ( $has_margin || $has_padding || $has_border || $has_border_radius || $has_background_color ) {
-		$css .= '.' . $block_class . '.lsep-layout-dropdown .lsep-dropdown-container {';
-
-		if ( $has_margin ) {
-			$css .= 'margin: ' . implode( 'px ', $margin ) . 'px !important;';
-		}
-
-		if ( $has_padding ) {
-			$css .= 'padding: ' . implode( 'px ', $padding ) . 'px !important;';
-		}
-
-		if ( $has_border ) {
-			// Use individual border widths if available, otherwise use unified width
-			if ( $border['has_individual_widths'] ) {
-				$css .= 'border-color: ' . $border['color'] . ' !important;';
-				$css .= 'border-style: ' . $border['style'] . ' !important;';
-				$css .= 'border-width: ' . $border['top'] . 'px ' . $border['right'] . 'px ' . $border['bottom'] . 'px ' . $border['left'] . 'px !important;';
-			} else {
-				$css .= 'border: ' . $border['width'] . ' ' . $border['style'] . ' ' . $border['color'] . ' !important;';
-			}
-		}
-
-		if ( $has_border_radius ) {
-			$css .= 'border-radius: ' . $border['radius_top_left'] . 'px ' . $border['radius_top_right'] . 'px ' . $border['radius_bottom_right'] . 'px ' . $border['radius_bottom_left'] . 'px !important;';
-		}
-
-		if ( $has_background_color ) {
-			$css .= 'background-color: ' . esc_attr( $attributes['backgroundColor'] ) . ' !important;';
-		}
-
-		$css .= '}';
+		return implode( '', $rules );
 	}
 
-	// For dropdown button - only typography styles
-	if ( $has_font_size || $has_font_family || $has_text_color || $has_text_transform ) {
-		$css .= '.' . $block_class . '.lsep-layout-dropdown .lsep-dropdown-button {';
+	/**
+	 * Build declarations for list items in horizontal and vertical layouts.
+	 *
+	 * @param array $style_context Normalized style context.
+	 * @return array
+	 */
+	private function build_list_item_declarations( $style_context ) {
+		$declarations = array();
+		$declarations = array_merge( $declarations, $this->get_spacing_declarations( $style_context['margin'], 'margin', $style_context['has_margin'] ) );
+		$declarations = array_merge( $declarations, $this->get_spacing_declarations( $style_context['padding'], 'padding', $style_context['has_padding'] ) );
+		$declarations = array_merge( $declarations, $this->get_border_declarations( $style_context['border'], false ) );
+		$declarations = array_merge( $declarations, $this->get_border_radius_declarations( $style_context['border'], false, $style_context['has_border_radius'] ) );
+		$declarations = array_merge( $declarations, $this->get_typography_declarations( $style_context, false, true ) );
 
-		if ( $has_font_size ) {
-			$css .= 'font-size: ' . esc_attr( $attributes['fontSize'] ) . ' !important;';
+		if ( $style_context['has_background_color'] ) {
+			$declarations[] = 'background-color: ' . esc_attr( $style_context['background_color'] ) . ';';
 		}
 
-		if ( $has_font_family ) {
-			$css .= 'font-family: ' . esc_attr( $attributes['fontFamily'] ) . ' !important;';
-		}
-
-		if ( $has_text_color ) {
-			$css .= 'color: ' . esc_attr( $attributes['textColor'] ) . ' !important;';
-		}
-
-		if ( $has_text_transform ) {
-			$css .= 'text-transform: ' . esc_attr( $attributes['textTransform'] ) . ' !important;';
-		}
-
-		$css .= '}';
+		return $declarations;
 	}
 
-	// For dropdown menu (ul) - background color, padding, and border radius
-	if ( $has_background_color || $has_padding || $has_border_radius ) {
-		$css .= '.' . $block_class . '.lsep-layout-dropdown .lsep-dropdown-menu {';
-		
-		if ( $has_background_color ) {
-			$css .= 'background-color: ' . esc_attr( $attributes['backgroundColor'] ) . ' !important;';
+	/**
+	 * Build alignment rules.
+	 *
+	 * @param array  $style_context Normalized style context.
+	 * @param string $block_class Block class name.
+	 * @return array
+	 */
+	private function build_alignment_rules( $style_context, $block_class ) {
+		if ( ! $style_context['has_alignment'] ) {
+			return array();
 		}
-		
-		if ( $has_border_radius ) {
-			$css .= 'border-radius: ' . $border['radius_top_left'] . 'px ' . $border['radius_top_right'] . 'px ' . $border['radius_bottom_right'] . 'px ' . $border['radius_bottom_left'] . 'px !important;';
-		}
-		
-		$css .= '}';
+
+		$justify = ( 'center' === $style_context['alignment'] ) ? 'center' : 'flex-end';
+		$items   = ( 'center' === $style_context['alignment'] ) ? 'center' : 'flex-end';
+		$text    = $style_context['alignment'];
+
+		return array(
+			$this->build_css_rule( array( '.' . $block_class . '.lsep-layout-horizontal' ), array( 'justify-content: ' . $justify . ';' ) ),
+			$this->build_css_rule( array( '.' . $block_class . '.lsep-layout-vertical' ), array( 'align-items: ' . $items . ';' ) ),
+			$this->build_css_rule( array( '.' . $block_class . '.lsep-layout-dropdown' ), array( 'text-align: ' . $text . ';' ) ),
+		);
 	}
 
-	// For dropdown menu items - padding only
-	if ( $has_padding ) {
-		$css .= '.' . $block_class . '.lsep-layout-dropdown .lsep-dropdown-item {';
-		$css .= 'padding: ' . implode( 'px ', $padding ) . 'px !important;';
-		$css .= '}';
+	/**
+	 * Build dropdown-specific rules.
+	 *
+	 * @param array  $style_context Normalized style context.
+	 * @param string $block_class Block class name.
+	 * @return array
+	 */
+	private function build_dropdown_rules( $style_context, $block_class ) {
+		$rules = array();
+
+		$container_declarations = array();
+		$container_declarations = array_merge( $container_declarations, $this->get_spacing_declarations( $style_context['margin'], 'margin', $style_context['has_margin'], true ) );
+		$container_declarations = array_merge( $container_declarations, $this->get_spacing_declarations( $style_context['padding'], 'padding', $style_context['has_padding'], true ) );
+		$container_declarations = array_merge( $container_declarations, $this->get_border_declarations( $style_context['border'], true ) );
+		$container_declarations = array_merge( $container_declarations, $this->get_border_radius_declarations( $style_context['border'], true, $style_context['has_border_radius'] ) );
+		if ( $style_context['has_background_color'] ) {
+			$container_declarations[] = 'background-color: ' . esc_attr( $style_context['background_color'] ) . ' !important;';
+		}
+		if ( ! empty( $container_declarations ) ) {
+			$rules[] = $this->build_css_rule( array( '.' . $block_class . '.lsep-layout-dropdown .lsep-dropdown-container' ), $container_declarations );
+		}
+
+		$button_declarations = $this->get_typography_declarations( $style_context, true, false );
+		if ( ! empty( $button_declarations ) ) {
+			$rules[] = $this->build_css_rule( array( '.' . $block_class . '.lsep-layout-dropdown .lsep-dropdown-button' ), $button_declarations );
+		}
+
+		$menu_declarations = array();
+		if ( $style_context['has_background_color'] ) {
+			$menu_declarations[] = 'background-color: ' . esc_attr( $style_context['background_color'] ) . ' !important;';
+		}
+		$menu_declarations = array_merge( $menu_declarations, $this->get_border_radius_declarations( $style_context['border'], true, $style_context['has_border_radius'] ) );
+		if ( ! empty( $menu_declarations ) ) {
+			$rules[] = $this->build_css_rule( array( '.' . $block_class . '.lsep-layout-dropdown .lsep-dropdown-menu' ), $menu_declarations );
+		}
+
+		if ( $style_context['has_padding'] ) {
+			$rules[] = $this->build_css_rule(
+				array( '.' . $block_class . '.lsep-layout-dropdown .lsep-dropdown-item' ),
+				$this->get_spacing_declarations( $style_context['padding'], 'padding', true, true )
+			);
+		}
+
+		$item_link_declarations = $this->get_typography_declarations( $style_context, false, false );
+		if ( ! empty( $item_link_declarations ) ) {
+			$rules[] = $this->build_css_rule( array( '.' . $block_class . '.lsep-layout-dropdown .lsep-dropdown-item a' ), $item_link_declarations );
+		}
+
+		return $rules;
 	}
 
-	// For dropdown menu items - typography
-	if ( $has_typography ) {
-		$css .= '.' . $block_class . '.lsep-layout-dropdown .lsep-dropdown-item a {';
-
-		if ( $has_font_size ) {
-			$css .= 'font-size: ' . esc_attr( $attributes['fontSize'] ) . ';';
+	/**
+	 * Build flag rules.
+	 *
+	 * @param array  $style_context Normalized style context.
+	 * @param string $block_class Block class name.
+	 * @return array
+	 */
+	private function build_flag_rules( $style_context, $block_class ) {
+		if ( ! $style_context['show_flags'] ) {
+			return array();
 		}
 
-		if ( $has_font_family ) {
-			$css .= 'font-family: ' . esc_attr( $attributes['fontFamily'] ) . ';';
+		$flag        = $style_context['flag'];
+		$flag_height = '4/3' === $flag['ratio'] ? round( $flag['width'] * 0.75 ) : $flag['width'];
+		$rules       = array();
+
+		$rules[] = $this->build_css_rule(
+			array( '.' . $block_class . ' .lsep-lang-image' ),
+			array(
+				'width: ' . absint( $flag['width'] ) . 'px;',
+				'height: ' . absint( $flag_height ) . 'px;',
+				'overflow: hidden;',
+			)
+		);
+
+		$image_declarations = array(
+			'width: 100%;',
+			'height: 100%;',
+			'object-fit: cover;',
+		);
+		if ( ! empty( $flag['radius'] ) ) {
+			$image_declarations[] = 'border-radius: ' . absint( $flag['radius'] ) . 'px;';
 		}
 
-		if ( $has_text_color ) {
-			$css .= 'color: ' . esc_attr( $attributes['textColor'] ) . '!important;';
-		}
+		$rules[] = $this->build_css_rule( array( '.' . $block_class . ' .lsep-lang-image img' ), $image_declarations );
 
-		if ( $has_text_transform ) {
-			$css .= 'text-transform: ' . esc_attr( $attributes['textTransform'] ) . ';';
-		}
-
-		$css .= '}';
+		return $rules;
 	}
 
-		// Flag styles
-		if ( $show_flags ) {
-			$flag_height = $flag['ratio'] === '4/3' ? round( $flag['width'] * 0.75 ) : $flag['width'];
-
-			$css .= '.' . $block_class . ' .lsep-lang-image {';
-			$css .= 'width: ' . $flag['width'] . 'px;';
-			$css .= 'height: ' . $flag_height . 'px;';
-			$css .= 'overflow: hidden;';
-			$css .= '}';
-
-			$css .= '.' . $block_class . ' .lsep-lang-image img {';
-			$css .= 'width: 100%;';
-			$css .= 'height: 100%;';
-			$css .= 'object-fit: cover;';
-			if ( $flag['radius'] ) {
-				$css .= 'border-radius: ' . $flag['radius'] . 'px;';
-			}
-			$css .= '}';
+	/**
+	 * Build a single CSS rule string.
+	 *
+	 * @param array $selectors CSS selectors.
+	 * @param array $declarations CSS declarations.
+	 * @return string
+	 */
+	private function build_css_rule( $selectors, $declarations ) {
+		if ( empty( $selectors ) || empty( $declarations ) ) {
+			return '';
 		}
 
-		$css .= '</style>';
+		return implode( ',', $selectors ) . '{' . implode( '', $declarations ) . '}';
+	}
 
-		return $css;
+	/**
+	 * Build spacing declarations.
+	 *
+	 * @param array  $values Spacing values.
+	 * @param string $property CSS property.
+	 * @param bool   $enabled Whether declarations should be emitted.
+	 * @param bool   $important Whether to append !important.
+	 * @return array
+	 */
+	private function get_spacing_declarations( $values, $property, $enabled, $important = false ) {
+		if ( ! $enabled ) {
+			return array();
+		}
+
+		return array(
+			$property . ': ' . implode( 'px ', array_map( 'absint', $values ) ) . 'px' . ( $important ? ' !important' : '' ) . ';',
+		);
+	}
+
+	/**
+	 * Build border declarations.
+	 *
+	 * @param array $border Border config.
+	 * @param bool  $important Whether to append !important.
+	 * @return array
+	 */
+	private function get_border_declarations( $border, $important = false ) {
+		if ( empty( $border['color'] ) || ( empty( $border['width'] ) && empty( $border['has_individual_widths'] ) ) ) {
+			return array();
+		}
+
+		$suffix       = $important ? ' !important' : '';
+		$declarations = array();
+
+		if ( ! empty( $border['has_individual_widths'] ) ) {
+			$declarations[] = 'border-color: ' . $border['color'] . $suffix . ';';
+			$declarations[] = 'border-style: ' . $border['style'] . $suffix . ';';
+			$declarations[] = 'border-width: ' . absint( $border['top'] ) . 'px ' . absint( $border['right'] ) . 'px ' . absint( $border['bottom'] ) . 'px ' . absint( $border['left'] ) . 'px' . $suffix . ';';
+			return $declarations;
+		}
+
+		$declarations[] = 'border: ' . $border['width'] . ' ' . $border['style'] . ' ' . $border['color'] . $suffix . ';';
+		return $declarations;
+	}
+
+	/**
+	 * Build border-radius declarations.
+	 *
+	 * @param array $border Border config.
+	 * @param bool  $important Whether to append !important.
+	 * @param bool  $enabled Whether declarations should be emitted.
+	 * @return array
+	 */
+	private function get_border_radius_declarations( $border, $important = false, $enabled = true ) {
+		if ( ! $enabled ) {
+			return array();
+		}
+
+		return array(
+			'border-radius: ' . absint( $border['radius_top_left'] ) . 'px ' . absint( $border['radius_top_right'] ) . 'px ' . absint( $border['radius_bottom_right'] ) . 'px ' . absint( $border['radius_bottom_left'] ) . 'px' . ( $important ? ' !important' : '' ) . ';',
+		);
+	}
+
+	/**
+	 * Build typography declarations.
+	 *
+	 * @param array $style_context Normalized style context.
+	 * @param bool  $important Whether to append !important where previously used.
+	 * @param bool  $include_background Whether to include background color.
+	 * @return array
+	 */
+	private function get_typography_declarations( $style_context, $important = false, $include_background = false ) {
+		$declarations = array();
+		$suffix       = $important ? ' !important' : '';
+
+		if ( $style_context['has_font_size'] ) {
+			$declarations[] = 'font-size: ' . esc_attr( $style_context['font_size'] ) . $suffix . ';';
+		}
+
+		if ( $style_context['has_font_family'] ) {
+			$declarations[] = 'font-family: ' . esc_attr( $style_context['font_family'] ) . $suffix . ';';
+		}
+
+		if ( $style_context['has_text_color'] ) {
+			$declarations[] = 'color: ' . esc_attr( $style_context['text_color'] ) . ' !important;';
+		}
+
+		if ( $include_background && $style_context['has_background_color'] ) {
+			$declarations[] = 'background-color: ' . esc_attr( $style_context['background_color'] ) . $suffix . ';';
+		}
+
+		if ( $style_context['has_text_transform'] ) {
+			$declarations[] = 'text-transform: ' . esc_attr( $style_context['text_transform'] ) . $suffix . ';';
+		}
+
+		return $declarations;
 	}
 
 	/**
@@ -912,8 +1024,9 @@ private function render_list_layout( $attributes, $languages, $current_lang_slug
 		$wrapper_class      = trim( $unique_class . ' ' . $layout_class . ' ' . $custom_class );
 		$wrapper_attributes = get_block_wrapper_attributes( array( 'class' => $wrapper_class ) );
 		$aria_label         = __( 'Choose a language', 'language-switcher-for-elementor-polylang' );
-		$spacing_css        = $this->generate_spacing_css( $attributes, $unique_class );
 		$switcher_output    = '';
+
+		$this->generate_spacing_css( $attributes, $unique_class );
 
 		foreach ( $languages as $lang ) {
 			$is_current = isset( $lang['slug'] ) && $lang['slug'] === $current_lang_slug;
@@ -958,8 +1071,7 @@ private function render_list_layout( $attributes, $languages, $current_lang_slug
 		}
 
 		return sprintf(
-			'%s<nav role="navigation" aria-label="%s"><ul %s>%s</ul></nav>',
-			$spacing_css,
+			'<nav role="navigation" aria-label="%s"><ul %s>%s</ul></nav>',
 			esc_attr( $aria_label ),
 			$wrapper_attributes,
 			$switcher_output
@@ -1063,10 +1175,10 @@ private function render_list_layout( $attributes, $languages, $current_lang_slug
 		$wrapper_class      = trim( $unique_class . ' ' . $layout_class . ' ' . $custom_class );
 		$wrapper_attributes = get_block_wrapper_attributes( array( 'class' => $wrapper_class ) );
 		$aria_label         = __( 'Choose a language', 'language-switcher-for-elementor-polylang' );
-		$spacing_css        = $this->generate_spacing_css( $attributes, $unique_class );
 
-		$output  = $spacing_css;
-		$output .= '<div ' . $wrapper_attributes . '>';
+		$this->generate_spacing_css( $attributes, $unique_class );
+
+		$output  = '<div ' . $wrapper_attributes . '>';
 		$output .= '<div class="lsep-dropdown-container" id="' . esc_attr( $unique_id ) . '">';
 		$output .= '<button type="button" class="lsep-dropdown-button lsep-lang-item" aria-haspopup="listbox" aria-expanded="false" aria-label="' . esc_attr( $aria_label ) . '">';
 

@@ -579,7 +579,6 @@
     
     const button = e.target;
     const originalText = button.textContent;
-    const context = 'floating_switcher';
     
     const processingText = window.AutoPolyConfig 
       ? window.AutoPolyConfig.getProcessingText(originalText)
@@ -611,7 +610,7 @@
         
       const settingsLink = document.createElement("a");
         settingsLink.href = "admin.php?page=polylang-atfp-dashboard";
-        settingsLink.className = "button button-primary lsep-promo-button lsep-promo-button-upgrade";
+        settingsLink.className = "button button-primary lsep-promo-button";
         settingsLink.target = "_self";
         settingsLink.rel = "noopener noreferrer";
         settingsLink.textContent = __("Go to Settings", "language-switcher-for-elementor-polylang");
