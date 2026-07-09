@@ -65,6 +65,9 @@ class LSEP_Floating_Switcher_Settings {
         
         // Register AJAX handler for saving settings
         add_action( 'wp_ajax_lsep_save_floating_switcher', [ $this, 'ajax_save_settings' ] );
+
+        // Register AJAX handler for AutoPoly install/activate
+        add_action( 'wp_ajax_lsep_install_autopoly', [ $this, 'ajax_install_autopoly' ] );
     }
     
     /**
@@ -175,13 +178,25 @@ class LSEP_Floating_Switcher_Settings {
         $languages = $this->get_polylang_languages();
         
         return [
-            'config'    => $config, // Current switcher configuration
-            'languages' => $languages, // Available Polylang languages
-            'nonce'     => wp_create_nonce( 'lsep_floating_switcher_save' ), // Security nonce for AJAX
-            'ajaxUrl'   => admin_url( 'admin-ajax.php' ), // WordPress AJAX endpoint
-            'pluginUrl' => LSEP_PLUGIN_URL, // Plugin base URL
-            'flagsPath' => $this->get_flags_path(), // Path to flag images
+            'config'         => $config, // Current switcher configuration
+            'languages'      => $languages, // Available Polylang languages
+            'nonce'          => wp_create_nonce( 'lsep_floating_switcher_save' ), // Security nonce for AJAX
+            'installNonce'   => wp_create_nonce( 'lsep_install_autopoly' ),
+            'autoPolyStatus' => $this->check_autopoly_status(),
+            'ajaxUrl'        => admin_url( 'admin-ajax.php' ), // WordPress AJAX endpoint
+            'pluginUrl'      => LSEP_PLUGIN_URL, // Plugin base URL
+            'flagsPath'      => $this->get_flags_path(), // Path to flag images
         ];
+    }
+
+    /**
+     * Check AutoPoly plugin status.
+     *
+     * @since 1.2.4
+     * @return array Status with 'installed' and 'active' booleans.
+     */
+    private function check_autopoly_status() {
+        return LSEP_HELPERS::get_autopoly_status();
     }
     
     /**
@@ -403,6 +418,94 @@ class LSEP_Floating_Switcher_Settings {
         
         // Return success response
         wp_send_json_success( __( 'Settings saved successfully.', 'language-switcher-for-elementor-polylang' ) );
+    }
+
+    /**
+     * AJAX Handler: Install and Activate AutoPoly Plugin
+     *
+     * @since 1.2.4
+     */
+    public function ajax_install_autopoly() {
+        if ( ! current_user_can( 'install_plugins' ) ) {
+            wp_send_json_error(
+                array(
+                    'message' => __( 'Sorry, you are not allowed to install plugins on this site.', 'language-switcher-for-elementor-polylang' ),
+                )
+            );
+        }
+
+        $nonce = isset( $_POST['nonce'] ) ? sanitize_text_field( wp_unslash( $_POST['nonce'] ) ) : '';
+        if ( ! wp_verify_nonce( $nonce, 'lsep_install_autopoly' ) ) {
+            wp_send_json_error(
+                array(
+                    'message' => __( 'Invalid security token.', 'language-switcher-for-elementor-polylang' ),
+                )
+            );
+        }
+
+        $plugin_slug = 'automatic-translations-for-polylang';
+
+        require_once ABSPATH . 'wp-admin/includes/class-wp-upgrader.php';
+        require_once ABSPATH . 'wp-admin/includes/plugin-install.php';
+        require_once ABSPATH . 'wp-admin/includes/plugin.php';
+
+        $api = plugins_api(
+            'plugin_information',
+            array(
+                'slug'   => $plugin_slug,
+                'fields' => array( 'sections' => false ),
+            )
+        );
+
+        if ( is_wp_error( $api ) ) {
+            wp_send_json_error(
+                array(
+                    'message' => $api->get_error_message(),
+                )
+            );
+        }
+
+        $install_status = install_plugin_install_status( $api );
+
+        if ( 'install' === $install_status['status'] ) {
+            ob_start();
+            $skin     = new WP_Ajax_Upgrader_Skin();
+            $upgrader = new Plugin_Upgrader( $skin );
+            $result   = $upgrader->install( $api->download_link );
+            ob_end_clean();
+
+            if ( is_wp_error( $result ) ) {
+                wp_send_json_error(
+                    array(
+                        'message' => $result->get_error_message(),
+                    )
+                );
+            }
+
+            $install_status = install_plugin_install_status( $api );
+        }
+
+        if ( current_user_can( 'activate_plugin', $install_status['file'] ) && is_plugin_inactive( $install_status['file'] ) ) {
+            $activation_result = activate_plugin( $install_status['file'], '', false, true );
+
+            if ( is_wp_error( $activation_result ) ) {
+                wp_send_json_error(
+                    array(
+                        'message' => $activation_result->get_error_message(),
+                    )
+                );
+            }
+        }
+
+        if ( ! get_option( 'lsep_autopoly_installed' ) ) {
+            update_option( 'lsep_autopoly_installed', 'installed_by_lsep' );
+        }
+
+        wp_send_json_success(
+            array(
+                'message' => __( 'AutoPoly plugin installed and activated successfully!', 'language-switcher-for-elementor-polylang' ),
+            )
+        );
     }
     
    /**

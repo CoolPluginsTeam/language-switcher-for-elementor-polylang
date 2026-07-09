@@ -128,4 +128,34 @@ class LSEP_HELPERS {
 				return '';
 		}
 	}
+
+	/**
+	 * Get AutoPoly plugin file path.
+	 *
+	 * @since 1.2.4
+	 * @return string Plugin file path.
+	 */
+	public static function get_autopoly_plugin_file() {
+		return 'automatic-translations-for-polylang/automatic-translation-for-polylang.php';
+	}
+
+	/**
+	 * Check AutoPoly plugin status.
+	 *
+	 * @since 1.2.4
+	 * @return array Status with 'installed' and 'active' booleans.
+	 */
+	public static function get_autopoly_status() {
+		if ( ! function_exists( 'get_plugins' ) ) {
+			require_once ABSPATH . 'wp-admin/includes/plugin.php';
+		}
+
+		$plugin_file = self::get_autopoly_plugin_file();
+		$all_plugins = get_plugins();
+
+		return array(
+			'installed' => isset( $all_plugins[ $plugin_file ] ),
+			'active'    => is_plugin_active( $plugin_file ),
+		);
+	}
 }
