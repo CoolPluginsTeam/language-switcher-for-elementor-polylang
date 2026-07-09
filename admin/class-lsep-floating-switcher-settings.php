@@ -164,24 +164,7 @@ class LSEP_Floating_Switcher_Settings {
             'autoPolyStatus' => LSEP_HELPERS::get_autopoly_status(),
             'ajaxUrl'        => admin_url( 'admin-ajax.php' ), // WordPress AJAX endpoint
             'pluginUrl'      => LSEP_PLUGIN_URL, // Plugin base URL
-            'flagsPath'      => $this->get_flags_path(), // Path to flag images
         ];
-    }
-    
-    /**
-     * Get Flags Path
-     *
-     * Returns the URL path to the flag images directory.
-     * Uses Polylang's flag directory if available.
-     *
-     * @since 1.2.4
-     * @return string URL path to flags directory
-     */
-    private function get_flags_path() {
-        if ( defined( 'POLYLANG_DIR' ) ) {
-            return content_url( 'plugins/polylang/flags/' );
-        }
-        return '';
     }
     
     /**

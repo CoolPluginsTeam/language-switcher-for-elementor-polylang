@@ -710,8 +710,7 @@
       }
   
       renderLanguageItem(lang, isDefault, layoutConfig, isDropdown) {
-        const flagUrl =
-          lang.flag || `${window.lsepFloaterData.flagsPath}${lang.code}.png`;
+        const flagUrl = lang.flag;
         let displayName = "";
         if (layoutConfig.languageNames === "full") {
           displayName = lang.name;
@@ -1099,9 +1098,7 @@
                           onClick: (e) => e.preventDefault(),
                         },
                         h("img", {
-                          src:
-                            lang.flag ||
-                            `${window.lsepFloaterData.flagsPath}${lang.code}.png`,
+                          src: lang.flag,
                           className: "lsep-flag-image",
                           loading: "lazy",
                           alt: lang.name,
@@ -1122,9 +1119,7 @@
                           onClick: (e) => e.preventDefault(),
                         },
                         h("img", {
-                          src:
-                            current.flag ||
-                            `${window.lsepFloaterData.flagsPath}${current.code}.png`,
+                          src: current.flag,
                           className: "lsep-flag-image",
                           loading: "lazy",
                           alt: current.name,
@@ -1147,9 +1142,7 @@
                                 onClick: (e) => e.preventDefault(),
                               },
                               h("img", {
-                                src:
-                                  lang.flag ||
-                                  `${window.lsepFloaterData.flagsPath}${lang.code}.png`,
+                                src: lang.flag,
                                 className: "lsep-flag-image",
                                 loading: "lazy",
                                 alt: lang.name,

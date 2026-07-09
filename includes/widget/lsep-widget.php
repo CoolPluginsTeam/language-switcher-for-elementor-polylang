@@ -664,7 +664,7 @@ public function lsep_language_switcher_icon_css() {
 	 * @param array $data Data to be localized.
 	 * @return array Localized data.
 	 */
-    public function lsep_localize_polyglang_data( $data ) {
+    public function lsep_localize_polylang_data( $data ) {
         // Get the global Polylang object
         global $polylang;
         $lsep_polylang = $polylang;
@@ -715,7 +715,7 @@ public function lsep_language_switcher_icon_css() {
         $settings = $this->get_active_settings();
         
         // Get the localized data
-        $data = $this->lsep_localize_polyglang_data(array());
+        $data = $this->lsep_localize_polylang_data(array());
         $lsep_data = isset($data['lsepGlobalObj']) ? $data['lsepGlobalObj'] : array();
         if(empty($lsep_data)){
             return;

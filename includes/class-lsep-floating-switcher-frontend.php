@@ -152,7 +152,6 @@ class LSEP_Floating_Switcher_Frontend {
 
 		$this->render_switcher_html(
 			$languages,
-			$config,
 			$desktop_layout,
 			$mobile_layout,
 			$styles,
@@ -265,13 +264,12 @@ class LSEP_Floating_Switcher_Frontend {
 	 *
 	 * @since 1.2.4
 	 * @param array  $languages       Language objects.
-	 * @param array  $config          Switcher configuration.
 	 * @param array  $desktop_layout  Desktop layout settings.
 	 * @param array  $mobile_layout   Mobile layout settings.
 	 * @param string $styles          Inline CSS styles string.
 	 * @param bool   $is_dropdown     Whether to render as dropdown.
 	 */
-	private function render_switcher_html( $languages, $config, $desktop_layout, $mobile_layout, $styles, $is_dropdown ) {
+	private function render_switcher_html( $languages, $desktop_layout, $mobile_layout, $styles, $is_dropdown ) {
 		$current = $languages[0] ?? null;
 		$others  = array_slice( $languages, 1 );
 
@@ -299,7 +297,7 @@ class LSEP_Floating_Switcher_Frontend {
 
 			<?php if ( $is_dropdown ) : ?>
 				<div class="lsep-language-switcher-inner">
-					<?php $this->render_language_item( $current, true, $desktop_layout, $mobile_layout, $config ); ?>
+					<?php $this->render_language_item( $current, true, $desktop_layout, $mobile_layout ); ?>
 
 					<?php if ( ! empty( $others ) ) : ?>
 						<div class="lsep-switcher-dropdown-list"
@@ -308,7 +306,7 @@ class LSEP_Floating_Switcher_Frontend {
 							hidden
 							inert>
 							<?php foreach ( $others as $lang ) : ?>
-								<?php $this->render_language_item( $lang, false, $desktop_layout, $mobile_layout, $config ); ?>
+								<?php $this->render_language_item( $lang, false, $desktop_layout, $mobile_layout ); ?>
 							<?php endforeach; ?>
 						</div>
 					<?php endif; ?>
@@ -317,7 +315,7 @@ class LSEP_Floating_Switcher_Frontend {
 				<div class="lsep-language-switcher-inner">
 					<?php
 					foreach ( $languages as $lang ) :
-						$this->render_language_item( $lang, false, $desktop_layout, $mobile_layout, $config, $lang['is_current'] );
+						$this->render_language_item( $lang, false, $desktop_layout, $mobile_layout, $lang['is_current'] );
 					endforeach;
 					?>
 				</div>
@@ -334,10 +332,9 @@ class LSEP_Floating_Switcher_Frontend {
 	 * @param bool   $as_control      Whether to render as button.
 	 * @param array  $desktop_layout  Desktop layout settings.
 	 * @param array  $mobile_layout   Mobile layout settings.
-	 * @param array  $config          Switcher configuration.
 	 * @param bool   $is_current      Whether this is the current active language.
 	 */
-	private function render_language_item( $lang, $as_control, $desktop_layout, $mobile_layout, $config, $is_current = false ) {
+	private function render_language_item( $lang, $as_control, $desktop_layout, $mobile_layout, $is_current = false ) {
 		$classes = array( 'lsep-language-item' );
 
 		if ( $as_control ) {
@@ -362,7 +359,7 @@ class LSEP_Floating_Switcher_Frontend {
 				aria-label="<?php esc_attr_e( 'Change language', 'language-switcher-for-elementor-polylang' ); ?>"
 			<?php endif; ?>
 			data-no-translation>
-			<?php echo $this->render_responsive_language_labels( $lang, $desktop_layout, $mobile_layout, $config ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
+			<?php echo $this->render_responsive_language_labels( $lang, $desktop_layout, $mobile_layout ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
 		</<?php echo esc_attr( $tag ); ?>>
 		<?php
 	}
@@ -374,16 +371,15 @@ class LSEP_Floating_Switcher_Frontend {
 	 * @param array $lang            Language data.
 	 * @param array $desktop_layout  Desktop layout settings.
 	 * @param array $mobile_layout   Mobile layout settings.
-	 * @param array $config          Switcher configuration.
 	 * @return string HTML output.
 	 */
-	private function render_responsive_language_labels( $lang, $desktop_layout, $mobile_layout, $config ) {
+	private function render_responsive_language_labels( $lang, $desktop_layout, $mobile_layout ) {
 		$html         = '';
 		$desktop_name = LSEP_HELPERS::get_language_name( $lang['pll'], $desktop_layout['languageNames'] ?? 'full' );
 		$mobile_name  = LSEP_HELPERS::get_language_name( $lang['pll'], $mobile_layout['languageNames'] ?? 'full' );
 		$show_desktop = $this->should_show_language_names( $desktop_layout );
 		$show_mobile  = $this->should_show_language_names( $mobile_layout );
-		$flag_html    = $this->get_flag_html( $lang, $config );
+		$flag_html    = $this->get_flag_html( $lang );
 
 		$html .= $this->render_flag_slot(
 			$flag_html,
@@ -462,19 +458,19 @@ class LSEP_Floating_Switcher_Frontend {
 	 * Get Flag HTML
 	 *
 	 * @since 1.2.4
-	 * @param array $lang   Language data array.
-	 * @param array $config Switcher configuration.
+	 * @param array $lang Language data array.
 	 * @return string Flag image HTML or empty string if no flag.
 	 */
-	private function get_flag_html( $lang, $config ) {
+	private function get_flag_html( $lang ) {
 		if ( empty( $lang['flag'] ) ) {
 			return '';
 		}
 
+		$config      = $this->get_config();
 		$shape_class = '';
-		if ( 'square' === $config['flagShape'] ) {
+		if ( 'square' === ( $config['flagShape'] ?? '' ) ) {
 			$shape_class = 'lsep-flag-square';
-		} elseif ( 'rounded' === $config['flagShape'] ) {
+		} elseif ( 'rounded' === ( $config['flagShape'] ?? '' ) ) {
 			$shape_class = 'lsep-flag-rounded';
 		}
 

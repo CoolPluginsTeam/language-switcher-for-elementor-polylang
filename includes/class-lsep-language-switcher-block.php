@@ -23,13 +23,6 @@ class LSEP_Language_Switcher_Block {
 	private static $instance = null;
 
 	/**
-	 * Dropdown ID counter for unique dropdown IDs
-	 *
-	 * @var int
-	 */
-	private $dropdown_id = 0;
-
-	/**
 	 * Block ID counter for unique block IDs
 	 *
 	 * @var int
@@ -44,21 +37,24 @@ class LSEP_Language_Switcher_Block {
 	}
 
 	/**
-	 * Prevent cloning of the instance
-	 *
-	 * @throws Exception If clone is attempted.
+	 * Prevent cloning of the instance.
 	 */
-	private function __clone() {
-		throw new Exception( 'Cannot clone singleton' );
+	private function __clone() {}
+
+	/**
+	 * Prevent unserializing of the instance.
+	 */
+	public function __wakeup() {
+		throw new \Exception( 'Cannot unserialize singleton' );
 	}
 
 	/**
-	 * Prevent unserializing of the instance
+	 * Prevent unserializing of the instance (PHP 7.4+).
 	 *
-	 * @throws Exception If unserialization is attempted.
+	 * @param array $data Serialized data.
 	 */
-	public function __wakeup() {
-		throw new Exception( 'Cannot unserialize singleton' );
+	public function __unserialize( array $data ): void {
+		throw new \Exception( 'Cannot unserialize singleton' );
 	}
 
 	/**
@@ -1040,8 +1036,7 @@ private function render_list_layout( $attributes, $languages, $current_lang_slug
 		wp_enqueue_script( 'lsep-custom-dropdown' );
 
 		$unique_class = $this->get_unique_block_id( $attributes );
-		$dropdown_id  = ++$this->dropdown_id;
-		$unique_id    = 'lsep-dropdown-' . $dropdown_id . '-' . substr( $unique_class, -8 );
+		$unique_id    = 'lsep-dropdown-' . substr( $unique_class, -8 );
 
 		// Find current language
 		$current_lang = null;
@@ -1097,11 +1092,8 @@ private function render_list_layout( $attributes, $languages, $current_lang_slug
 	$output .= '<ul class="lsep-dropdown-menu" role="listbox" style="display: none;">';
 
 	foreach ( $languages as $lang ) {
-		$is_current = isset( $lang['slug'] ) && $lang['slug'] === $current_lang_slug;
-		
-		// Skip the language that's being shown in the button
-		// This handles both the actual current language and the first alternative when hide_current is enabled
-		if ( $is_current || ( isset( $lang['slug'] ) && isset( $current_lang['slug'] ) && $lang['slug'] === $current_lang['slug'] ) ) {
+		// Skip the language shown in the dropdown button.
+		if ( isset( $lang['slug'], $current_lang['slug'] ) && $lang['slug'] === $current_lang['slug'] ) {
 			continue;
 		}
 
