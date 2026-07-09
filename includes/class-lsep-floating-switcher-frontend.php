@@ -277,20 +277,12 @@ class LSEP_Floating_Switcher_Frontend {
 			return;
 		}
 
-		$all_lang_names  = array_map(
-			function( $lang ) use ( $desktop_layout ) {
-				return LSEP_HELPERS::get_language_name( $lang['pll'], $desktop_layout['languageNames'] ?? 'full' );
-			},
-			$languages
-		);
-		$lang_names_json = esc_attr( wp_json_encode( $all_lang_names ) );
-		$layout_class    = $is_dropdown ? 'lsep-ls-dropdown' : 'lsep-ls-inline';
+		$layout_class = $is_dropdown ? 'lsep-ls-dropdown' : 'lsep-ls-inline';
 		?>
 		<nav class="lsep-language-switcher lsep-floating-switcher <?php echo esc_attr( $layout_class ); ?>"
 			style="<?php echo esc_attr( $styles ); ?>"
 			role="navigation"
 			aria-label="<?php esc_attr_e( 'Website language selector', 'language-switcher-for-elementor-polylang' ); ?>"
-			data-lang-names="<?php echo esc_attr( $lang_names_json ); ?>"
 			data-lsep-desktop-vertical="<?php echo esc_attr( $this->get_layout_vertical( $desktop_layout ) ); ?>"
 			data-lsep-mobile-vertical="<?php echo esc_attr( $this->get_layout_vertical( $mobile_layout ) ); ?>"
 			data-no-translation>

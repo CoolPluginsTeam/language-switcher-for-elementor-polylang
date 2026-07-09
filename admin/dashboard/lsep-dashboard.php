@@ -17,13 +17,10 @@ if (!defined('ABSPATH')) {
          */
             private static $instance;
             private $pro_plugins = array();
-            private $pages = array();
             private $main_menu_slug = null;// 'cool-plugins-polylang-addon';
             private $plugin_tag = null;
-            private $dashboar_page_heading ;
             private $disable_plugins = array();
             private $addon_dir = __DIR__;    // point to the main addon-page directory
-            private $addon_file = __FILE__;
             private $plugin_api = 'https://plugins.coolplugins.net/plugins-list/';
 
             /**
@@ -47,7 +44,6 @@ if (!defined('ABSPATH')) {
                 if( !empty($plugin_tag) && !empty($menu_slug) && !empty($dashboard_heading) ){
                     $this->plugin_tag = $plugin_tag;
                     $this->main_menu_slug = $menu_slug;
-                    $this->dashboar_page_heading = $dashboard_heading;
                 }else{
                     return false;
                 }

@@ -182,9 +182,8 @@ class LSEP_Floating_Switcher_Settings {
         $saved    = get_option( 'lsep_floating_switcher_config', null );
         $defaults = $this->get_default_config();
         
-        // If no saved config or invalid, initialize with defaults
+        // If no saved config or invalid, return defaults without writing.
         if ( ! is_array( $saved ) || empty( $saved ) ) {
-            update_option( 'lsep_floating_switcher_config', $defaults );
             return $defaults;
         }
         
@@ -459,6 +458,7 @@ if ( ! empty( $config['customCss'] ) ) {
 }
     
     // Sanitize layout customizer (device-specific settings)
+    $default_layouts = $this->get_default_config()['layoutCustomizer'];
     $sanitized['layoutCustomizer'] = [];
     
     // Process layout settings for each device (desktop and mobile)
@@ -498,7 +498,7 @@ if ( ! empty( $config['customCss'] ) ) {
                 : 'full';
         } else {
             // If device config missing or invalid, use defaults
-            $sanitized['layoutCustomizer'][ $device ] = $this->get_default_config()['layoutCustomizer'][ $device ];
+            $sanitized['layoutCustomizer'][ $device ] = $default_layouts[ $device ];
         }
     }
     

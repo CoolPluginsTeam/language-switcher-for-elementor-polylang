@@ -84,16 +84,6 @@ class LSEP_Language_Switcher_Block {
 
 		$switcher_options = $this->get_switcher_options();
 
-		wp_localize_script(
-			'lsep-language-switcher-block',
-			'lsepBlockSettings',
-			array(
-				'options'        => $switcher_options,
-				'languages'      => LSEP_HELPERS::get_polylang_language_select_options(),
-				'polylangActive' => function_exists( 'PLL' ),
-			)
-		);
-
 		$attributes = $this->get_block_attributes( $switcher_options );
 
 		register_block_type(
@@ -150,13 +140,23 @@ class LSEP_Language_Switcher_Block {
 			LSEP_VERSION
 		);
 
-		add_action( 'enqueue_block_editor_assets', array( $this, 'enqueue_editor_dropdown_script' ) );
+		add_action( 'enqueue_block_editor_assets', array( $this, 'enqueue_block_editor_assets' ) );
 	}
 
 	/**
-	 * Enqueue dropdown script in the block editor
+	 * Enqueue block editor-only assets and localized settings.
 	 */
-	public function enqueue_editor_dropdown_script() {
+	public function enqueue_block_editor_assets() {
+		wp_localize_script(
+			'lsep-language-switcher-block',
+			'lsepBlockSettings',
+			array(
+				'options'        => $this->get_switcher_options(),
+				'languages'      => LSEP_HELPERS::get_polylang_language_select_options(),
+				'polylangActive' => function_exists( 'PLL' ),
+			)
+		);
+
 		wp_enqueue_script( 'lsep-custom-dropdown' );
 	}
 
