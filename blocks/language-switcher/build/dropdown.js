@@ -30,6 +30,58 @@
     }
     
     /**
+     * Calculate and set dropdown width from current button content.
+     * Mirrors floating switcher setFixedWidth() behavior.
+     *
+     * @param {HTMLElement} container - Dropdown container element
+     */
+    function setFixedWidth(container) {
+        var button = container.querySelector('.lsep-dropdown-button');
+
+        if (!button) {
+            return;
+        }
+
+        try {
+            var measurer = document.createElement('div');
+            measurer.style.cssText = 'position:absolute;visibility:hidden;white-space:nowrap;display:flex;align-items:center;';
+            document.body.appendChild(measurer);
+
+            var buttonStyles = window.getComputedStyle(button);
+            measurer.style.fontSize = buttonStyles.fontSize;
+            measurer.style.fontFamily = buttonStyles.fontFamily;
+            measurer.style.fontWeight = buttonStyles.fontWeight;
+            measurer.style.gap = buttonStyles.gap;
+
+            var childNodes = button.childNodes;
+            for (var i = 0; i < childNodes.length; i++) {
+                if (childNodes[i].nodeType === 1) {
+                    measurer.appendChild(childNodes[i].cloneNode(true));
+                }
+            }
+
+            var calculatedWidth = measurer.offsetWidth + 11.5;
+            document.body.removeChild(measurer);
+
+            var containerStyles = window.getComputedStyle(container);
+            var horizontalExtras =
+                (parseFloat(containerStyles.paddingLeft) || 0) +
+                (parseFloat(containerStyles.paddingRight) || 0) +
+                (parseFloat(containerStyles.borderLeftWidth) || 0) +
+                (parseFloat(containerStyles.borderRightWidth) || 0);
+
+            if (calculatedWidth > 0) {
+                container.style.setProperty(
+                    '--switcher-width',
+                    Math.ceil(calculatedWidth + horizontalExtras + 10) + 'px'
+                );
+            }
+        } catch (e) {
+            // Keep CSS fallback width when measurement fails.
+        }
+    }
+
+    /**
      * Initialize dropdown functionality
      *
      * @param {HTMLElement} container - Dropdown container element
@@ -41,6 +93,14 @@
         if (!button || !menu) {
             return;
         }
+
+        container.querySelectorAll('img').forEach(function(img) {
+            if (!img.complete) {
+                img.addEventListener('load', function() {
+                    setFixedWidth(container);
+                });
+            }
+        });
         
         var inEditor = isInEditor();
         
@@ -126,12 +186,22 @@
      */
     function initAllDropdowns() {
         document.querySelectorAll('.lsep-dropdown-container').forEach(function(dropdown) {
+            setFixedWidth(dropdown);
+
             if (!dropdown.hasAttribute('data-lsep-initialized')) {
                 dropdown.setAttribute('data-lsep-initialized', 'true');
                 initDropdown(dropdown);
             }
         });
     }
+
+    var resizeTimer;
+    window.addEventListener('resize', function() {
+        clearTimeout(resizeTimer);
+        resizeTimer = setTimeout(function() {
+            document.querySelectorAll('.lsep-dropdown-container').forEach(setFixedWidth);
+        }, 100);
+    });
     
     // Initialize on DOM ready
     if (document.readyState === 'loading') {

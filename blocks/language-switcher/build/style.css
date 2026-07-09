@@ -44,6 +44,8 @@ ul.wp-block-lsep-language-switcher li {
 .lsep-dropdown-container {
     position: relative;
     display: inline-block;
+    width: var(--switcher-width, 115px);
+    max-width: 100%;
     padding: 0.5em 1em;
     background: #fff;
     border: 1px solid #ddd;
@@ -54,7 +56,8 @@ ul.wp-block-lsep-language-switcher li {
 .lsep-dropdown-button {
     display: flex !important;
     align-items: center;
-    justify-content: center;
+    justify-content: flex-start;
+    width: 100%;
     background: transparent;
     border: none !important;
     cursor: pointer;
@@ -91,7 +94,9 @@ ul.wp-block-lsep-language-switcher li {
     position: absolute;
     top: 100%;
     left: 0;
-    right: 0;
+    min-width: 100%;
+    width: max-content;
+    max-width: min(100vw - 2rem, max-content);
     margin: 0;
     padding: 0;
     list-style: none;
@@ -104,6 +109,7 @@ ul.wp-block-lsep-language-switcher li {
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
     z-index: 1000;
     overflow: hidden;
+    box-sizing: border-box;
 }
 
 .lsep-dropdown-item {
