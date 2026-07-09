@@ -19,6 +19,22 @@
     --lsep-error: #d63638;
 }
 
+/* Notice styling within tab content */
+.lsep-tab-content-wrapper .notice {
+    margin: 20px 0;
+}
+
+/* Adjust floater app container when inside dashboard wrap */
+.lsep-dashboard-wrap .lsep-floater-app-container {
+    background: transparent;
+    padding: 0;
+}
+
+/* Ensure the floating switcher action buttons work well in new layout */
+.lsep-dashboard-wrap .lsep-action-buttons {
+    margin-bottom: 20px;
+}
+
 /* ============================================
    Main Layout
    ============================================ */
@@ -117,14 +133,12 @@
     background-size: cover;
     background-position: center;
     border-radius: 8px;
-    /* padding: 40px 20px; */
     min-height: 300px;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
 }
-
 
 /* ============================================
    Preview: Dropdown (like TranslatePress - Collapsed by Default)
@@ -153,7 +167,6 @@
     min-width: unset !important;
     overflow: hidden;
     box-shadow: 0 10px 20px 0 rgba(0, 0, 0, 0.05);
-    /* Position absolutely to show actual position */
     position: absolute !important;
     bottom: var(--bottom, auto);
     top: var(--top, auto);
@@ -249,6 +262,7 @@
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
     font-weight: 400;
 }
+
 .lsep-language-switcher {
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
 }
@@ -312,9 +326,42 @@
     flex-direction: column-reverse;
     gap: 7px; 
 }
+/* Dropdown Arrow Icon - Admin Preview & Presets */
+.lsep-dropdown-arrow {
+    margin-left: auto !important;
+    transition: transform 0.3s ease !important;
+    flex-shrink: 0 !important;
+    pointer-events: none !important;
+    width: 12px !important;
+    height: 8px !important;
+}
 
-.lsep-switcher-position-bottom {
-    /* Position classes for floating switcher */
+/* For preview box */
+.lsep-language-switcher-preview-box .lsep-language-item__default .lsep-dropdown-arrow {
+    display: block !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+}
+
+/* For preset cards */
+.lsep-preset-switcher-preview .lsep-language-item__default .lsep-dropdown-arrow {
+    display: block !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+}
+
+/* Rotate arrow when hovering preview */
+.lsep-language-switcher-preview-box .lsep-floating-switcher:hover .lsep-dropdown-arrow,
+.lsep-preset-switcher-preview.is-open .lsep-dropdown-arrow {
+    transform: rotate(180deg) !important;
+}
+
+/* Ensure items have flex layout */
+.lsep-language-switcher-preview-box .lsep-language-item__default,
+.lsep-preset-switcher-preview .lsep-language-item__default,
+.lsep-language-item {
+    display: flex !important;
+    align-items: center !important;
 }
 
 /* ============================================
@@ -322,10 +369,9 @@
    ============================================ */
 .lsep-settings-actions {
     display: flex;
-    justify-content: flex-end;
     gap: 12px;
     border-radius: 8px;
-    margin-top: 20px;
+    margin-bottom: 20px;
 }
 
 .lsep-submit-btn {
@@ -374,15 +420,13 @@
 /* ============================================
    Form Fields Base
    ============================================ */
-.lsep-field {
-    margin-bottom: 16px;
-}
 
 .lsep-field--row {
     display: flex;
     align-items: center;
     justify-content: space-between;
     gap: 12px;
+    margin-top: 10px;
 }
 
 .lsep-field--column {
@@ -420,18 +464,9 @@
 }
 
 /* ============================================
-   Toggle Switch
-   ============================================ */
-.lsep-toggle-wrapper {
-    display: inline-flex;
-    align-items: center;
-    gap: 12px;
-}
-
-/* ============================================
    Toggle Switch - Override WordPress Admin Styles
    ============================================ */
-   .lsep-toggle-wrapper {
+.lsep-toggle-wrapper {
     display: inline-flex;
     align-items: center;
     gap: 12px;
@@ -495,6 +530,9 @@
     gap: 12px;
 }
 
+/* ============================================
+   Radio Groups
+   ============================================ */
 .lsep-radio-group {
     display: grid;
     grid-template-columns: repeat(2, minmax(150px, 1fr));
@@ -559,7 +597,6 @@
     margin: 0 !important;
 }
 
-
 /* Remove any WordPress default pseudo-elements */
 .lsep-radio-label input[type="radio"]::after {
     display: none !important;
@@ -568,7 +605,7 @@
 /* ============================================
    Color Picker
    ============================================ */
-   .lsep-color__wrapper {
+.lsep-color__wrapper {
     display: flex;
     align-items: center;
     gap: 10px;
@@ -602,23 +639,10 @@
     color: var(--lsep-text-secondary);
 }
 
-/* Color picker popover */
-.lsep-color__popover {
-    position: absolute;
-    top: calc(100% + 4px);
-    left: 0;
-    z-index: 1000;
-    background: #fff;
-    border: 1px solid var(--lsep-border);
-    border-radius: 8px;
-    padding: 10px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-}
-
 /* ============================================
    Number Input
    ============================================ */
-   .lsep-number__wrapper {
+.lsep-number__wrapper {
     display: flex;
     align-items: center;
     gap: 10px;
@@ -669,19 +693,18 @@
 /* ============================================
    Preset Cards
    ============================================ */
-   .lsep-preset-applier {
+.lsep-preset-applier {
     display: grid;
-    grid-template-columns: repeat(2, 1fr); /* Fixed 2 columns like TranslatePress */
+    grid-template-columns: repeat(2, 1fr);
     gap: 16px;
 }
 
-/* Make cards larger to match TranslatePress style */
 .lsep-preset-card {
     border: 1px solid var(--lsep-border);
     border-radius: 8px;
     overflow: hidden;
     transition: all 0.2s ease;
-    min-height: 200px; /* Add minimum height */
+    min-height: 200px;
 }
 
 /* Active/Selected preset card */
@@ -690,6 +713,7 @@
     box-shadow: 0 0 0 3px rgba(45, 108, 223, 0.1);
     background: rgba(45, 108, 223, 0.02);
 }
+
 .lsep-apply-btn.lsep-apply-btn-active {
     background: var(--lsep-primary);
     color: #fff;
@@ -706,26 +730,27 @@
 .lsep-apply-btn.lsep-apply-btn-active:hover {
     background: var(--lsep-primary-hover);
 }
+
 .lsep-preview-rect {
-    padding: 40px 20px; /* More padding for better spacing */
+    padding: 40px 20px;
     display: flex;
     justify-content: center;
     align-items: center;
-    min-height: 180px; /* Taller preview area */
+    min-height: 180px;
 }
 
 .lsep-switcher-preview {
     width: 100%;
-    max-width: 180px; /* Wider preview */
+    max-width: 180px;
 }
 
 .lsep-switcher-preview .lsep-language-item {
-    padding: 8px 12px; /* Slightly more padding */
+    padding: 8px 12px;
     font-size: 13px;
 }
 
 .lsep-switcher-preview .lsep-flag-image {
-    width: 16px; /* Slightly larger flags */
+    width: 16px;
 }
 
 .lsep-apply-btn {
@@ -825,81 +850,6 @@
     background: var(--bg-hover, #444) !important;
 }
 
-.lsep-preset-switcher-preview.lsep-ls-inline .lsep-language-item:last-child {
-    border-right: none;
-}
-
-.lsep-preset-switcher-preview.lsep-ls-inline .lsep-language-item:hover {
-    background: var(--bg-hover, #444) !important;
-}
-
-/* Make the preview container more compact */
-.lsep-switcher-preview {
-    width: 100%;
-    max-width: 160px;
-    margin: 0 auto;
-}
-
-.lsep-switcher-preview .lsep-language-item {
-    padding: 10px 14px;
-    font-size: 13px;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    text-decoration: none;
-    transition: background 0.2s ease;
-}
-
-.lsep-switcher-preview .lsep-flag-image {
-    width: 18px;
-    height: auto;
-    flex-shrink: 0;
-}
-
-.lsep-switcher-preview .lsep-language-item-name {
-    font-size: 13px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
-
-/* ============================================
-   Checkbox Settings
-   ============================================ */
-.lsep-settings-checkbox {
-    display: flex;
-    align-items: flex-start;
-    gap: 12px;
-}
-
-.lsep-settings-checkbox input[type="checkbox"] {
-    margin-top: 2px;
-    width: 18px;
-    height: 18px;
-    cursor: pointer;
-}
-
-.lsep-checkbox-label {
-    display: flex;
-    gap: 12px;
-    cursor: pointer;
-    flex: 1;
-}
-
-.lsep-checkbox-content {
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-}
-
-.lsep-settings-options-item {
-    padding: 12px 0;
-}
-
-.lsep-settings-options-item:not(:last-child) {
-    border-bottom: 1px solid var(--lsep-border);
-}
-
 /* ============================================
    Layout Customizer
    ============================================ */
@@ -910,9 +860,6 @@
 .lsep-lc-mode-toggle {
     display: flex;
     gap: 8px;
-    margin-bottom: 20px;
-    padding-bottom: 16px;
-    border-bottom: 1px solid var(--lsep-border);
 }
 
 .lsep-lc-mode-button {
@@ -955,50 +902,18 @@
     gap: 16px;
 }
 
-/* Language Switcher Tab Content */
-#language-switcher.lsep-tab-content {
-    padding: 0;
-    background: #f0f0f1;
-}
-
-#language-switcher .lsep-settings-header {
-    margin-left: -20px;
-    margin-right: -20px;
-}
-
 .lsep-lc-section {
     display: flex;
     flex-direction: column;
-    gap: 16px;
+    gap: 20px;
 }
 
-/* ============================================
-   Improved Layout Customizer Spacing
-   ============================================ */
-
-/* Add spacing between layout sections */
-.lsep-lc-section {
-    display: flex;
-    flex-direction: column;
-    gap: 20px; /* Increased from 16px */
-}
-
-/* Add more space for layout subfields */
 .lsep-lc-subfield {
     margin-bottom: 16px;
 }
 
 .lsep-lc-subfield:last-child {
     margin-bottom: 0;
-}
-
-/* Better spacing for radio groups inside layout */
-.lsep-layout-customizer-field .lsep-radio-group {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr); /* 2 columns for position options */
-    gap: 12px; /* Space between items */
-    width: 100%;
-    padding: 8px 0;
 }
 
 /* Better spacing for radio options */
@@ -1021,32 +936,6 @@
 .lsep-layout-customizer-field .lsep-radio-option:has(input:checked) {
     background: #e8f4fd;
     border-color: var(--lsep-primary);
-}
-
-/* Better label spacing */
-.lsep-layout-customizer-field .lsep-radio-label {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    cursor: pointer;
-    font-size: 14px;
-    color: var(--lsep-text-primary);
-    width: 100%;
-}
-
-/* Add more vertical space between different field types */
-.lsep-layout-customizer-field > .lsep-field {
-    margin-bottom: 20px;
-}
-
-.lsep-layout-customizer-field > .lsep-field:last-child {
-    margin-bottom: 0;
-}
-
-/* Ensure field labels have proper spacing */
-.lsep-layout-customizer-field .lsep-field__label {
-    margin-bottom: 12px;
-    display: block;
 }
 
 /* ============================================
@@ -1077,7 +966,7 @@
 /* ============================================
    Preset Card Inline Confirmation
    ============================================ */
-   .lsep-preset-confirm-overlay {
+.lsep-preset-confirm-overlay {
     position: absolute;
     top: 0;
     left: 0;
