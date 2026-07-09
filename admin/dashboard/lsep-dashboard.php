@@ -151,21 +151,61 @@ if (!defined('ABSPATH')) {
              * Avoid using any HTML here or use nominal HTML tags inside this function.
              */
             function displayPluginAdminDashboard(){
-                echo '<div class="wrap lsep-get-started">';
-                echo '<h1>'.esc_html__('Welcome to Language Switcher for Elementor & Polylang', 'language-switcher-for-elementor-polylang').'</h1>';
-                echo '<h2 class="nav-tab-wrapper lsep-nav-tab-wrapper">';
-                echo '<a href="#lsep-getting-started" class="nav-tab nav-tab-active lsep-nav-tab lsep-nav-tab-active">'.esc_html__('Get Started', 'language-switcher-for-elementor-polylang').'</a>';
-                echo '<a href="' . esc_url(admin_url('admin.php?page=lsep-floating-switcher')) . '" class="nav-tab lsep-nav-tab">'.esc_html__('Floating Switcher', 'language-switcher-for-elementor-polylang').'</a>';
-                echo '<a href="#lsep-more-addons" class="nav-tab lsep-nav-tab">'.esc_html__('More Addons', 'language-switcher-for-elementor-polylang').'</a>';
+                if ( ! current_user_can( 'manage_options' ) ) {
+                    return;
+                }
+
+                // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- GET used only for tab display.
+                $current_tab = isset( $_GET['tab'] ) ? sanitize_key( wp_unslash( $_GET['tab'] ) ) : 'getting-started';
+                $page_url    = admin_url( 'admin.php?page=lsep-get-started' );
+                $logo_url    = plugin_dir_url( __FILE__ ) . 'assets/images/language-switcher-for-elementor-polylang.png';
+
+                echo '<div class="wrap lsep-dashboard-wrap">';
+
+                echo '<div class="lsep-dashboard-header">';
+                echo '<div class="lsep-header-content">';
+                echo '<div class="lsep-header-logo">';
+                echo '<img src="' . esc_url( $logo_url ) . '" alt="" />';
+                echo '<h1 class="lsep-header-title">' . esc_html__( 'Language Switcher for Elementor & Polylang', 'language-switcher-for-elementor-polylang' ) . '</h1>';
+                echo '</div>';
+                echo '<div class="lsep-header-actions">';
+                echo '<a href="' . esc_url( 'https://wordpress.org/support/plugin/language-switcher-for-elementor-polylang/#new-topic-0' ) . '" class="button button-secondary" target="_blank" rel="noopener noreferrer">' . esc_html__( 'Get Support', 'language-switcher-for-elementor-polylang' ) . '</a>';
+                echo '<a href="' . esc_url( 'https://docs.coolplugins.net/doc/language-switcher-for-elementor-polylang/?utm_source=lsep_plugin&utm_medium=inside&utm_campaign=docs&utm_content=dashboard_header' ) . '" class="button button-secondary" target="_blank" rel="noopener noreferrer">' . esc_html__( 'Documentation', 'language-switcher-for-elementor-polylang' ) . '</a>';
+                echo '<a href="' . esc_url( 'https://wordpress.org/support/plugin/language-switcher-for-elementor-polylang/reviews/#new-post' ) . '" class="button button-primary" target="_blank" rel="noopener noreferrer">' . esc_html__( '★★★★★ Rate Now', 'language-switcher-for-elementor-polylang' ) . '</a>';
+                echo '</div>';
+                echo '</div>';
+                echo '</div>';
+
+                echo '<h2 class="nav-tab-wrapper">';
+                echo '<a href="' . esc_url( add_query_arg( 'tab', 'getting-started', $page_url ) ) . '" class="nav-tab' . ( 'getting-started' === $current_tab ? ' nav-tab-active' : '' ) . '">' . esc_html__( 'Get Started', 'language-switcher-for-elementor-polylang' ) . '</a>';
+                echo '<a href="' . esc_url( add_query_arg( 'tab', 'floating-switcher', $page_url ) ) . '" class="nav-tab' . ( 'floating-switcher' === $current_tab ? ' nav-tab-active' : '' ) . '">' . esc_html__( 'Floating Language Switcher', 'language-switcher-for-elementor-polylang' ) . '</a>';
+                echo '<a href="' . esc_url( add_query_arg( 'tab', 'more-addons', $page_url ) ) . '" class="nav-tab' . ( 'more-addons' === $current_tab ? ' nav-tab-active' : '' ) . '">' . esc_html__( 'More Addons', 'language-switcher-for-elementor-polylang' ) . '</a>';
                 echo '</h2>';
-                echo '<div id="lsep-getting-started" class="lsep-tab-content active">';
-                $this->get_started_content();
+
+                echo '<div class="lsep-tab-content-wrapper">';
+                if ( 'floating-switcher' === $current_tab ) {
+                    $this->floating_switcher_content();
+                } elseif ( 'more-addons' === $current_tab ) {
+                    $this->moreaddons_plugins_data();
+                } else {
+                    $this->get_started_content();
+                }
                 echo '</div>';
-                echo '<div id="lsep-more-addons" class="lsep-tab-content">'; 
-                $this->moreaddons_plugins_data();
+
                 echo '</div>';
-                echo '</div>';
-                
+            }
+
+            function floating_switcher_content() {
+                $lsep_languages = function_exists( 'pll_languages_list' ) ? pll_languages_list() : array();
+
+                if ( empty( $lsep_languages ) ) {
+                    echo '<div class="notice notice-warning"><p>';
+                    echo '<strong>' . esc_html__( 'No languages configured!', 'language-switcher-for-elementor-polylang' ) . '</strong><br>';
+                    echo esc_html__( 'Please configure at least two languages in Polylang settings.', 'language-switcher-for-elementor-polylang' );
+                    echo '</p></div>';
+                }
+
+                echo '<div id="lsep-floater-app-root"></div>';
             }
 
             function get_started_content(){
@@ -184,10 +224,9 @@ if (!defined('ABSPATH')) {
                         $plugins = array_merge($plugins, $this->pro_plugins);
                     }
 
-                    require $this->addon_dir . '/includes/dashboard-header.php';
-
-                    echo '<div class="cool-body-left">
-                    <div class="plugins-list installed-addons" data-empty-message="You have not installed any addon at the moment"><h3>Currently Installed Addons</h3>';
+                    echo '<div id="cool-plugins-container" class="' . esc_attr( $this->main_menu_slug ) . '">';
+                    echo '<div class="cool-body-left">';
+                    echo '<div class="plugins-list installed-addons" data-empty-message="' . esc_attr__( 'You have not installed any addon at the moment', 'language-switcher-for-elementor-polylang' ) . '"><h3>' . esc_html__( 'Currently Installed Addons', 'language-switcher-for-elementor-polylang' ) . '</h3>';
 
                     foreach($plugins as $plugin ){
 
@@ -205,7 +244,7 @@ if (!defined('ABSPATH')) {
                     }
                     echo "</div>";
 
-                    echo "<div class='plugins-list more-addons' data-empty-message='No more free addons available at the moment'><h3>More Addons</h3>";
+                    echo '<div class="plugins-list more-addons" data-empty-message="' . esc_attr__( 'No more free addons available at the moment', 'language-switcher-for-elementor-polylang' ) . '"><h3>' . esc_html__( 'More Addons', 'language-switcher-for-elementor-polylang' ) . '</h3>';
                     foreach($plugins as $plugin ){
 
                         if( $plugin['download_link'] == null ){
@@ -228,7 +267,7 @@ if (!defined('ABSPATH')) {
                         /**
                          * Load this Pro Plugin container only if there are any pro plugins available
                          */
-                    echo "<div class='plugins-list pro-addons' data-empty-message='No more Pro plugins available at the moment'><h3>Pro Addons</h3>";
+                    echo '<div class="plugins-list pro-addons" data-empty-message="' . esc_attr__( 'No more Pro plugins available at the moment', 'language-switcher-for-elementor-polylang' ) . '"><h3>' . esc_html__( 'Pro Addons', 'language-switcher-for-elementor-polylang' ) . '</h3>';
                         foreach($this->pro_plugins as $plugin ){
                              $plugin_name = $plugin['name'];
                             $plugin_desc = $plugin['desc'];
@@ -245,9 +284,8 @@ if (!defined('ABSPATH')) {
                         }
                         echo '</div>';
                     endif;
-                    echo '</div>';  // end of .cool-body-left
+                    echo '</div>'; // .cool-body-left
                     require $this->addon_dir . '/includes/dashboard-sidebar.php';
-                    
 
                 }else{
                     // plugins are not available under this tag.

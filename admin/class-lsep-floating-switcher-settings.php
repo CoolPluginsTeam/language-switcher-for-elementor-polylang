@@ -95,7 +95,8 @@ class LSEP_Floating_Switcher_Settings {
      * @since 1.2.4
      */
     public function render_page() {
-        require_once plugin_dir_path( __FILE__ ) . 'dashboard/partials/floating-switcher-page.php';
+        wp_safe_redirect( admin_url( 'admin.php?page=lsep-get-started&tab=floating-switcher' ) );
+        exit;
     }
     
     /**
@@ -107,19 +108,16 @@ class LSEP_Floating_Switcher_Settings {
      * @since 1.2.4
      * @param string $hook The current admin page hook
      */
-    public function enqueue_assets( $hook ) {   
-        
-        // Check if current hook matches our page
-        $is_our_page = strpos( $hook, 'lsep-floating-switcher' ) !== false;
-        
-        // Also check by page parameter for additional verification
-        // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Only checking current admin page, not processing form data
-        if ( isset( $_GET['page'] ) && sanitize_text_field( wp_unslash( $_GET['page'] ) ) === 'lsep-floating-switcher' ) {
-            $is_our_page = true;
-        }
-        
-        // Only enqueue on our settings page
-        if ( ! $is_our_page ) {
+    public function enqueue_assets( $hook ) {
+        // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- GET used only for conditional asset loading.
+        $page = isset( $_GET['page'] ) ? sanitize_key( wp_unslash( $_GET['page'] ) ) : '';
+        // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- GET used only for conditional asset loading.
+        $tab  = isset( $_GET['tab'] ) ? sanitize_key( wp_unslash( $_GET['tab'] ) ) : '';
+
+        $is_floating_tab = ( 'lsep-get-started' === $page && 'floating-switcher' === $tab );
+        $is_legacy_page  = ( strpos( $hook, 'lsep-floating-switcher' ) !== false || 'lsep-floating-switcher' === $page );
+
+        if ( ! $is_floating_tab && ! $is_legacy_page ) {
             return;
         }
 
