@@ -40,11 +40,11 @@ if (file_exists(WP_PLUGIN_DIR . '/' . $plugin_slug)) {
     foreach ($lsep_installed_plugins as $plugin=>$lsep_data) {
       $lsep_thisPlugin = substr($plugin,0,strpos($plugin,'/'));
       if ( strcasecmp($lsep_thisPlugin, $plugin_slug) == 0 ) {
+          $lsep_plugin_version = $lsep_data['Version'];
 
-          if( isset($lsep_plugin_version) && version_compare( $lsep_plugin_version, $lsep_data['Version'] ) >0 ){
-            $lsep_available_version = $lsep_plugin_version ;
-            $lsep_plugin_version =  $lsep_data['Version'];
-            $lsep_update_stats = '<span class="plugin-update-available">Update Available: v '.wp_kses_post($lsep_available_version).'</span>';
+          if ( isset( $plugin_version ) && version_compare( $plugin_version, $lsep_plugin_version, '>' ) ) {
+            $lsep_available_version = $plugin_version;
+            $lsep_update_stats = '<span class="plugin-update-available">Update Available: v ' . esc_html( $lsep_available_version ) . '</span>';
           }
 
           if( \LSEP_HELPERS::lsep_is_plugin_active( $plugin ) ){

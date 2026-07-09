@@ -12,27 +12,29 @@
     position: fixed;
     z-index: 99999;
     overflow: hidden;
-    padding: var(--switcher-padding, 10px 0);
+    padding: var(--lsep-desktop-padding, 10px 0);
     border: var(--border-width, 1px) solid var(--border-color, transparent);
     border-radius: var(--border-radius, 8px);
     background: var(--bg, #fff);
-    width: var(--switcher-width, 115px);
-    top: var(--top, unset);
-    right: var(--right, unset);
-    bottom: var(--bottom, unset);
-    left: var(--left, unset);
+    width: var(--lsep-desktop-width, var(--switcher-width, 115px));
+    top: var(--lsep-desktop-top, unset);
+    right: var(--lsep-desktop-right, unset);
+    bottom: var(--lsep-desktop-bottom, unset);
+    left: var(--lsep-desktop-left, unset);
     box-shadow: 0 10px 20px 0 rgba(0, 0, 0, 0.08);
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
 }
 
-/* Position adjustments for top placement */
-.lsep-switcher-position-top.lsep-floating-switcher {
+.lsep-floating-switcher[data-lsep-desktop-vertical="top"] {
     flex-direction: column;
-    top: var(--wp-admin--admin-bar--height, 0);
 }
 
-.lsep-floating-switcher.lsep-switcher-position-top:not(.lsep-ls-inline) .lsep-language-switcher-inner,
-.lsep-floating-switcher.lsep-switcher-position-top .lsep-switcher-dropdown-list {
+.lsep-floating-switcher[data-lsep-desktop-vertical="bottom"] {
+    flex-direction: column-reverse;
+}
+
+.lsep-floating-switcher[data-lsep-desktop-vertical="top"] .lsep-language-switcher-inner,
+.lsep-floating-switcher[data-lsep-desktop-vertical="top"] .lsep-switcher-dropdown-list {
     flex-direction: column;
 }
 
@@ -304,16 +306,66 @@
     animation: lsep-fadeIn 0.3s ease-out;
 }
 
+.lsep-language-item-name-mobile {
+    display: none;
+}
+
+.lsep-flag-slot {
+    display: none;
+    align-items: center;
+}
+
+.lsep-flag-slot-desktop-before,
+.lsep-flag-slot-desktop-after {
+    display: inline-flex;
+}
+
+@media screen and (max-width: 767px) {
+    .lsep-floating-switcher {
+        top: var(--lsep-mobile-top, unset);
+        right: var(--lsep-mobile-right, unset);
+        bottom: var(--lsep-mobile-bottom, unset);
+        left: var(--lsep-mobile-left, unset);
+        width: var(--lsep-mobile-width, var(--switcher-width, 115px));
+        padding: var(--lsep-mobile-padding, 10px 0);
+    }
+
+    .lsep-floating-switcher[data-lsep-mobile-vertical="top"] {
+        flex-direction: column;
+    }
+
+    .lsep-floating-switcher[data-lsep-mobile-vertical="bottom"] {
+        flex-direction: column-reverse;
+    }
+
+    .lsep-floating-switcher[data-lsep-mobile-vertical="top"] .lsep-language-switcher-inner,
+    .lsep-floating-switcher[data-lsep-mobile-vertical="top"] .lsep-switcher-dropdown-list {
+        flex-direction: column;
+    }
+
+    .lsep-language-item-name-desktop {
+        display: none;
+    }
+
+    .lsep-language-item-name-mobile {
+        display: inline-block;
+    }
+
+    .lsep-flag-slot-desktop-before,
+    .lsep-flag-slot-desktop-after {
+        display: none;
+    }
+
+    .lsep-flag-slot-mobile-before,
+    .lsep-flag-slot-mobile-after {
+        display: inline-flex;
+    }
+}
+
 /* ============================================
    Responsive Adjustments
    ============================================ */
-@media screen and (max-width: 768px) {
-    .lsep-floating-switcher {
-        /* Adjust positioning for mobile */
-        --right: 5vw !important;
-        --left: 5vw !important;
-    }
-    
+@media screen and (max-width: 767px) {
     .lsep-language-item {
         padding: 10px 16px;
         min-height: 24px;
@@ -384,12 +436,16 @@
 /* ============================================
    Admin Bar Adjustment
    ============================================ */
-body.admin-bar .lsep-switcher-position-top.lsep-floating-switcher {
+body.admin-bar .lsep-floating-switcher[data-lsep-desktop-vertical="top"] {
     top: 32px;
 }
 
 @media screen and (max-width: 782px) {
-    body.admin-bar .lsep-switcher-position-top.lsep-floating-switcher {
+    body.admin-bar .lsep-floating-switcher[data-lsep-desktop-vertical="top"] {
+        top: 46px;
+    }
+
+    body.admin-bar .lsep-floating-switcher[data-lsep-mobile-vertical="top"] {
         top: 46px;
     }
 }

@@ -46,6 +46,10 @@
             if (this.currentItem && this.dropdown) {
                 this.init();
             }
+
+            window.addEventListener('resize', () => {
+                this.setFixedWidth();
+            });
         }
 
         /**
@@ -58,11 +62,13 @@
          * @since 1.2.4
          */
         setFixedWidth() {
-            // Check the current CSS custom property for switcher width
-            const currentWidth = getComputedStyle(this.switcher).getPropertyValue('--switcher-width').trim();
+            const mobileBreakpoint = (window.lsepFloaterFrontend && window.lsepFloaterFrontend.mobileBreakpoint) || 768;
+            const isMobile = window.matchMedia(`(max-width: ${mobileBreakpoint - 1}px)`).matches;
+            const widthVar = isMobile ? '--lsep-mobile-width' : '--lsep-desktop-width';
+            const currentWidth = getComputedStyle(this.switcher).getPropertyValue(widthVar).trim();
 
-            // If custom width is set (not 'auto'), respect user's preference and don't override
             if (currentWidth && currentWidth !== 'auto') {
+                this.switcher.style.setProperty('--switcher-width', currentWidth);
                 return;
             }
 
@@ -145,7 +151,8 @@
             });
 
             // Hover handlers: Open on hover (desktop only, min-width: 768px)
-            if (window.matchMedia('(min-width: 768px)').matches) {
+            const mobileBreakpoint = (window.lsepFloaterFrontend && window.lsepFloaterFrontend.mobileBreakpoint) || 768;
+            if (window.matchMedia(`(min-width: ${mobileBreakpoint}px)`).matches) {
                 this.switcher.addEventListener('mouseenter', () => {
                     clearTimeout(this.closeTimeout); // Cancel any pending close
                     this.open();

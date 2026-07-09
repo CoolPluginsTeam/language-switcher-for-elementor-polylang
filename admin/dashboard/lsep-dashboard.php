@@ -294,13 +294,20 @@ if (!defined('ABSPATH')) {
 
             /**
              * Lets enqueue all the required CSS & JS
+             *
+             * @param string $hook Current admin page hook suffix.
              */
-            function enqueue_required_scripts(){
-                // A common CSS file will be enqueued for admin panel
-                wp_enqueue_style('cool-lsep-plugins-polylang-addon', plugin_dir_url(__FILE__) .'assets/css/styles.css', null, LSEP_VERSION, 'all');
-                wp_enqueue_script( 'cool-lsep-plugins-polylang-addon', plugin_dir_url(__FILE__) .'assets/js/script.js', array('jquery'), LSEP_VERSION, true);
-                wp_localize_script( 'cool-lsep-plugins-polylang-addon', 'lsep_polylang', array('ajax_url'=> admin_url('admin-ajax.php')));
-                
+            function enqueue_required_scripts( $hook ) {
+                // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- GET used only for conditional asset loading.
+                $page = isset( $_GET['page'] ) ? sanitize_key( wp_unslash( $_GET['page'] ) ) : '';
+
+                if ( 'lsep-get-started' !== $page && false === strpos( $hook, 'lsep-get-started' ) ) {
+                    return;
+                }
+
+                wp_enqueue_style( 'cool-lsep-plugins-polylang-addon', plugin_dir_url( __FILE__ ) . 'assets/css/styles.css', null, LSEP_VERSION, 'all' );
+                wp_enqueue_script( 'cool-lsep-plugins-polylang-addon', plugin_dir_url( __FILE__ ) . 'assets/js/script.js', array( 'jquery' ), LSEP_VERSION, true );
+                wp_localize_script( 'cool-lsep-plugins-polylang-addon', 'lsep_polylang', array( 'ajax_url' => admin_url( 'admin-ajax.php' ) ) );
             }
 
 

@@ -239,6 +239,51 @@ class LSEP_HELPERS {
 	}
 
 	/**
+	 * Get raw floater language data for responsive frontend rendering.
+	 *
+	 * @since 1.2.5
+	 * @return array[] Each item contains code, name, url, flag, is_current, and pll raw data.
+	 */
+	public static function get_floater_languages_raw() {
+		if ( ! function_exists( 'pll_the_languages' ) || ! function_exists( 'pll_current_language' ) ) {
+			return array();
+		}
+
+		$current_lang  = pll_current_language();
+		$raw_languages = pll_the_languages(
+			array(
+				'raw'           => 1,
+				'hide_if_empty' => 0,
+			)
+		);
+
+		if ( empty( $raw_languages ) ) {
+			return array();
+		}
+
+		$languages = array();
+
+		foreach ( $raw_languages as $lang ) {
+			$lang_data = array(
+				'code'       => $lang['slug'],
+				'name'       => $lang['name'],
+				'url'        => $lang['url'],
+				'flag'       => self::get_plugin_flag_url( $lang['flag'] ?? '' ),
+				'is_current' => $lang['slug'] === $current_lang,
+				'pll'        => $lang,
+			);
+
+			if ( $lang_data['is_current'] ) {
+				array_unshift( $languages, $lang_data );
+			} else {
+				$languages[] = $lang_data;
+			}
+		}
+
+		return $languages;
+	}
+
+	/**
 	 * Get a Polylang language by slug, with fallback defaults.
 	 *
 	 * @since 1.2.5
