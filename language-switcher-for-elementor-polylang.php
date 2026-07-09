@@ -105,9 +105,12 @@ if ( ! class_exists( 'LSEP_LanguageSwitcher' ) ) {
         public function lsep_init() {
             // Load helpers first - needed by both admin and frontend
             require_once LSEP_PLUGIN_DIR . 'helpers/lsep-helpers.php';
+            require_once LSEP_PLUGIN_DIR . 'helpers/lsep-block-helpers.php';
             
             require_once LSEP_PLUGIN_DIR . 'includes/lsep-manager.php';
             require_once LSEP_PLUGIN_DIR . 'includes/lsep-register-widget.php';
+            require_once LSEP_PLUGIN_DIR . 'includes/class-lsep-language-switcher-block.php';
+            \LSEP_Language_Switcher_Block::get_instance();
             
             if ( is_admin() ) {
                 /** Feedback form after deactivation */

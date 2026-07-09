@@ -160,7 +160,7 @@ public function enqueue_assets() {
         $layout = $config['layoutCustomizer'][ $this->viewport ] ?? $config['layoutCustomizer']['desktop'];
         
         // Get available languages from Polylang
-        $languages = $this->get_polylang_languages( $config, $layout );
+        $languages = LSEP_HELPERS::get_floater_languages( $layout['languageNames'] );
         
         // Don't render if no languages available
         if ( empty( $languages ) ) {
@@ -180,117 +180,6 @@ public function enqueue_assets() {
         
         // Render the complete switcher HTML
         $this->render_switcher_html( $languages, $config, $layout, $styles, $position_class, $is_dropdown );
-        
-       // Output custom CSS in footer if enabled
-if ( ! empty( $config['enableCustomCss'] ) && ! empty( $config['customCss'] ) ) {
-    // Sanitize CSS: remove script tags and dangerous content for security
-    $custom_css = wp_strip_all_tags( $config['customCss'] );
-    $custom_css = preg_replace( '/<script\b[^>]*>.*?<\/script>/is', '', $custom_css );
-    
-    // Output custom CSS safely in a style tag
-    echo '<style id="lsep-floating-switcher-custom-css">';
-    echo wp_kses( $custom_css, array(
-        'style' => array(),
-    ) );
-    echo '</style>';
-}
-    }
-    
-    /**
-     * Get Polylang Languages
-     *
-     * Retrieves and processes language data from Polylang.
-     * Formats each language with code, name, URL, flag, and current status.
-     * Places the current language first in the array.
-     *
-     * @since 1.2.4
-     * @param array $config Switcher configuration
-     * @param array $layout Layout configuration for current viewport
-     * @return array Array of formatted language objects
-     */
-    private function get_polylang_languages( $config, $layout ) {
-        $current_lang = pll_current_language();
-        $languages    = [];
-        
-        // Get raw language data from Polylang
-        $raw_languages = pll_the_languages([
-            'raw'           => 1, // Return raw data
-            'hide_if_empty' => 0, // Show all languages
-        ]);
-        
-        if ( empty( $raw_languages ) ) {
-            return [];
-        }
-        
-        // Process and format each language
-        foreach ( $raw_languages as $lang ) {
-            $lang_data = [
-                'code'       => $lang['slug'],
-                'name'       => \LSEP_HELPERS::get_language_name( $lang, $layout['languageNames'] ),
-                'url'        => $lang['url'],
-                'flag'       => \LSEP_HELPERS::get_plugin_flag_url( $lang['flag'] ?? '' ),
-                'is_current' => $lang['slug'] === $current_lang,
-            ];
-            
-            // Put current language first in the array for proper display order
-            if ( $lang_data['is_current'] ) {
-                array_unshift( $languages, $lang_data );
-            } else {
-                $languages[] = $lang_data;
-            }
-        }
-        
-        return $languages;
-    }
-    
-    /**
-     * Get Language Name
-     *
-     * Returns the language name formatted according to the display mode setting.
-     *
-     * @since 1.2.4
-     * @param array  $lang Language data from Polylang
-     * @param string $mode Display mode ('full', 'short', or 'none')
-     * @return string Formatted language name
-     */
-    private function get_language_name( $lang, $mode ) {
-        switch ( $mode ) {
-            case 'full':
-                return $lang['name'];
-            case 'short':
-                return strtoupper( $lang['slug'] );
-            case 'none':
-            default:
-                return '';
-        }
-    }
-
-    /**
-     * Get Plugin Flag URL
-     *
-     * Converts Polylang flag URL to plugin's SVG flag URL using existing helper.
-     * Falls back to original Polylang flag if conversion fails.
-     *
-     * @since 1.2.4
-     * @param string $polylang_flag_url URL to Polylang's flag image
-     * @return string URL to flag image
-     */
-    private function get_plugin_flag_url( $polylang_flag_url ) {
-        if ( empty( $polylang_flag_url ) ) {
-            return '';
-        }
-        
-        // Extract country code from Polylang flag URL using helper
-        $country_code = \LSEP_HELPERS::lsep_get_flag_code( $polylang_flag_url );
-        
-        if ( $country_code ) {
-            // Return plugin's SVG flag URL
-            $plugin_url = LSEP_PLUGIN_URL;
-            return $plugin_url . 'assets/flags/' . esc_attr( $country_code ) . '.svg';
-        }
-        
-        // Fallback to original Polylang flag if conversion fails
-        return $polylang_flag_url;
     }
     
     /**

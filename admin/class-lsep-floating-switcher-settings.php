@@ -175,91 +175,17 @@ class LSEP_Floating_Switcher_Settings {
     private function get_localized_data() {
         // Get current configuration and available languages
         $config    = $this->get_switcher_config();
-        $languages = $this->get_polylang_languages();
+        $languages = LSEP_HELPERS::get_polylang_languages_for_admin();
         
         return [
             'config'         => $config, // Current switcher configuration
             'languages'      => $languages, // Available Polylang languages
             'nonce'          => wp_create_nonce( 'lsep_floating_switcher_save' ), // Security nonce for AJAX
             'installNonce'   => wp_create_nonce( 'lsep_install_autopoly' ),
-            'autoPolyStatus' => $this->check_autopoly_status(),
+            'autoPolyStatus' => LSEP_HELPERS::get_autopoly_status(),
             'ajaxUrl'        => admin_url( 'admin-ajax.php' ), // WordPress AJAX endpoint
             'pluginUrl'      => LSEP_PLUGIN_URL, // Plugin base URL
             'flagsPath'      => $this->get_flags_path(), // Path to flag images
-        ];
-    }
-
-    /**
-     * Check AutoPoly plugin status.
-     *
-     * @since 1.2.4
-     * @return array Status with 'installed' and 'active' booleans.
-     */
-    private function check_autopoly_status() {
-        return LSEP_HELPERS::get_autopoly_status();
-    }
-    
-    /**
-     * Get Polylang Languages
-     *
-     * Retrieves the list of languages configured in Polylang.
-     * Falls back to default languages if Polylang is not active or configured.
-     *
-     * @since 1.2.4
-     * @return array Array of language objects with code, name, flag, and locale
-     */
-    private function get_polylang_languages() {
-        // Check if Polylang is active
-        if ( ! function_exists( 'pll_languages_list' ) ) {
-            return $this->get_default_languages();
-        }
-        
-        $languages     = [];
-        $pll_languages = pll_languages_list( [ 'fields' => false ] );
-        
-        // Use default languages if none configured
-        if ( empty( $pll_languages ) ) {
-            return $this->get_default_languages();
-        }
-        
-        // Build language array from Polylang data
-        foreach ( $pll_languages as $lang ) {
-            $languages[] = [
-                'code'   => $lang->slug,
-                'name'   => $lang->name,
-                'flag'   => \LSEP_HELPERS::get_plugin_flag_url( $lang->flag_url ?? '' ),
-                'locale' => $lang->locale,
-            ];
-        }
-        
-        return $languages;
-    }
-
-    /**
-     * Get Default Languages
-     *
-     * Returns a default set of languages (English and French) to use
-     * when Polylang is not configured or active.
-     *
-     * @since 1.2.4
-     * @return array Array of default language objects
-     */
-    private function get_default_languages() {
-        $plugin_url = LSEP_PLUGIN_URL;
-        
-        return [
-            [
-                'code'   => 'en',
-                'name'   => __( 'English', 'language-switcher-for-elementor-polylang' ),
-                'flag'   => $plugin_url . 'assets/flags/us.svg',
-                'locale' => 'en_US',
-            ],
-            [
-                'code'   => 'fr',
-                'name'   => __( 'Français', 'language-switcher-for-elementor-polylang' ),
-                'flag'   => $plugin_url . 'assets/flags/fr.svg',
-                'locale' => 'fr_FR',
-            ],
         ];
     }
     
