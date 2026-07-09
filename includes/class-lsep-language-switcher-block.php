@@ -369,18 +369,42 @@ class LSEP_Language_Switcher_Block {
 	 *
 	 * @param array  $attributes Block attributes.
 	 * @param string $block_class Block class name.
-	 * @return void
+	 * @return string
 	 */
 	private function generate_spacing_css( $attributes, $block_class ) {
 		$style_context = $this->get_style_context( $attributes );
 		$css           = $this->build_instance_css( $style_context, $block_class );
 
 		if ( '' === $css ) {
-			return;
+			return '';
 		}
 
 		wp_enqueue_style( 'lsep-language-switcher-block' );
 		wp_add_inline_style( 'lsep-language-switcher-block', $css );
+		return $css;
+	}
+
+	/**
+	 * Determine whether the block is being rendered through a REST request.
+	 *
+	 * @return bool
+	 */
+	private function is_rest_render() {
+		return defined( 'REST_REQUEST' ) && REST_REQUEST;
+	}
+
+	/**
+	 * Build inline style tag markup for a rendered block instance.
+	 *
+	 * @param string $css CSS string.
+	 * @return string
+	 */
+	private function get_instance_style_tag( $css ) {
+		if ( '' === $css ) {
+			return '';
+		}
+
+		return '<style>' . $css . '</style>';
 	}
 
 	/**
@@ -1026,7 +1050,7 @@ private function render_list_layout( $attributes, $languages, $current_lang_slug
 		$aria_label         = __( 'Choose a language', 'language-switcher-for-elementor-polylang' );
 		$switcher_output    = '';
 
-		$this->generate_spacing_css( $attributes, $unique_class );
+		$spacing_css = $this->generate_spacing_css( $attributes, $unique_class );
 
 		foreach ( $languages as $lang ) {
 			$is_current = isset( $lang['slug'] ) && $lang['slug'] === $current_lang_slug;
@@ -1071,7 +1095,8 @@ private function render_list_layout( $attributes, $languages, $current_lang_slug
 		}
 
 		return sprintf(
-			'<nav role="navigation" aria-label="%s"><ul %s>%s</ul></nav>',
+			'%s<nav role="navigation" aria-label="%s"><ul %s>%s</ul></nav>',
+			$this->get_instance_style_tag( $spacing_css ),
 			esc_attr( $aria_label ),
 			$wrapper_attributes,
 			$switcher_output
@@ -1176,9 +1201,10 @@ private function render_list_layout( $attributes, $languages, $current_lang_slug
 		$wrapper_attributes = get_block_wrapper_attributes( array( 'class' => $wrapper_class ) );
 		$aria_label         = __( 'Choose a language', 'language-switcher-for-elementor-polylang' );
 
-		$this->generate_spacing_css( $attributes, $unique_class );
+		$spacing_css = $this->generate_spacing_css( $attributes, $unique_class );
 
-		$output  = '<div ' . $wrapper_attributes . '>';
+		$output  = $this->get_instance_style_tag( $spacing_css );
+		$output .= '<div ' . $wrapper_attributes . '>';
 		$output .= '<div class="lsep-dropdown-container" id="' . esc_attr( $unique_id ) . '">';
 		$output .= '<button type="button" class="lsep-dropdown-button lsep-lang-item" aria-haspopup="listbox" aria-expanded="false" aria-label="' . esc_attr( $aria_label ) . '">';
 
