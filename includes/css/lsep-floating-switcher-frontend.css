@@ -176,6 +176,12 @@
     font-size: var(--font-size, 14px);
     line-height: 1.2;
     font-weight: 400;
+    font-family: inherit;
+    font-style: normal;
+    font-variant: normal;
+    text-transform: none;
+    letter-spacing: normal;
+    word-spacing: normal;
     transition: all var(--transition-duration, 0.2s) ease;
     cursor: pointer;
     user-select: none;
@@ -215,11 +221,6 @@
     cursor: pointer;
 }
 
-/* Current/default should NOT have hover effects */
-.lsep-ls-dropdown .lsep-language-item__current:hover,
-.lsep-ls-dropdown .lsep-language-item__default:hover {
-    background: transparent !important;
-}
 /* Focus styles */
 .lsep-language-item:focus {
     outline: none;
@@ -304,6 +305,7 @@
 
 .lsep-floating-switcher {
     animation: lsep-fadeIn 0.3s ease-out;
+    z-index: 99999;
 }
 
 .lsep-language-item-name-mobile {
@@ -453,11 +455,6 @@ body.admin-bar .lsep-floating-switcher[data-lsep-desktop-vertical="top"] {
 /* ============================================
    Z-Index Management
    ============================================ */
-/* Ensure switcher appears above most elements but below modals */
-.lsep-floating-switcher {
-    z-index: 99999;
-}
-
 /* If you need to adjust for specific themes, add here */
 /* Example: */
 /* body.some-theme .lsep-floating-switcher {
@@ -515,15 +512,6 @@ body.admin-bar .lsep-floating-switcher[data-lsep-desktop-vertical="top"] {
 /* Reset any theme overrides */
 .lsep-floating-switcher * {
     box-sizing: border-box;
-}
-
-.lsep-language-item {
-    font-family: inherit;
-    font-style: normal;
-    font-variant: normal;
-    text-transform: none;
-    letter-spacing: normal;
-    word-spacing: normal;
 }
 
 /* Ensure flags don't inherit weird image styles from themes */

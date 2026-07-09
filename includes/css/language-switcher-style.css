@@ -3,6 +3,9 @@
   --lsep-flag-ratio: 4/3;
   --lsep-normal-bg-color: #fff;
   --lsep-normal-text-color: #000;
+  font-family: inherit;
+  font-size: inherit;
+  line-height: 1.5;
 }
 /* General reset */
 .lsep-language-list,
@@ -14,13 +17,6 @@
 
 .lsep-main-wrapper .lsep-language-list{
   overflow: hidden;
-}
-
-/* Base wrapper */
-.lsep-main-wrapper {
-    font-family: inherit;
-    font-size: inherit;
-    line-height: 1.5;
 }
 
 .lsep-main-wrapper .lsep-wrapper a{
