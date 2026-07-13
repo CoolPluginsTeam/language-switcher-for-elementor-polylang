@@ -102,12 +102,11 @@ class cool_plugins_lsep_polylang_addons {
 		echo '<div class="lsep-header-content">';
 		echo '<div class="lsep-header-logo">';
 		echo '<img src="' . esc_url( $logo_url ) . '" alt="" />';
-		echo '<h1 class="lsep-header-title">' . esc_html__( 'Language Switcher for Elementor & Polylang', 'language-switcher-for-elementor-polylang' ) . '</h1>';
+		echo '<h1 class="lsep-header-title">' . esc_html__( 'Language Switcher for Polylang', 'language-switcher-for-elementor-polylang' ) . '</h1>';
 		echo '</div>';
 		echo '<div class="lsep-header-actions">';
 		echo '<a href="' . esc_url( 'https://wordpress.org/support/plugin/language-switcher-for-elementor-polylang/#new-topic-0' ) . '" class="button button-secondary" target="_blank" rel="noopener noreferrer">' . esc_html__( 'Get Support', 'language-switcher-for-elementor-polylang' ) . '</a>';
 		echo '<a href="' . esc_url( 'https://docs.coolplugins.net/doc/language-switcher-for-elementor-polylang/?utm_source=lsep_plugin&utm_medium=inside&utm_campaign=docs&utm_content=dashboard_header' ) . '" class="button button-secondary" target="_blank" rel="noopener noreferrer">' . esc_html__( 'Documentation', 'language-switcher-for-elementor-polylang' ) . '</a>';
-		echo '<a href="' . esc_url( 'https://wordpress.org/support/plugin/language-switcher-for-elementor-polylang/reviews/#new-post' ) . '" class="button button-primary" target="_blank" rel="noopener noreferrer">' . esc_html__( '★★★★★ Rate Now', 'language-switcher-for-elementor-polylang' ) . '</a>';
 		echo '</div>';
 		echo '</div>';
 		echo '</div>';
