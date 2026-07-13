@@ -100,29 +100,7 @@
     white-space: nowrap;
 }
 
-/* Plugin Cards for "More Addons" section */
-.lsep-form-element-card {
-    width: calc(33.333% - 15px);
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    padding: 15px;
-    background: #fff;
-    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.08);
-    transition: all 0.3s ease;
-}
-
-.lsep-form-element-card:hover {
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.12);
-    border-color: #3f415e;
-}
-
 /* Responsive Design */
-@media (max-width: 1200px) {
-    .lsep-form-element-card {
-        width: calc(50% - 15px);
-    }
-}
-
 @media (max-width: 782px) {
     .lsep-dashboard-header {
         padding: 15px 20px;
@@ -150,10 +128,6 @@
     
     .lsep-tab-content-wrapper {
         padding: 0 20px 20px;
-    }
-    
-    .lsep-form-element-card {
-        width: 100%;
     }
 }
 
@@ -720,30 +694,4 @@ div[data-notice_id="lsep-autopoly-promotion"] div.e-notice__actions{
     .lsep-video-container iframe {
         height: 200px;
     }
-}
-/* ============================================
-   More Addons - Plugin list (legacy layout)
-   ============================================ */
-.plugin-not-required { opacity: 0.4; }
-#cool-plugins-container { display: inline-block; margin: 0; padding: 0; box-sizing: border-box; width: 100%; }
-#cool-plugins-container * { box-sizing: border-box; }
-.cool-body-left { display: inline-block; width: calc(100% - 280px); vertical-align: top; padding: 0; }
-.cool-body-right { display: inline-block; width: 260px; vertical-align: top; float: right; padding: 0; }
-.cool-body-right ul { margin: 0; padding-left: 0; }
-.cool-body-right ul li { list-style: square; margin-left: 15px; margin-bottom: 8px; }
-.cool-body-left h3 { padding: 0 0 10px; margin: 0 0 15px; border-bottom: 1px solid var(--lsep-border, #dcdcde); font-size: 15px; }
-.cool-body-left .plugins-list { display: inline-block; width: 100%; margin-bottom: 24px; }
-.cool-body-left .plugin-block { display: inline-block; width: calc(50% - 8px); padding: 0 10px 24px; vertical-align: top; }
-.cool-body-left .plugin-block-inner { display: inline-flex; align-items: flex-start; }
-.plugin-info { padding-left: 12px; }
-.plugin-logo img { width: 72px; height: 72px; object-fit: contain; }
-h4.plugin-title { margin: 0 0 4px; font-size: 14px; font-weight: 600; }
-.plugin-desc { color: #646970; font-size: 12px; line-height: 1.4; }
-.plugin-stats { display: inline-flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; align-items: center; }
-.plugin-version { background: #2271b1; border: 1px solid #135e96; color: #fff; font-size: 11px; font-weight: 600; padding: 2px 6px; border-radius: 3px; }
-span.plugin-update-available { padding: 0 4px; color: #d63638; font-size: 12px; font-weight: 600; }
-.plugins-list .empty-message { color: #646970; font-size: 13px; padding: 12px 0; }
-@media only screen and (max-width: 782px) {
-    .cool-body-left, .cool-body-right { width: 100%; float: none; }
-    .cool-body-left .plugin-block { width: 100%; padding: 0 0 20px; }
 }

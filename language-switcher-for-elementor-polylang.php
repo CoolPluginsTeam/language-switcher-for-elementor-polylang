@@ -118,7 +118,7 @@ if ( ! class_exists( 'LSEP_LanguageSwitcher' ) ) {
                 \LSEP_Floating_Switcher_Settings::get_instance();
                 require_once __DIR__ . '/admin/feedback/admin-feedback-form.php';
                 require_once LSEP_PLUGIN_DIR . 'admin/dashboard/lsep-dashboard.php';
-                cool_plugins_lsep_polylang_addon_settings_page( 'polylang-addons', 'cool-plugins-polylang-addons', 'Polylang Addons' );
+                cool_plugins_lsep_polylang_addon_settings_page();
             }
             if (!is_admin()) {
                 require_once plugin_dir_path(__FILE__) . 'includes/class-lsep-floating-switcher-frontend.php';
