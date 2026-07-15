@@ -823,27 +823,31 @@ div[data-notice_id="lsep-autopoly-promotion"] div.e-notice__actions{
 }
 
 .lsep-gs-footer-links:has(.lsep-gs-footer-btn) {
-    width: 50%;
-    align-items: stretch;
+    width: auto;
+    align-items: flex-start;
 }
 
 .lsep-gs-footer-btn {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    gap: 8px;
-    min-height: 42px;
-    border: 1px solid;
+    gap: 6px;
+    width: auto;
+    min-height: 36px;
+    padding: 1px 14px;
+    border: 1px solid var(--lsep-gs-blue);
     border-radius: 6px;
+    background: #fff;
+    color: var(--lsep-gs-blue);
     cursor: pointer;
-    font-size: 14px;
+    font-size: 13px;
     line-height: 1.35;
     font-weight: 600;
     text-align: center;
     text-decoration: none;
     white-space: nowrap;
     box-shadow: none;
-    transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease, box-shadow 0.15s ease, transform 0.05s ease;
+    transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease;
 }
 
 .lsep-gs-footer-btn .dashicons {
@@ -851,6 +855,7 @@ div[data-notice_id="lsep-autopoly-promotion"] div.e-notice__actions{
     height: 14px;
     font-size: 14px;
     line-height: 1;
+    margin: 0;
 }
 
 .lsep-gs-footer-btn:hover,
@@ -1154,11 +1159,6 @@ div[data-notice_id="lsep-autopoly-promotion"] div.e-notice__actions{
     .lsep-gs-footer > .lsep-promo-box.lsep-promo-box-floating-switcher {
         min-height: auto;
         padding: 20px;
-    }
-
-    .lsep-gs-footer-links:has(.lsep-gs-footer-btn) {
-        width: 100%;
-        max-width: 220px;
     }
 }
 
