@@ -118,15 +118,18 @@ class LSEP_Floating_Switcher_Settings {
             $version
         );
         
+        require_once LSEP_PLUGIN_DIR . 'admin/dashboard/includes/autopoly-promo.php';
+        lsep_enqueue_autopoly_promo_script();
+
         // Enqueue React app JavaScript
         wp_enqueue_script(
             'lsep-floating-switcher-app',
             $plugin_url . 'admin/dashboard/includes/js/lsep-floating-switcher-app.js',
-            [ 'wp-element', 'wp-i18n' ], // Dependencies
+            array( 'wp-element', 'wp-i18n', 'lsep-autopoly-promo' ),
             $version,
-            true // Load in footer
+            true
         );
-        
+
         // Pass configuration data and settings to the JavaScript app
         wp_localize_script(
             'lsep-floating-switcher-app',
@@ -157,13 +160,14 @@ class LSEP_Floating_Switcher_Settings {
         $languages = LSEP_HELPERS::get_polylang_languages_for_admin();
         
         return [
-            'config'         => $config, // Current switcher configuration
-            'languages'      => $languages, // Available Polylang languages
-            'nonce'          => wp_create_nonce( 'lsep_floating_switcher_save' ), // Security nonce for AJAX
-            'installNonce'   => wp_create_nonce( 'lsep_install_autopoly' ),
-            'autoPolyStatus' => LSEP_HELPERS::get_autopoly_status(),
-            'ajaxUrl'        => admin_url( 'admin-ajax.php' ), // WordPress AJAX endpoint
-            'pluginUrl'      => LSEP_PLUGIN_URL, // Plugin base URL
+            'config'            => $config,
+            'languages'         => $languages,
+            'nonce'             => wp_create_nonce( 'lsep_floating_switcher_save' ),
+            'ajaxUrl'           => admin_url( 'admin-ajax.php' ),
+            'pluginUrl'         => LSEP_PLUGIN_URL,
+            'autoPolyPromoHtml' => function_exists( 'lsep_get_autopoly_promo_html' )
+                ? lsep_get_autopoly_promo_html( 'floating_switcher' )
+                : '',
         ];
     }
     

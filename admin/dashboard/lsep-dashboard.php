@@ -147,6 +147,7 @@ class cool_plugins_lsep_polylang_addons {
 	 * Render get started tab content.
 	 */
 	public function get_started_content() {
+		require_once $this->addon_dir . '/includes/autopoly-promo.php';
 		require $this->addon_dir . '/includes/get-started-content.php';
 	}
 
@@ -294,6 +295,9 @@ class cool_plugins_lsep_polylang_addons {
 			'all'
 		);
 
+		require_once $this->addon_dir . '/includes/autopoly-promo.php';
+		lsep_enqueue_autopoly_promo_script();
+
 		if ( 'floating-switcher' === $tab ) {
 			return;
 		}
@@ -301,7 +305,7 @@ class cool_plugins_lsep_polylang_addons {
 		wp_enqueue_script(
 			'lsep-get-started',
 			plugin_dir_url( __FILE__ ) . 'assets/js/get-started.js',
-			array(),
+			array( 'lsep-autopoly-promo' ),
 			LSEP_VERSION,
 			true
 		);

@@ -329,6 +329,10 @@ div[data-notice_id="lsep-autopoly-promotion"] div.e-notice__actions{
 
 .lsep-promo-button,
 .lsep-promo-button-secondary {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
     flex: 0 0 auto;
     text-align: center;
     padding: 8px 20px;
@@ -344,6 +348,13 @@ div[data-notice_id="lsep-autopoly-promotion"] div.e-notice__actions{
     background: #ffffff;
     border-color: #2271b1;
     color: #2271b1;
+}
+
+.lsep-promo-button-secondary .dashicons {
+    width: 14px;
+    height: 14px;
+    font-size: 14px;
+    line-height: 1 !important;
 }
 
 .lsep-promo-button.lsep-promo-button-installed {
@@ -747,6 +758,222 @@ div[data-notice_id="lsep-autopoly-promotion"] div.e-notice__actions{
     border: none;
 }
 
+/* Get Started footer (Support / Docs / Review) */
+.lsep-gs-footer {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 20px;
+    margin-top: 24px;
+}
+
+.lsep-gs-footer-card {
+    display: flex;
+    flex-direction: column;
+    min-height: 250px;
+    background: #fff;
+    border: 1px solid var(--lsep-gs-border);
+    border-radius: var(--lsep-gs-radius-lg);
+    box-shadow: var(--lsep-gs-shadow);
+    padding: 24px;
+}
+
+.lsep-gs-footer-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 50px;
+    height: 50px;
+    margin-bottom: 18px;
+    border-radius: 14px;
+    border: 1px solid var(--lsep-gs-border);
+    background: var(--lsep-gs-blue-light);
+    color: var(--lsep-gs-blue);
+    flex-shrink: 0;
+}
+
+.lsep-gs-footer-icon .dashicons {
+    width: 28px;
+    height: 28px;
+    font-size: 28px;
+    line-height: 1;
+    color: var(--lsep-gs-blue) !important;
+    position: static;
+}
+
+.lsep-gs-footer-card h3 {
+    margin: 0 0 8px;
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--lsep-gs-text);
+    line-height: 1.3;
+}
+
+.lsep-gs-footer-card p {
+    margin: 0 0 20px;
+    color: var(--lsep-gs-text-secondary);
+    font-size: 14px;
+    line-height: 1.65;
+}
+
+.lsep-gs-footer-links {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    margin-top: auto;
+}
+
+.lsep-gs-footer-links:has(.lsep-gs-footer-btn) {
+    width: 50%;
+    align-items: stretch;
+}
+
+.lsep-gs-footer-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    min-height: 42px;
+    border: 1px solid;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 14px;
+    line-height: 1.35;
+    font-weight: 600;
+    text-align: center;
+    text-decoration: none;
+    white-space: nowrap;
+    box-shadow: none;
+    transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease, box-shadow 0.15s ease, transform 0.05s ease;
+}
+
+.lsep-gs-footer-btn .dashicons {
+    width: 14px;
+    height: 14px;
+    font-size: 14px;
+    line-height: 1;
+}
+
+.lsep-gs-footer-btn:hover,
+.lsep-gs-footer-btn:focus {
+    background: var(--lsep-gs-blue-lighter);
+    border-color: var(--lsep-gs-blue-dark);
+    color: var(--lsep-gs-blue-dark);
+    text-decoration: none;
+}
+
+.lsep-gs-footer-doc-link {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin: 2px 0;
+    padding: 9px 10px;
+    border: 1px solid transparent;
+    border-radius: 8px;
+    background: #fff;
+    color: var(--lsep-gs-blue);
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 1.4;
+    text-decoration: none;
+    transition: color 0.15s ease, background-color 0.15s ease, border-color 0.15s ease;
+}
+
+.lsep-gs-footer-doc-link::after {
+    content: '\f345';
+    font-family: dashicons;
+    font-size: 14px;
+    line-height: 1;
+    flex-shrink: 0;
+}
+
+.lsep-gs-footer-doc-link:hover,
+.lsep-gs-footer-doc-link:focus {
+    background: var(--lsep-gs-blue-light);
+    border-color: var(--lsep-gs-border);
+    color: var(--lsep-gs-blue-dark);
+    text-decoration: none;
+}
+
+/* AutoPoly promo as middle footer card */
+.lsep-gs-footer > .lsep-promo-box.lsep-promo-box-floating-switcher {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    min-height: 250px;
+    margin-top: 0;
+    padding: 24px;
+    border: 1px solid var(--lsep-gs-border);
+    border-radius: var(--lsep-gs-radius-lg);
+    box-shadow: var(--lsep-gs-shadow);
+    gap: 0;
+    background: #fff;
+}
+
+.lsep-gs-footer > .lsep-promo-box .lsep-promo-main {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 18px;
+}
+
+.lsep-gs-footer > .lsep-promo-box .lsep-promo-image-section {
+    width: 50px;
+    height: 50px;
+    padding: 0;
+    border-radius: 14px;
+    border: 1px solid var(--lsep-gs-border);
+    background: var(--lsep-gs-blue-light);
+    overflow: hidden;
+}
+
+.lsep-gs-footer > .lsep-promo-box.lsep-promo-box-floating-switcher .lsep-promo-image-section {
+    background: var(--lsep-gs-blue-light);
+}
+
+.lsep-gs-footer > .lsep-promo-box .lsep-promo-image {
+    width: 36px;
+    height: 36px;
+    object-fit: contain;
+}
+
+.lsep-gs-footer > .lsep-promo-box .lsep-promo-title,
+.lsep-gs-footer > .lsep-promo-box .lsep-promo-text-section strong {
+    margin: 0 0 8px;
+    font-size: 18px !important;
+    font-weight: 700 !important;
+    color: var(--lsep-gs-text) !important;
+    line-height: 1.3;
+}
+
+.lsep-gs-footer > .lsep-promo-box .lsep-promo-subtitle {
+    margin: 0;
+    font-size: 14px;
+    line-height: 1.65;
+    color: var(--lsep-gs-text-secondary);
+}
+
+.lsep-gs-footer > .lsep-promo-box .lsep-promo-actions {
+    margin-top: auto;
+    padding-top: 20px;
+    gap: 8px;
+}
+
+.lsep-gs-footer > .lsep-promo-box .lsep-promo-button,
+.lsep-gs-footer > .lsep-promo-box .lsep-promo-button-secondary {
+    font-size: 13px;
+    letter-spacing: 0;
+    border-radius: 6px;
+}
+
+.lsep-gs-footer > .lsep-promo-box .lsep-promo-button-secondary {
+    border-color: var(--lsep-gs-blue);
+    color: var(--lsep-gs-blue);
+}
+
+.lsep-gs-footer > .lsep-promo-box .lsep-install-message {
+    margin-top: 12px;
+}
+
 /* Desktop refinements */
 @media (min-width: 993px) {
     .lsep-get-started-content {
@@ -904,8 +1131,34 @@ div[data-notice_id="lsep-autopoly-promotion"] div.e-notice__actions{
         display: grid;
     }
 
+    .lsep-get-started-content.is-content-active .lsep-gs-footer {
+        display: grid;
+    }
+
     .lsep-get-started-content.is-content-active .lsep-gs-back-btn {
         display: flex;
+    }
+
+    .lsep-gs-footer {
+        display: none;
+        grid-template-columns: 1fr;
+        gap: 16px;
+        margin-top: 16px;
+    }
+
+    .lsep-gs-footer-card {
+        min-height: auto;
+        padding: 20px;
+    }
+
+    .lsep-gs-footer > .lsep-promo-box.lsep-promo-box-floating-switcher {
+        min-height: auto;
+        padding: 20px;
+    }
+
+    .lsep-gs-footer-links:has(.lsep-gs-footer-btn) {
+        width: 100%;
+        max-width: 220px;
     }
 }
 
@@ -1052,6 +1305,39 @@ div[data-notice_id="lsep-autopoly-promotion"] div.e-notice__actions{
         grid-template-columns: 1fr;
         gap: 14px;
         margin-top: 14px;
+    }
+
+    .lsep-gs-footer,
+    .lsep-get-started-content.is-content-active .lsep-gs-footer {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 14px;
+        margin-top: 14px;
+    }
+
+    .lsep-gs-footer-card {
+        min-height: auto;
+        padding: 18px;
+    }
+
+    .lsep-gs-footer > .lsep-promo-box.lsep-promo-box-floating-switcher {
+        min-height: auto;
+        padding: 18px;
+    }
+
+    .lsep-gs-footer-card h3 {
+        font-size: 16px;
+    }
+
+    .lsep-gs-footer-card p,
+    .lsep-gs-footer-doc-link,
+    .lsep-gs-footer > .lsep-promo-box .lsep-promo-subtitle {
+        font-size: 13px;
+    }
+
+    .lsep-gs-footer > .lsep-promo-box .lsep-promo-title,
+    .lsep-gs-footer > .lsep-promo-box .lsep-promo-text-section strong {
+        font-size: 16px !important;
     }
 
     .lsep-gs-info-card {

@@ -79,4 +79,47 @@ $video_id   = 'HyM0woo9Cg0';
 			</div>
 		</div>
 	</div>
+
+	<footer class="lsep-gs-footer">
+
+	    <?php lsep_render_autopoly_promo( 'get_started' ); ?>
+		
+		<div class="lsep-gs-footer-card">
+			<div class="lsep-gs-footer-icon" aria-hidden="true">
+				<span class="dashicons dashicons-editor-help"></span>
+			</div>
+			<h3><?php esc_html_e( 'Support', 'language-switcher-for-elementor-polylang' ); ?></h3>
+			<p><?php esc_html_e( 'Need help? Our team can assist with setup and troubleshooting.', 'language-switcher-for-elementor-polylang' ); ?></p>
+			<div class="lsep-gs-footer-links">
+				<a
+					class="lsep-gs-footer-btn"
+					href="<?php echo esc_url( 'https://wordpress.org/support/plugin/language-switcher-for-elementor-polylang/#new-topic-0' ); ?>"
+					target="_blank"
+					rel="noopener noreferrer"
+				>
+					<?php esc_html_e( 'Get Support', 'language-switcher-for-elementor-polylang' ); ?>
+					<span class="dashicons dashicons-arrow-right-alt2" aria-hidden="true"></span>
+				</a>
+			</div>
+		</div>
+
+		<div class="lsep-gs-footer-card">
+			<div class="lsep-gs-footer-icon" aria-hidden="true">
+				<span class="dashicons dashicons-star-filled"></span>
+			</div>
+			<h3><?php esc_html_e( 'Your Feedback Matters', 'language-switcher-for-elementor-polylang' ); ?></h3>
+			<p><?php esc_html_e( 'If you\'re happy with the plugin, we\'d greatly appreciate a quick review. Your support helps us continue improving it.', 'language-switcher-for-elementor-polylang' ); ?></p>
+			<div class="lsep-gs-footer-links">
+				<a
+					class="lsep-gs-footer-btn"
+					href="<?php echo esc_url( 'https://wordpress.org/support/plugin/language-switcher-for-elementor-polylang/reviews/#new-post' ); ?>"
+					target="_blank"
+					rel="noopener noreferrer"
+				>
+					<?php esc_html_e( 'Leave a Review', 'language-switcher-for-elementor-polylang' ); ?>
+					<span class="dashicons dashicons-arrow-right-alt2" aria-hidden="true"></span>
+				</a>
+			</div>
+		</div>
+	</footer>
 </div>
