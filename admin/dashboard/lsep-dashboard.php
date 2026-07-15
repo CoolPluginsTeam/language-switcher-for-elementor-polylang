@@ -105,7 +105,7 @@ class cool_plugins_lsep_polylang_addons {
 		echo '<h1 class="lsep-header-title">' . esc_html__( 'Language Switcher for Polylang', 'language-switcher-for-elementor-polylang' ) . '</h1>';
 		echo '</div>';
 		echo '<div class="lsep-header-actions">';
-		echo '<a href="' . esc_url( 'https://wordpress.org/support/plugin/language-switcher-for-elementor-polylang/#new-topic-0' ) . '" class="button button-secondary lsep-header-btn" target="_blank" rel="noopener noreferrer"><span class="dashicons dashicons-editor-help lsep-header-btn-question-icon" aria-hidden="true"></span><span class="lsep-header-btn-label">' . esc_html__( 'Get Support', 'language-switcher-for-elementor-polylang' ) . '</span></a>';
+		echo '<a href="' . esc_url( 'https://wordpress.org/support/plugin/language-switcher-for-elementor-polylang/#new-topic-0' ) . '" class="button button-secondary lsep-header-btn lsep-header-btn-support" target="_blank" rel="noopener noreferrer"><span class="dashicons dashicons-editor-help lsep-header-btn-question-icon" aria-hidden="true"></span><span class="lsep-header-btn-label">' . esc_html__( 'Get Support', 'language-switcher-for-elementor-polylang' ) . '</span></a>';
 		echo '<a href="' . esc_url( 'https://docs.coolplugins.net/doc/language-switcher-for-elementor-polylang/?utm_source=lsep_plugin&utm_medium=inside&utm_campaign=docs&utm_content=dashboard_header' ) . '" class="button button-secondary lsep-header-btn" target="_blank" rel="noopener noreferrer"><span class="dashicons dashicons-book" aria-hidden="true"></span><span class="lsep-header-btn-label">' . esc_html__( 'Documentation', 'language-switcher-for-elementor-polylang' ) . '</span></a>';
                 echo '</div>';
                 echo '</div>';
