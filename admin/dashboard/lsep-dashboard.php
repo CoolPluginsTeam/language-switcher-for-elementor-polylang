@@ -105,7 +105,7 @@ class cool_plugins_lsep_polylang_addons {
 		echo '<h1 class="lsep-header-title">' . esc_html__( 'Language Switcher for Polylang', 'language-switcher-for-elementor-polylang' ) . '</h1>';
 		echo '</div>';
 		echo '<div class="lsep-header-actions">';
-		echo '<a href="' . esc_url( 'https://wordpress.org/support/plugin/language-switcher-for-elementor-polylang/#new-topic-0' ) . '" class="button button-secondary lsep-header-btn" target="_blank" rel="noopener noreferrer"><span class="dashicons dashicons-editor-help" aria-hidden="true"></span><span class="lsep-header-btn-label">' . esc_html__( 'Get Support', 'language-switcher-for-elementor-polylang' ) . '</span></a>';
+		echo '<a href="' . esc_url( 'https://wordpress.org/support/plugin/language-switcher-for-elementor-polylang/#new-topic-0' ) . '" class="button button-secondary lsep-header-btn" target="_blank" rel="noopener noreferrer"><span class="dashicons dashicons-editor-help lsep-header-btn-question-icon" aria-hidden="true"></span><span class="lsep-header-btn-label">' . esc_html__( 'Get Support', 'language-switcher-for-elementor-polylang' ) . '</span></a>';
 		echo '<a href="' . esc_url( 'https://docs.coolplugins.net/doc/language-switcher-for-elementor-polylang/?utm_source=lsep_plugin&utm_medium=inside&utm_campaign=docs&utm_content=dashboard_header' ) . '" class="button button-secondary lsep-header-btn" target="_blank" rel="noopener noreferrer"><span class="dashicons dashicons-book" aria-hidden="true"></span><span class="lsep-header-btn-label">' . esc_html__( 'Documentation', 'language-switcher-for-elementor-polylang' ) . '</span></a>';
                 echo '</div>';
                 echo '</div>';
@@ -157,8 +157,8 @@ class cool_plugins_lsep_polylang_addons {
 	 */
 	private function get_started_builder_data() {
 		$video_id  = 'HyM0woo9Cg0';
-		$video_url = 'https://www.youtube.com/watch?v=' . $video_id;
 		$embed_url = 'https://www.youtube.com/embed/' . $video_id;
+		$plus_icon = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" focusable="false"><path d="M11 12.5V17.5H12.5V12.5H17.5V11H12.5V6H11V11H6V12.5H11Z"></path></svg>';
 
 		return array(
 			'elementor' => array(
@@ -192,7 +192,6 @@ class cool_plugins_lsep_polylang_addons {
 						),
 					),
 				),
-				'videoUrl'   => $video_url,
 				'embedUrl'   => $embed_url,
 			),
 			'gutenberg' => array(
@@ -203,7 +202,11 @@ class cool_plugins_lsep_polylang_addons {
 						'title' => __( 'Add Language Switcher Block', 'language-switcher-for-elementor-polylang' ),
 						'items' => array(
 							__( 'Open a page or post in the Block Editor.', 'language-switcher-for-elementor-polylang' ),
-							__( 'Click the "+" icon and search for "Language Switcher".', 'language-switcher-for-elementor-polylang' ),
+							sprintf(
+								/* translators: %s: Gutenberg inserter plus icon */
+								__( 'Click %s and search for "Language Switcher".', 'language-switcher-for-elementor-polylang' ),
+								$plus_icon
+							),
 							__( 'Insert the block wherever you want the switcher to appear.', 'language-switcher-for-elementor-polylang' ),
 						),
 					),
@@ -226,7 +229,6 @@ class cool_plugins_lsep_polylang_addons {
 						),
 					),
 				),
-				'videoUrl'   => $video_url,
 				'embedUrl'   => $embed_url,
 			),
 			'divi'      => array(
@@ -237,7 +239,11 @@ class cool_plugins_lsep_polylang_addons {
 						'title' => __( 'Add Language Switcher Module', 'language-switcher-for-elementor-polylang' ),
 						'items' => array(
 							__( 'Open a page using the Divi Builder.', 'language-switcher-for-elementor-polylang' ),
-							__( 'Click the "+" icon to insert a new module.', 'language-switcher-for-elementor-polylang' ),
+							sprintf(
+								/* translators: %s: Divi inserter plus icon */
+								__( 'Click %s to insert a new module.', 'language-switcher-for-elementor-polylang' ),
+								$plus_icon
+							),
 							__( 'Search for "Language Switcher" and drop it into your layout.', 'language-switcher-for-elementor-polylang' ),
 						),
 					),
@@ -260,7 +266,6 @@ class cool_plugins_lsep_polylang_addons {
 						),
 					),
 				),
-				'videoUrl'   => $video_url,
 				'embedUrl'   => $embed_url,
 			),
 		);

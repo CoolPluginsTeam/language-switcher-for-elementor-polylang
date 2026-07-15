@@ -11,7 +11,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 $assets_url = LSEP_PLUGIN_URL . 'assets/images/';
 $video_id   = 'HyM0woo9Cg0';
-$video_url  = 'https://www.youtube.com/watch?v=' . $video_id;
 ?>
 <div class="lsep-get-started-content" id="lsep-gs-wrap">
 	<div class="lsep-gs-builder-section" id="lsep-gs-builder-section">
@@ -66,31 +65,17 @@ $video_url  = 'https://www.youtube.com/watch?v=' . $video_id;
 			<header class="lsep-gs-video-header">
 				<h2 class="lsep-gs-video-title"><?php esc_html_e( 'Video Tutorial', 'language-switcher-for-elementor-polylang' ); ?></h2>
 			</header>
-			<div class="lsep-gs-video-body">
-				<div class="lsep-video-container">
-					<iframe
-						id="lsep-gs-video-iframe"
-						width="100%"
-						height="380"
-						src="<?php echo esc_url( 'https://www.youtube.com/embed/' . $video_id ); ?>"
-						title="<?php echo esc_attr__( 'Language Switcher for Elementor & Polylang Tutorial', 'language-switcher-for-elementor-polylang' ); ?>"
-						frameborder="0"
-						allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-						allowfullscreen>
-					</iframe>
-				</div>
-				<a
-					id="lsep-gs-video-cta"
-					href="<?php echo esc_url( $video_url ); ?>"
-					class="button button-secondary lsep-gs-video-cta"
-					target="_blank"
-					rel="noopener noreferrer"
-				>
-					<span class="lsep-gs-video-cta-icon" aria-hidden="true"></span>
-					<span class="lsep-gs-video-cta-label">
-						<?php esc_html_e( 'Watch on YouTube', 'language-switcher-for-elementor-polylang' ); ?>
-					</span>
-				</a>
+			<div class="lsep-video-container">
+				<iframe
+					id="lsep-gs-video-iframe"
+					width="100%"
+					height="380"
+					src="<?php echo esc_url( 'https://www.youtube.com/embed/' . $video_id ); ?>"
+					title="<?php echo esc_attr__( 'Language Switcher for Elementor & Polylang Tutorial', 'language-switcher-for-elementor-polylang' ); ?>"
+					frameborder="0"
+					allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+					allowfullscreen>
+				</iframe>
 			</div>
 		</div>
 	</div>

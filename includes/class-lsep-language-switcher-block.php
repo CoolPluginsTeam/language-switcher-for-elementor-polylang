@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 /**
  * Gutenberg Language Switcher Block
  *

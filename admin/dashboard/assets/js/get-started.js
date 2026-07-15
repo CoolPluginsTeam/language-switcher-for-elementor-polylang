@@ -14,7 +14,6 @@
 	var guideSub = document.getElementById('lsep-gs-guide-sub');
 	var stepsWrap = document.getElementById('lsep-gs-steps');
 	var videoIframe = document.getElementById('lsep-gs-video-iframe');
-	var videoCta = document.getElementById('lsep-gs-video-cta');
 	var backBtn = document.getElementById('lsep-gs-back-btn');
 	var cards = wrap.querySelectorAll('.lsep-gs-builder-card');
 
@@ -24,11 +23,29 @@
 		return el.innerHTML;
 	}
 
+	/**
+	 * Escape step item text but allow the known Gutenberg/Divi plus SVG.
+	 */
+	function formatStepItem(item) {
+		var svgMatch = item.match(/<svg\b[^>]*>[\s\S]*?<\/svg>/i);
+		if (!svgMatch) {
+			return escapeHtml(item);
+		}
+
+		var parts = item.split(/(<svg\b[^>]*>[\s\S]*?<\/svg>)/i);
+		return parts.map(function (part) {
+			if (/^<svg\b/i.test(part)) {
+				return part;
+			}
+			return escapeHtml(part);
+		}).join('');
+	}
+
 	function renderSteps(steps) {
 		var html = '';
 		steps.forEach(function (step, index) {
 			var items = step.items.map(function (item) {
-				return '<li><span class="lsep-gs-check" aria-hidden="true"></span> ' + escapeHtml(item) + '</li>';
+				return '<li><span class="lsep-gs-check" aria-hidden="true"></span><span class="lsep-gs-step-item-text">' + formatStepItem(item) + '</span></li>';
 			}).join('');
 			var button = step.button && step.buttonUrl
 				? '<a class="lsep-gs-step-btn" href="' + encodeURI(step.buttonUrl) + '">' + escapeHtml(step.button) + '</a>'
@@ -58,9 +75,6 @@
 
 		if (videoIframe && builder.embedUrl) {
 			videoIframe.src = builder.embedUrl;
-		}
-		if (videoCta && builder.videoUrl) {
-			videoCta.href = builder.videoUrl;
 		}
 	}
 
