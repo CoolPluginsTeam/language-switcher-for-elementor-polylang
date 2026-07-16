@@ -27,7 +27,7 @@
 
     registerBlockType('lsep/language-switcher', {
         apiVersion: 3,
-        title: __('Language Switcher block', 'language-switcher-for-elementor-polylang'),
+        title: __('Language Switcher', 'language-switcher-for-elementor-polylang'),
         description: __('Display a language switcher block', 'language-switcher-for-elementor-polylang'),
         category: 'widgets',
         icon: 'translation',
