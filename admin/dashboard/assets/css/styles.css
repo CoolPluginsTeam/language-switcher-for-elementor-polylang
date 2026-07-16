@@ -503,7 +503,7 @@ div[data-notice_id="lsep-autopoly-promotion"] div.e-notice__actions{
 
 .lsep-gs-builder-cards {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
     gap: 16px;
 }
 
@@ -1144,6 +1144,10 @@ div[data-notice_id="lsep-autopoly-promotion"] div.e-notice__actions{
         display: flex;
     }
 
+    .lsep-get-started-content.lsep-gs-no-picker .lsep-gs-back-btn {
+        display: none;
+    }
+
     .lsep-gs-footer {
         display: none;
         grid-template-columns: 1fr;
@@ -1258,7 +1262,7 @@ div[data-notice_id="lsep-autopoly-promotion"] div.e-notice__actions{
     }
 
     .lsep-gs-builder-cards {
-        grid-template-columns: repeat(3, minmax(0, 1fr));
+        grid-template-columns: repeat(auto-fit, minmax(0, 1fr));
         gap: 12px;
     }
 
@@ -1463,7 +1467,7 @@ div[data-notice_id="lsep-autopoly-promotion"] div.e-notice__actions{
     }
 
     .lsep-get-started-content.is-content-active .lsep-gs-builder-cards {
-        grid-template-columns: repeat(3, minmax(0, 1fr));
+        grid-template-columns: repeat(auto-fit, minmax(0, 1fr));
         gap: 0;
         margin-bottom: 14px;
     }

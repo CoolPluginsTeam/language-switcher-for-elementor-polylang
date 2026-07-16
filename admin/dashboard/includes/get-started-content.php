@@ -11,8 +11,42 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 $assets_url = LSEP_PLUGIN_URL . 'assets/images/';
 $video_id   = 'HyM0woo9Cg0';
+
+$dashboard = class_exists( 'cool_plugins_lsep_polylang_addons' ) ? cool_plugins_lsep_polylang_addons::init() : null;
+
+$has_elementor = class_exists( 'LSEP_HELPERS' ) && LSEP_HELPERS::lsep_is_plugin_active( 'elementor/elementor.php' );
+$has_divi      = $dashboard ? $dashboard->is_divi_available() : (
+	( class_exists( 'LSEP_HELPERS' ) && LSEP_HELPERS::lsep_is_plugin_active( 'divi-builder/divi-builder.php' ) )
+	|| ( function_exists( 'wp_get_theme' ) && 'Divi' === wp_get_theme()->get_template() )
+	|| defined( 'ET_BUILDER_THEME' )
+	|| defined( 'ET_BUILDER_PLUGIN_ACTIVE' )
+);
+
+$show_builder_picker = $has_elementor || $has_divi;
+$saved_builder       = $dashboard ? $dashboard->get_preferred_builder() : '';
+
+if ( $saved_builder ) {
+	$default_builder = $saved_builder;
+} elseif ( $has_elementor ) {
+	$default_builder = 'elementor';
+} elseif ( $has_divi ) {
+	$default_builder = 'divi';
+} else {
+	$default_builder = 'gutenberg';
+}
+
+$restore_content = $show_builder_picker && (bool) $saved_builder;
+
+$wrap_classes = array( 'lsep-get-started-content' );
+if ( ! $show_builder_picker || $restore_content ) {
+	$wrap_classes[] = 'is-content-active';
+}
+if ( ! $show_builder_picker ) {
+	$wrap_classes[] = 'lsep-gs-no-picker';
+}
 ?>
-<div class="lsep-get-started-content" id="lsep-gs-wrap">
+<div class="<?php echo esc_attr( implode( ' ', $wrap_classes ) ); ?>" id="lsep-gs-wrap" data-default-builder="<?php echo esc_attr( $default_builder ); ?>">
+	<?php if ( $show_builder_picker ) : ?>
 	<div class="lsep-gs-builder-section" id="lsep-gs-builder-section">
 		<div class="lsep-gs-choose-heading">
 			<h2><?php esc_html_e( 'Choose your builder', 'language-switcher-for-elementor-polylang' ); ?></h2>
@@ -20,7 +54,8 @@ $video_id   = 'HyM0woo9Cg0';
 		</div>
 
 		<div class="lsep-gs-builder-cards">
-			<button type="button" class="lsep-gs-builder-card is-selected" data-builder="elementor">
+			<?php if ( $has_elementor ) : ?>
+			<button type="button" class="lsep-gs-builder-card<?php echo 'elementor' === $default_builder ? ' is-selected' : ''; ?>" data-builder="elementor">
 				<img class="lsep-gs-builder-icon" src="<?php echo esc_url( $assets_url . 'elementor-icon.png' ); ?>" alt="" />
 				<span class="lsep-gs-builder-text">
 					<span class="lsep-gs-builder-title"><?php esc_html_e( 'Elementor', 'language-switcher-for-elementor-polylang' ); ?></span>
@@ -28,8 +63,9 @@ $video_id   = 'HyM0woo9Cg0';
 				</span>
 				<span class="dashicons dashicons-arrow-right-alt2 lsep-gs-chevron" aria-hidden="true"></span>
 			</button>
+			<?php endif; ?>
 
-			<button type="button" class="lsep-gs-builder-card" data-builder="gutenberg">
+			<button type="button" class="lsep-gs-builder-card<?php echo 'gutenberg' === $default_builder ? ' is-selected' : ''; ?>" data-builder="gutenberg">
 				<img class="lsep-gs-builder-icon" src="<?php echo esc_url( $assets_url . 'gutenberg-icon.png' ); ?>" alt="" />
 				<span class="lsep-gs-builder-text">
 					<span class="lsep-gs-builder-title"><?php esc_html_e( 'Gutenberg', 'language-switcher-for-elementor-polylang' ); ?></span>
@@ -38,7 +74,8 @@ $video_id   = 'HyM0woo9Cg0';
 				<span class="dashicons dashicons-arrow-right-alt2 lsep-gs-chevron" aria-hidden="true"></span>
 			</button>
 
-			<button type="button" class="lsep-gs-builder-card" data-builder="divi">
+			<?php if ( $has_divi ) : ?>
+			<button type="button" class="lsep-gs-builder-card<?php echo 'divi' === $default_builder ? ' is-selected' : ''; ?>" data-builder="divi">
 				<img class="lsep-gs-builder-icon" src="<?php echo esc_url( $assets_url . 'divi-icon.png' ); ?>" alt="" />
 				<span class="lsep-gs-builder-text">
 					<span class="lsep-gs-builder-title"><?php esc_html_e( 'Divi', 'language-switcher-for-elementor-polylang' ); ?></span>
@@ -46,6 +83,7 @@ $video_id   = 'HyM0woo9Cg0';
 				</span>
 				<span class="dashicons dashicons-arrow-right-alt2 lsep-gs-chevron" aria-hidden="true"></span>
 			</button>
+			<?php endif; ?>
 		</div>
 	</div>
 
@@ -53,11 +91,26 @@ $video_id   = 'HyM0woo9Cg0';
 		<span class="dashicons dashicons-arrow-left-alt2" aria-hidden="true"></span>
 		<?php esc_html_e( 'Change builder', 'language-switcher-for-elementor-polylang' ); ?>
 	</button>
+	<?php endif; ?>
 
+	<?php
+	$guide_titles = array(
+		'elementor' => __( 'Elementor Quick Start Guide', 'language-switcher-for-elementor-polylang' ),
+		'gutenberg' => __( 'Gutenberg Quick Start Guide', 'language-switcher-for-elementor-polylang' ),
+		'divi'      => __( 'Divi Quick Start Guide', 'language-switcher-for-elementor-polylang' ),
+	);
+	$guide_subs   = array(
+		'elementor' => __( 'Follow these simple steps to add and configure the Language Switcher widget in Elementor.', 'language-switcher-for-elementor-polylang' ),
+		'gutenberg' => __( 'Follow these simple steps to add and configure the Language Switcher block in the Block Editor.', 'language-switcher-for-elementor-polylang' ),
+		'divi'      => __( 'Follow these simple steps to add and configure the Language Switcher module in Divi.', 'language-switcher-for-elementor-polylang' ),
+	);
+	$initial_title = isset( $guide_titles[ $default_builder ] ) ? $guide_titles[ $default_builder ] : $guide_titles['gutenberg'];
+	$initial_sub   = isset( $guide_subs[ $default_builder ] ) ? $guide_subs[ $default_builder ] : $guide_subs['gutenberg'];
+	?>
 	<div class="lsep-gs-info-grid" id="lsep-gs-info-grid">
 		<div class="lsep-gs-info-card lsep-gs-guide-card">
-			<h2 id="lsep-gs-guide-title"><?php esc_html_e( 'Elementor Quick Start Guide', 'language-switcher-for-elementor-polylang' ); ?></h2>
-			<p class="lsep-gs-sub" id="lsep-gs-guide-sub"><?php esc_html_e( 'Follow these simple steps to add and configure the Language Switcher widget in Elementor.', 'language-switcher-for-elementor-polylang' ); ?></p>
+			<h2 id="lsep-gs-guide-title"><?php echo esc_html( $initial_title ); ?></h2>
+			<p class="lsep-gs-sub" id="lsep-gs-guide-sub"><?php echo esc_html( $initial_sub ); ?></p>
 			<div id="lsep-gs-steps"></div>
 		</div>
 

@@ -42,6 +42,7 @@ class cool_plugins_lsep_polylang_addons {
 		add_action( 'admin_menu', array( $this, 'init_plugins_dasboard_page' ), 10 );
 		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_required_scripts' ) );
 		add_action( 'in_admin_header', array( $this, 'suppress_foreign_admin_notices' ), 1000 );
+		add_action( 'wp_ajax_lsep_save_preferred_builder', array( $this, 'ajax_save_preferred_builder' ) );
 	}
 
 	/**
@@ -310,14 +311,102 @@ class cool_plugins_lsep_polylang_addons {
 			true
 		);
 
+		$preferred_builder = $this->get_preferred_builder();
+
 		wp_localize_script(
 			'lsep-get-started',
 			'lsepGetStarted',
 			array(
-				'builders' => $this->get_started_builder_data(),
+				'builders'         => $this->get_started_builder_data(),
+				'ajaxUrl'          => admin_url( 'admin-ajax.php' ),
+				'nonce'            => wp_create_nonce( 'lsep_save_preferred_builder' ),
+				'preferredBuilder' => $preferred_builder,
+				'restoreContent'   => (bool) $preferred_builder,
 			)
 		);
-    }   
+	}
+
+	/**
+	 * Available builders based on installed Elementor / Divi.
+	 *
+	 * @return string[]
+	 */
+	public function get_available_builders() {
+		$builders = array( 'gutenberg' );
+
+		if ( class_exists( 'LSEP_HELPERS' ) && LSEP_HELPERS::lsep_is_plugin_active( 'elementor/elementor.php' ) ) {
+			$builders[] = 'elementor';
+		}
+
+		if ( $this->is_divi_available() ) {
+			$builders[] = 'divi';
+		}
+
+		return $builders;
+	}
+
+	/**
+	 * Whether Divi theme or Divi Builder is available.
+	 *
+	 * @return bool
+	 */
+	public function is_divi_available() {
+		return ( class_exists( 'LSEP_HELPERS' ) && LSEP_HELPERS::lsep_is_plugin_active( 'divi-builder/divi-builder.php' ) )
+			|| ( function_exists( 'wp_get_theme' ) && 'Divi' === wp_get_theme()->get_template() )
+			|| defined( 'ET_BUILDER_THEME' )
+			|| defined( 'ET_BUILDER_PLUGIN_ACTIVE' );
+	}
+
+	/**
+	 * Saved preferred builder if still available, otherwise empty string.
+	 *
+	 * @return string
+	 */
+	public function get_preferred_builder() {
+		$saved     = get_option( 'lsep_preferred_builder', '' );
+		$saved     = is_string( $saved ) ? sanitize_key( $saved ) : '';
+		$available = $this->get_available_builders();
+
+		if ( $saved && in_array( $saved, $available, true ) ) {
+			return $saved;
+		}
+
+		return '';
+	}
+
+	/**
+	 * AJAX: persist preferred Get Started builder and usage counts.
+	 */
+	public function ajax_save_preferred_builder() {
+		if ( ! current_user_can( 'manage_options' ) ) {
+			wp_send_json_error( array( 'message' => 'forbidden' ), 403 );
+		}
+
+		check_ajax_referer( 'lsep_save_preferred_builder', 'nonce' );
+
+		$builder   = isset( $_POST['builder'] ) ? sanitize_key( wp_unslash( $_POST['builder'] ) ) : '';
+		$available = $this->get_available_builders();
+
+		if ( ! in_array( $builder, $available, true ) ) {
+			wp_send_json_error( array( 'message' => 'invalid_builder' ), 400 );
+		}
+
+		update_option( 'lsep_preferred_builder', $builder, false );
+
+		$counts = get_option( 'lsep_builder_usage_counts', array() );
+		if ( ! is_array( $counts ) ) {
+			$counts = array();
+		}
+		$counts[ $builder ] = isset( $counts[ $builder ] ) ? absint( $counts[ $builder ] ) + 1 : 1;
+		update_option( 'lsep_builder_usage_counts', $counts, false );
+
+		wp_send_json_success(
+			array(
+				'builder' => $builder,
+				'counts'  => $counts,
+			)
+		);
+	}
 }
 
     /**
