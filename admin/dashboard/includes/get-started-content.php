@@ -134,8 +134,6 @@ if ( ! $show_builder_picker ) {
 	</div>
 
 	<footer class="lsep-gs-footer">
-
-	    <?php lsep_render_autopoly_promo( 'get_started' ); ?>
 		
 		<div class="lsep-gs-footer-card">
 			<div class="lsep-gs-footer-icon" aria-hidden="true">
@@ -155,6 +153,8 @@ if ( ! $show_builder_picker ) {
 				</a>
 			</div>
 		</div>
+
+		<?php lsep_render_autopoly_promo( 'get_started' ); ?>
 
 		<div class="lsep-gs-footer-card">
 			<div class="lsep-gs-footer-icon" aria-hidden="true">

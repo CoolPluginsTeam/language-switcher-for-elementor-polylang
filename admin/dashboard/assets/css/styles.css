@@ -100,6 +100,16 @@
     top: 0;
 }
 
+/*
+ * Same rule Elementor ships in assets/css/admin.css.
+ * Without Elementor active it never loads, so WP 7.x leaves button dashicons grey/misaligned.
+ */
+[class*=branch-7].wp-core-ui .button .dashicons {
+    vertical-align: middle;
+    line-height: 1.2;
+    color: var(--wp-admin-theme-color);
+}
+
 .lsep-header-actions .lsep-header-btn-label {
     display: inline-block;
     line-height: 1.2;
@@ -798,6 +808,14 @@ div[data-notice_id="lsep-autopoly-promotion"] div.e-notice__actions{
     line-height: 1;
     color: var(--lsep-gs-blue) !important;
     position: static;
+}
+
+/* editor-help glyph has built-in padding, so scale it up to match star visual weight. */
+.lsep-gs-footer-icon .dashicons-editor-help {
+    width: 36px;
+    height: 36px;
+    font-size: 36px;
+    line-height: 36px;
 }
 
 .lsep-gs-footer-card h3 {
