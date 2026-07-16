@@ -44,6 +44,30 @@ if ( ! $show_builder_picker || $restore_content ) {
 if ( ! $show_builder_picker ) {
 	$wrap_classes[] = 'lsep-gs-no-picker';
 }
+
+$builder_cards = array(
+	'divi'      => array(
+		'available'   => $has_divi,
+		'title'       => __( 'Divi', 'language-switcher-for-elementor-polylang' ),
+		'description' => __( 'Use the Divi module to display the switcher.', 'language-switcher-for-elementor-polylang' ),
+		'icon'        => 'divi-icon.png',
+	),
+	'elementor' => array(
+		'available'   => $has_elementor,
+		'title'       => __( 'Elementor', 'language-switcher-for-elementor-polylang' ),
+		'description' => __( 'Use the widget to add the language switcher.', 'language-switcher-for-elementor-polylang' ),
+		'icon'        => 'elementor-icon.png',
+	),
+	'gutenberg' => array(
+		'available'   => true,
+		'title'       => __( 'Gutenberg', 'language-switcher-for-elementor-polylang' ),
+		'description' => __( 'Add the language switcher using a block.', 'language-switcher-for-elementor-polylang' ),
+		'icon'        => 'gutenberg-icon.png',
+	),
+);
+
+// Put the selected builder first while preserving the normal order of the others.
+$builder_order = array_unique( array( $default_builder, 'divi', 'elementor', 'gutenberg' ) );
 ?>
 <div class="<?php echo esc_attr( implode( ' ', $wrap_classes ) ); ?>" id="lsep-gs-wrap" data-default-builder="<?php echo esc_attr( $default_builder ); ?>">
 	<?php if ( $show_builder_picker ) : ?>
@@ -54,36 +78,22 @@ if ( ! $show_builder_picker ) {
 		</div>
 
 		<div class="lsep-gs-builder-cards">
-			<?php if ( $has_elementor ) : ?>
-			<button type="button" class="lsep-gs-builder-card<?php echo 'elementor' === $default_builder ? ' is-selected' : ''; ?>" data-builder="elementor">
-				<img class="lsep-gs-builder-icon" src="<?php echo esc_url( $assets_url . 'elementor-icon.png' ); ?>" alt="" />
+			<?php foreach ( $builder_order as $builder_key ) : ?>
+				<?php
+				$builder_card = $builder_cards[ $builder_key ];
+				if ( ! $builder_card['available'] ) {
+					continue;
+				}
+				?>
+			<button type="button" class="lsep-gs-builder-card<?php echo $builder_key === $default_builder ? ' is-selected' : ''; ?>" data-builder="<?php echo esc_attr( $builder_key ); ?>">
+				<img class="lsep-gs-builder-icon" src="<?php echo esc_url( $assets_url . $builder_card['icon'] ); ?>" alt="" />
 				<span class="lsep-gs-builder-text">
-					<span class="lsep-gs-builder-title"><?php esc_html_e( 'Elementor', 'language-switcher-for-elementor-polylang' ); ?></span>
-					<span class="lsep-gs-builder-desc"><?php esc_html_e( 'Use the widget to add the language switcher.', 'language-switcher-for-elementor-polylang' ); ?></span>
+					<span class="lsep-gs-builder-title"><?php echo esc_html( $builder_card['title'] ); ?></span>
+					<span class="lsep-gs-builder-desc"><?php echo esc_html( $builder_card['description'] ); ?></span>
 				</span>
 				<span class="dashicons dashicons-arrow-right-alt2 lsep-gs-chevron" aria-hidden="true"></span>
 			</button>
-			<?php endif; ?>
-
-			<button type="button" class="lsep-gs-builder-card<?php echo 'gutenberg' === $default_builder ? ' is-selected' : ''; ?>" data-builder="gutenberg">
-				<img class="lsep-gs-builder-icon" src="<?php echo esc_url( $assets_url . 'gutenberg-icon.png' ); ?>" alt="" />
-				<span class="lsep-gs-builder-text">
-					<span class="lsep-gs-builder-title"><?php esc_html_e( 'Gutenberg', 'language-switcher-for-elementor-polylang' ); ?></span>
-					<span class="lsep-gs-builder-desc"><?php esc_html_e( 'Add the language switcher using a block.', 'language-switcher-for-elementor-polylang' ); ?></span>
-				</span>
-				<span class="dashicons dashicons-arrow-right-alt2 lsep-gs-chevron" aria-hidden="true"></span>
-			</button>
-
-			<?php if ( $has_divi ) : ?>
-			<button type="button" class="lsep-gs-builder-card<?php echo 'divi' === $default_builder ? ' is-selected' : ''; ?>" data-builder="divi">
-				<img class="lsep-gs-builder-icon" src="<?php echo esc_url( $assets_url . 'divi-icon.png' ); ?>" alt="" />
-				<span class="lsep-gs-builder-text">
-					<span class="lsep-gs-builder-title"><?php esc_html_e( 'Divi', 'language-switcher-for-elementor-polylang' ); ?></span>
-					<span class="lsep-gs-builder-desc"><?php esc_html_e( 'Use the Divi module to display the switcher.', 'language-switcher-for-elementor-polylang' ); ?></span>
-				</span>
-				<span class="dashicons dashicons-arrow-right-alt2 lsep-gs-chevron" aria-hidden="true"></span>
-			</button>
-			<?php endif; ?>
+			<?php endforeach; ?>
 		</div>
 	</div>
 

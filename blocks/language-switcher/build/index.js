@@ -176,10 +176,6 @@
             customLanguages: {
                 type: 'array',
                 default: []
-            },
-            languageSource: {
-                type: 'string',
-                default: 'polylang'
             }
         },
         supports: {
@@ -197,25 +193,8 @@
             var duplicateLanguageNotice = duplicateLanguageNoticeState[0];
             var setDuplicateLanguageNotice = duplicateLanguageNoticeState[1];
             
-            // State to track language source changes
-            var languageSourceState = useState(attributes.languageSource || 'polylang');
-            var previousLanguageSource = languageSourceState[0];
-            var setPreviousLanguageSource = languageSourceState[1];
-            
-            var showNoticeState = useState(false);
-            var showNotice = showNoticeState[0];
-            var setShowNotice = showNoticeState[1];
-
-            // Set languageSource to 'default' when Polylang is not active
-            if (!settings.polylangActive && attributes.languageSource === 'polylang') {
-                setAttributes({ 
-                    languageSource: 'default'
-                });
-            }
-
-            // Auto-populate English and French when using custom languages (either Polylang is not active OR languageSource is 'default')
-            var useCustomLanguages = !settings.polylangActive || attributes.languageSource === 'default';
-            if (useCustomLanguages && (!attributes.customLanguages || attributes.customLanguages.length === 0)) {
+            // Auto-populate custom languages when Polylang is not available.
+            if (!settings.polylangActive && (!attributes.customLanguages || attributes.customLanguages.length === 0)) {
                 setAttributes({ 
                     customLanguages: [
                         { 
@@ -627,21 +606,11 @@
             // Build tabs array
             var tabsArray = [];
 
-            // If Polylang is active, show "Language Source" tab with dropdown
-            // If not active, show "Default" tab
-            if (settings.polylangActive) {
-                tabsArray.push({
-                    name: 'language-source',
-                    title: __('Language Source', 'language-switcher-for-elementor-polylang'),
-                    className: 'lsep-language-source-tab'
-                });
-            } else {
-                tabsArray.push({
-                    name: 'default',
-                    title: __('Default', 'language-switcher-for-elementor-polylang'),
-                    className: 'lsep-default-tab'
-                });
-            }
+            tabsArray.push({
+                name: 'default',
+                title: __('Default', 'language-switcher-for-elementor-polylang'),
+                className: 'lsep-default-tab'
+            });
 
             // Always add Styles tab
             tabsArray.push({
@@ -651,7 +620,7 @@
             });
 
             // Set initial tab
-            var initialTab = settings.polylangActive ? 'language-source' : 'default';
+            var initialTab = 'default';
             var attributesKey = JSON.stringify(attributes);
             var dropdownRef = useRefEffect(function (element) {
                 if (!element || attributes.dropdown !== 'dropdown') {
@@ -819,65 +788,7 @@
                             };
 
                             if (tab.name === 'default') {
-                                // When Polylang is not active, show default settings directly
-                                return renderDefaultSettings();
-                            }
-                            
-                            if (tab.name === 'language-source') {
-                                // When Polylang is active, show dropdown and content based on selection
-                                var sourceContent = [];
-                                
-                                // Add dropdown to select between Default and Polylang
-                                sourceContent.push(
-                                    el(
-                                        PanelBody,
-                                        {
-                                            key: 'language-source-selector',
-                                            title: __('Select Language Source', 'language-switcher-for-elementor-polylang'),
-                                            initialOpen: true
-                                        },
-                                        el(SelectControl, {
-                                            label: __('Language Source', 'language-switcher-for-elementor-polylang'),
-                                            value: attributes.languageSource || 'polylang',
-                                            options: [
-                                                { label: __('Polylang', 'language-switcher-for-elementor-polylang'), value: 'polylang' },
-                                                { label: __('Default (Custom Languages)', 'language-switcher-for-elementor-polylang'), value: 'default' }
-                                            ],
-                                            onChange: function(value) {
-                                                // Check if the value has actually changed
-                                                if (value !== previousLanguageSource) {
-                                                    setPreviousLanguageSource(value);
-                                                    setShowNotice(true);
-                                                }
-                                                setAttributes({ languageSource: value });
-                                            },
-                                            help: __('Choose whether to use Polylang languages or custom language links', 'language-switcher-for-elementor-polylang'),
-                                            __next40pxDefaultSize: true,
-                                            __nextHasNoMarginBottom: true
-                                        }),
-                                        showNotice && el(Notice, {
-                                            status: 'warning',
-                                            isDismissible: true,
-                                            onRemove: function() {
-                                                setShowNotice(false);
-                                            },
-                                            style: { marginTop: '12px' }
-                                        }, 
-                                        'You have switched the language source to ' + 
-                                        (attributes.languageSource === 'polylang' ? 'Polylang' : 'Default (Custom Languages)') + 
-                                        '. Kindly verify all changes before updating the page.'
-                                        )
-                                    )
-                                );
-                                
-                                // Render content based on selected source
-                                if (attributes.languageSource === 'default') {
-                                    sourceContent = sourceContent.concat(renderDefaultSettings());
-                                } else {
-                                    sourceContent.push(renderPolylangSettings());
-                                }
-                                
-                                return sourceContent;
+                                return settings.polylangActive ? renderPolylangSettings() : renderDefaultSettings();
                             }
                             
                             if (tab.name === 'styles') {

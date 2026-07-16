@@ -329,10 +329,6 @@ class LSEP_Language_Switcher_Block {
 				'type'    => 'array',
 				'default' => array(),
 			),
-			'languageSource' => array(
-				'type'    => 'string',
-				'default' => 'polylang',
-			),
 		);
 
 		foreach ( $switcher_options as $option => $data ) {
@@ -812,38 +808,21 @@ class LSEP_Language_Switcher_Block {
 	 * @return string Block HTML.
 	 */
 	public function render_language_switcher_block( $attributes ) {
-		// Get the language source preference
-		$language_source = isset( $attributes['languageSource'] ) ? $attributes['languageSource'] : 'polylang';
-		
-		// If language source is set to 'default', use custom languages
-		if ( 'default' === $language_source ) {
+		if ( ! function_exists( 'pll_the_languages' ) ) {
 			$custom_languages = isset( $attributes['customLanguages'] ) ? $attributes['customLanguages'] : array();
-			
-			// Check if custom languages have valid data (at least language must be selected)
+
 			if ( ! empty( $custom_languages ) ) {
-				$has_valid_custom = false;
 				foreach ( $custom_languages as $lang ) {
 					if ( ! empty( $lang['language'] ) ) {
-						$has_valid_custom = true;
-						break;
+						return $this->render_custom_languages( $attributes );
 					}
 				}
-				if ( $has_valid_custom ) {
-					return $this->render_custom_languages( $attributes );
-				}
 			}
-			
-			// If no valid custom languages, show nothing
-			return '';
-		}
-		
-		// If language source is 'polylang', use Polylang
-	if ( ! function_exists( 'pll_the_languages' ) ) {
-		// If Polylang is not available, fall back to default language
-		return $this->render_default_language( $attributes );
-	}
 
-	$layout              = isset( $attributes['dropdown'] ) ? $attributes['dropdown'] : 'dropdown';
+			return $this->render_default_language( $attributes );
+		}
+
+		$layout              = isset( $attributes['dropdown'] ) ? $attributes['dropdown'] : 'dropdown';
 		$show_names          = ! empty( $attributes['show_names'] );
 		$show_flags          = ! empty( $attributes['show_flags'] );
 		$show_language_codes = ! empty( $attributes['show_language_codes'] );
@@ -1278,4 +1257,3 @@ private function render_list_layout( $attributes, $languages, $current_lang_slug
 		return $output;
 	}
 }
-
