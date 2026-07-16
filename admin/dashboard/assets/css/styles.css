@@ -743,16 +743,16 @@ div[data-notice_id="lsep-autopoly-promotion"] div.e-notice__actions{
 .lsep-gs-video-card {
     display: flex;
     flex-direction: column;
+    align-self: stretch;
 }
 
 .lsep-video-container {
     position: relative;
-    display: flex;
-    flex-direction: column;
-    flex: 1 1 auto;
+    flex: 0 0 auto;
     width: 100%;
     min-width: 0;
-    min-height: 320px;
+    min-height: 0;
+    aspect-ratio: 16 / 9;
     margin-top: 4px;
     border-radius: 8px;
     overflow: hidden;
@@ -766,6 +766,53 @@ div[data-notice_id="lsep-autopoly-promotion"] div.e-notice__actions{
     width: 100%;
     height: 100%;
     border: none;
+}
+
+.lsep-gs-video-takeaways {
+    flex: 1 1 auto;
+    margin-top: 18px;
+    padding: 18px 20px;
+    border: 1px solid var(--lsep-gs-border);
+    border-radius: 8px;
+    background: var(--lsep-gs-blue-lighter);
+}
+
+.lsep-gs-video-takeaways h3 {
+    margin: 0 0 12px;
+    color: var(--lsep-gs-text);
+    font-size: 15px;
+    font-weight: 700;
+}
+
+.lsep-gs-video-takeaways ul {
+    display: grid;
+    gap: 10px;
+    margin: 0;
+}
+
+.lsep-gs-video-takeaways li {
+    position: relative;
+    margin: 0;
+    padding-left: 23px;
+    color: var(--lsep-gs-text-secondary);
+    font-size: 13px;
+    line-height: 1.5;
+}
+
+.lsep-gs-video-takeaways li::before {
+    position: absolute;
+    top: 2px;
+    left: 0;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: var(--lsep-gs-green);
+    color: #fff;
+    content: '\2713';
+    font-size: 10px;
+    font-weight: 700;
+    line-height: 16px;
+    text-align: center;
 }
 
 /* Get Started footer (Support / Docs / Review) */
@@ -1092,9 +1139,6 @@ div[data-notice_id="lsep-autopoly-promotion"] div.e-notice__actions{
         font-size: 13px;
     }
 
-    .lsep-video-container {
-        min-height: 380px;
-    }
 }
 
 /* Narrow base (tablet + mobile shared) — picker-first for mobile path */
@@ -1378,10 +1422,6 @@ div[data-notice_id="lsep-autopoly-promotion"] div.e-notice__actions{
         font-size: 12px;
     }
 
-    .lsep-video-container {
-        min-height: 280px;
-    }
-
     .lsep-gs-step {
         gap: 12px;
         margin-top: 8px;
@@ -1539,10 +1579,6 @@ div[data-notice_id="lsep-autopoly-promotion"] div.e-notice__actions{
 
     .lsep-get-started-content.is-content-active .lsep-gs-back-btn {
         display: none;
-    }
-
-    .lsep-video-container {
-        min-height: 240px;
     }
 
     .lsep-gs-step {

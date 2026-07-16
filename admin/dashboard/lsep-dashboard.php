@@ -158,8 +158,11 @@ class cool_plugins_lsep_polylang_addons {
 	 * @return array
 	 */
 	private function get_started_builder_data() {
-		$video_id  = 'HyM0woo9Cg0';
-		$embed_url = 'https://www.youtube.com/embed/' . $video_id;
+		$embed_urls = array(
+			'elementor' => 'https://www.youtube.com/embed/HyM0woo9Cg0',
+			'gutenberg' => 'https://www.youtube.com/embed/HyM0woo9Cg0',
+			'divi'      => 'https://www.youtube.com/embed/co2xvQnUmjs',
+		);
 		$plus_icon = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" focusable="false"><path d="M11 12.5V17.5H12.5V12.5H17.5V11H12.5V6H11V11H6V12.5H11Z"></path></svg>';
 
 		return array(
@@ -194,7 +197,7 @@ class cool_plugins_lsep_polylang_addons {
 						),
 					),
 				),
-				'embedUrl'   => $embed_url,
+				'embedUrl'   => $embed_urls['elementor'],
 			),
 			'gutenberg' => array(
 				'guideTitle' => __( 'Gutenberg Quick Start Guide', 'language-switcher-for-elementor-polylang' ),
@@ -231,7 +234,7 @@ class cool_plugins_lsep_polylang_addons {
 						),
 					),
 				),
-				'embedUrl'   => $embed_url,
+				'embedUrl'   => $embed_urls['gutenberg'],
 			),
 			'divi'      => array(
 				'guideTitle' => __( 'Divi Quick Start Guide', 'language-switcher-for-elementor-polylang' ),
@@ -268,7 +271,7 @@ class cool_plugins_lsep_polylang_addons {
 						),
 					),
 				),
-				'embedUrl'   => $embed_url,
+				'embedUrl'   => $embed_urls['divi'],
 			),
 		);
 	}

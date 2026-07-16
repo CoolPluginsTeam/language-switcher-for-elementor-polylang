@@ -9,8 +9,12 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-$assets_url = LSEP_PLUGIN_URL . 'assets/images/';
-$video_id   = 'HyM0woo9Cg0';
+$assets_url        = LSEP_PLUGIN_URL . 'assets/images/';
+$builder_video_ids = array(
+	'elementor' => 'HyM0woo9Cg0',
+	'gutenberg' => 'HyM0woo9Cg0',
+	'divi'      => 'co2xvQnUmjs',
+);
 
 $dashboard = class_exists( 'cool_plugins_lsep_polylang_addons' ) ? cool_plugins_lsep_polylang_addons::init() : null;
 
@@ -34,6 +38,8 @@ if ( $saved_builder ) {
 } else {
 	$default_builder = 'gutenberg';
 }
+
+$video_id = isset( $builder_video_ids[ $default_builder ] ) ? $builder_video_ids[ $default_builder ] : $builder_video_ids['gutenberg'];
 
 $restore_content = $show_builder_picker && (bool) $saved_builder;
 
@@ -139,6 +145,14 @@ $builder_order = array_unique( array( $default_builder, 'divi', 'elementor', 'gu
 					allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
 					allowfullscreen>
 				</iframe>
+			</div>
+			<div class="lsep-gs-video-takeaways">
+				<h3><?php esc_html_e( 'What you will learn', 'language-switcher-for-elementor-polylang' ); ?></h3>
+				<ul>
+					<li><?php esc_html_e( 'Add the language switcher to your page or layout.', 'language-switcher-for-elementor-polylang' ); ?></li>
+					<li><?php esc_html_e( 'Configure the switcher display and language options.', 'language-switcher-for-elementor-polylang' ); ?></li>
+					<li><?php esc_html_e( 'Create a smooth language-switching experience for visitors.', 'language-switcher-for-elementor-polylang' ); ?></li>
+				</ul>
 			</div>
 		</div>
 	</div>
