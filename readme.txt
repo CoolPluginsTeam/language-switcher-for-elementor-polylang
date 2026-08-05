@@ -126,7 +126,7 @@ You can report security bugs through the Patchstack Vulnerability Disclosure Pro
 == Changelog ==
 
 = Version 1.2.6 | 27 July 2026 =
-
+- **Tested upto:** Elementor version 4.2.0 & Elementor Pro version 4.2.0.
 
 = Version 1.2.5 | 02 April 2026 =
 - **Tested upto:** Elementor version 4.0.0 & Elementor Pro version 4.0.0.
