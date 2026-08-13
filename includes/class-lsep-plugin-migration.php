@@ -108,6 +108,7 @@ class LSEP_Plugin_Migration {
 	public static function init() {
 		add_action( 'admin_init', array( __CLASS__, 'maybe_deactivate_if_successor_present' ), 1 );
 		add_action( 'admin_notices', array( __CLASS__, 'render_migration_notice' ) );
+		add_action( 'after_plugin_row_' . plugin_basename( LSEP_PLUGIN_FILE ), array( __CLASS__, 'render_plugin_row_notice' ), 10, 2 );
 		add_action( 'admin_enqueue_scripts', array( __CLASS__, 'enqueue_notice_assets' ) );
 		add_action( 'wp_ajax_' . self::AJAX_ACTION, array( __CLASS__, 'ajax_install_activate_successor' ) );
 		add_action( 'wp_ajax_' . self::DISMISS_ACTION, array( __CLASS__, 'ajax_dismiss_notice' ) );
@@ -153,14 +154,52 @@ class LSEP_Plugin_Migration {
 	}
 
 	/**
+	 * Whether migration messaging should be shown at all.
+	 *
+	 * @return bool
+	 */
+	private static function should_show_migration() {
+		return self::can_manage_migration() && ! self::is_successor_active();
+	}
+
+	/**
+	 * Migration notice message text.
+	 *
+	 * @return string
+	 */
+	private static function get_migration_message() {
+		return __( 'We\'ve deprecated Language Switcher for Elementor & Polylang and merged all its features into Language Switcher for Polylang. Please install and use the new plugin for future updates and support.', 'language-switcher-for-elementor-polylang' );
+	}
+
+	/**
+	 * Render the Migrate Now button.
+	 */
+	private static function render_migrate_button() {
+		$label = __( 'Migrate Now', 'language-switcher-for-elementor-polylang' );
+		?>
+		<button
+			type="button"
+			class="button button-primary"
+			id="lsep-install-successor"
+			data-label="<?php echo esc_attr( $label ); ?>"
+		>
+			<?php echo esc_html( $label ); ?>
+		</button>
+		<?php
+	}
+
+	/**
 	 * Enqueue inline JS for the notice button.
 	 *
 	 * @param string $hook Current admin page hook.
 	 */
 	public static function enqueue_notice_assets( $hook ) {
-		unset( $hook );
+		if ( ! self::should_show_migration() ) {
+			return;
+		}
 
-		if ( ! self::can_manage_migration() || self::is_successor_active() || self::is_notice_dismissed() ) {
+		// Plugin-row fallback only appears on the plugins screen.
+		if ( self::is_notice_dismissed() && 'plugins.php' !== $hook ) {
 			return;
 		}
 
@@ -246,30 +285,52 @@ class LSEP_Plugin_Migration {
 	}
 
 	/**
-	 * Render admin notice with Install & Activate button.
+	 * Render admin notice with Migrate Now button.
 	 */
 	public static function render_migration_notice() {
-		if ( ! self::can_manage_migration() || self::is_successor_active() || self::is_notice_dismissed() ) {
+		if ( ! self::should_show_migration() || self::is_notice_dismissed() ) {
 			return;
 		}
-
-		$button_label = self::is_successor_present()
-			? __( 'Activate', 'language-switcher-for-elementor-polylang' )
-			: __( 'Install & Activate', 'language-switcher-for-elementor-polylang' );
 		?>
 		<div class="notice notice-warning is-dismissible lsep-migration-notice">
 			<p>
-				<button
-					type="button"
-					class="button button-primary"
-					id="lsep-install-successor"
-					data-label="<?php echo esc_attr( $button_label ); ?>"
-				>
-					<?php esc_html_e( 'Try It Now !', 'language-switcher-for-elementor-polylang' ); ?>
-				</button>
-				<?php esc_html_e( 'Language Switcher for Elementor & Polylang has been deprecated. Please use Language Switcher for Polylang – Elementor, Gutenberg, & Divi which now includes all its features and future updates.', 'language-switcher-for-elementor-polylang' ); ?>
+				<?php echo esc_html( self::get_migration_message() ); ?>
+				<?php self::render_migrate_button(); ?>
 			</p>
 		</div>
+		<?php
+	}
+
+	/**
+	 * Render migration message below this plugin row on the plugins screen.
+	 *
+	 * @param string $plugin_file Plugin basename.
+	 * @param array  $plugin_data Plugin data from the plugins list table.
+	 */
+	public static function render_plugin_row_notice( $plugin_file, $plugin_data ) {
+		unset( $plugin_data );
+
+		if ( plugin_basename( LSEP_PLUGIN_FILE ) !== $plugin_file ) {
+			return;
+		}
+
+		if ( ! self::should_show_migration() || ! self::is_notice_dismissed() ) {
+			return;
+		}
+
+		$wp_list_table = _get_list_table( 'WP_Plugins_List_Table' );
+		$colspan       = $wp_list_table ? $wp_list_table->get_column_count() : 3;
+		?>
+		<tr class="plugin-update-tr active lsep-migration-plugin-row">
+			<td colspan="<?php echo esc_attr( (string) $colspan ); ?>" class="plugin-update colspanchange">
+				<div class="update-message notice inline notice-warning notice-alt">
+					<p>
+						<?php echo esc_html( self::get_migration_message() ); ?>
+						<?php self::render_migrate_button(); ?>
+					</p>
+				</div>
+			</td>
+		</tr>
 		<?php
 	}
 
