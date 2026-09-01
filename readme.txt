@@ -2,7 +2,7 @@
 Contributors: coolplugins, narinder-singh, satindersingh  
 Tags: elementor, language switcher, polylang, multilingual, languages  
 Requires at least: 5.0  
-Tested up to: 7.0
+Tested up to: 7.1
 Requires PHP: 7.2  
 Stable tag: 1.2.7  
 License: GPLv2 or later  
